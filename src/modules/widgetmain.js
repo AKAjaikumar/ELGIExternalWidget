@@ -120,7 +120,7 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
 });
 
 define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData',], function (URLS, WAFData) {
-
+	console.log("URLS:", URLS);
     var vSecCont = {
 
         getSecurityContext: function () {
