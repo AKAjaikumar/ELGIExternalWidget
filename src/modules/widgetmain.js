@@ -107,6 +107,7 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
                                 if (baseUrl.endsWith('/3dspace')) {
                                     baseUrl = baseUrl.replace('/3dspace', '');
                                 }
+								console.log("baseUrl:"+baseUrl);
 								i(baseUrl);
 							},
                             onFailure: function () {
@@ -116,6 +117,7 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
             });
         },
     };
+	console.log("URLs:"+URLs);
     return URLs;
 });
 
