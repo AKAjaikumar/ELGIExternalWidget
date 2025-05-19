@@ -262,6 +262,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 
         },
+		toggleSecondSidebar: function (visible) {
+            var sideBar2 = document.querySelector(".second-sidebar");
+            sideBar2.style.display = visible ? "block" : "none";
+        },
     };
 
     return myWidget;
