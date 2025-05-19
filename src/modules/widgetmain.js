@@ -1,3 +1,4 @@
+var imageURL = "https://akajaikumar.github.io/ELGIExternalWidget/assets/images/";
 requirejs.config({
     paths: {
         jspdf: "https://akajaikumar.github.io/ELGIExternalWidget/src/javascript/jspdf.umd.min",
