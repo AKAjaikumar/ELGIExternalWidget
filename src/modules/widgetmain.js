@@ -108,7 +108,7 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
                                     baseUrl = baseUrl.replace('/3dspace', '');
                                 }
 								console.log("baseUrl:"+baseUrl);
-								i(baseUrl);
+								return baseUrl;
 							},
                             onFailure: function () {
                                 console.error("Failed to get 3DSpace URL");
