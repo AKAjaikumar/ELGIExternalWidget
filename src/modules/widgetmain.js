@@ -126,6 +126,7 @@ define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function
         getSecurityContext: function () {
             return new Promise(function (resolve, reject) {
                 URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:"+baseUrl);
                     const url = baseUrl + "/resources/pno/person/getsecuritycontext?current=true&select=preferredcredentials&select=collabspaces";
                     WAFData.authenticatedRequest(url, {
                         method: "GET",
@@ -135,7 +136,7 @@ define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function
                         timeout: 86400000,
                         type: "json",
                         onComplete: function (response) {
-                            t(response);
+                            resolve(response);
                         },
                         onFailure: function (e, t) {
                             var n = e.message;
