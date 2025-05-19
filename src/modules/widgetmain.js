@@ -254,6 +254,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return li;
         },
+		createSecondSidebar: function () {
+            var sideBar2 = document.querySelector(".second-sidebar");
+            sideBar2.style.display = "block";
+        },
+		createPrjMng: function () {
+
+
+        },
     };
 
     return myWidget;
