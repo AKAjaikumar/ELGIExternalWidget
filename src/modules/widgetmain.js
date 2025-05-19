@@ -94,7 +94,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
     return myWidget;
 });
 
-define("Solize/URLS", ['DS/i3DXCompassPlatformServices/i3DXCompassPlatformServices'], function (i3DXCompassPlatformServices) {
+define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function (i3DXCompassServices) {
 	const platformId = widget.getValue("x3dPlatformId");
     var URLs = {
         getURLs : function () {
@@ -119,7 +119,7 @@ define("Solize/URLS", ['DS/i3DXCompassPlatformServices/i3DXCompassPlatformServic
     return URLs;
 });
 
-define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function (URLS, WAFData) {
+define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData',], function (URLS, WAFData) {
 
     var vSecCont = {
 
