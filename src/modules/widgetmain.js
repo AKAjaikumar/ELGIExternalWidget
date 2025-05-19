@@ -27,8 +27,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
         onLoadWidget: function () {
             widget.body.innerHTML = "";
 
-            // Added for EPR Document Upload : Start
-            widget.NotificationsUtil = new NotificationsUtil();
             SecurityContext.getSecurityContext().then(secContext => {
                 vSecContextGlobal = secContext.SecurityContext;
                 vCollbSpace = vSecContextGlobal.split(".")[2];
