@@ -107,8 +107,8 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
                                 if (baseUrl.endsWith('/3dspace')) {
                                     baseUrl = baseUrl.replace('/3dspace', '');
                                 }
-								console.log("baseUrl:"+baseUrl);
-								return baseUrl;
+								console.log("Resolved Base URL:", baseUrl);
+								resolve(baseUrl);
 							},
                             onFailure: function () {
                                 console.error("Failed to get 3DSpace URL");
@@ -121,37 +121,38 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
     return URLs;
 });
 
-define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData',], function (URLS, WAFData) {
-	console.log("URLS:", URLS);
+define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function (URLS, WAFData) {
     var vSecCont = {
-
         getSecurityContext: function () {
-
-            return new Promise(function (t, i) {
-                URLS.getURLs().then(results => {
-                    WAFData.authenticatedRequest(results.url + "/resources/pno/person/getsecuritycontext?current=true&select=preferredcredentials&select=collabspaces", {
+            return new Promise(function (resolve, reject) {
+                URLS.getURLs().then(baseUrl => {
+                    const url = baseUrl + "/resources/pno/person/getsecuritycontext?current=true&select=preferredcredentials&select=collabspaces";
+                    WAFData.authenticatedRequest(url, {
                         method: "GET",
                         headers: {
-                            "Accept": "application/json",
+                            "Accept": "application/json"
                         },
-                        timeout: 864e5,
+                        timeout: 86400000,
                         type: "json",
-                        onComplete: function (e) {
-                            t(e);
-
+                        onComplete: function (response) {
+                            resolve(response);
                         },
-                        onFailure: function (e, t) {
-                            var n = e.message;
+                        onFailure: function (error) {
+                            console.error("Failed to fetch security context:", error);
+                            reject(error);
                         },
                         onTimeout: function () {
-                            console.log("time out")
-                        },
+                            console.error("Security context request timed out");
+                            reject("Timeout");
+                        }
                     });
+                }).catch(error => {
+                    console.error("URL fetch failed:", error);
+                    reject(error);
                 });
-
             });
-
         }
     };
+
     return vSecCont;
 });
