@@ -90,6 +90,56 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return sideBar1;
         },
+		createTileElement: function (title, imageSrc, subtitle, onclickFuncName) {
+            var tileContainer = document.createElement("div");
+            tileContainer.className = "tile-container";
+
+            var tileSubContainer = document.createElement("div");
+            tileSubContainer.className = "tile-sub-container";
+            tileSubContainer.setAttribute("draggable", "true");
+
+            var tileHeader = document.createElement("div");
+            tileHeader.className = "tile-header";
+
+            var img = document.createElement("img");
+            img.src = imageSrc;
+            img.className = "tile-image portrait";
+            img.setAttribute("draggable", "false");
+
+            tileHeader.appendChild(img);
+
+            var tileBody = document.createElement("div");
+            tileBody.className = "tile-body";
+
+            var tileTitle = document.createElement("div");
+            tileTitle.className = "tile-title";
+            tileTitle.textContent = title;
+
+            var tileSubtitle = document.createElement("div");
+            tileSubtitle.className = "tile-subtitle";
+            tileSubtitle.textContent = subtitle;
+
+            tileBody.appendChild(tileTitle);
+            tileBody.appendChild(tileSubtitle);
+
+            tileSubContainer.appendChild(tileHeader);
+            tileSubContainer.appendChild(tileBody);
+
+            tileContainer.appendChild(tileSubContainer);
+
+            tileContainer.addEventListener("click", function () {
+                var currentSelected = document.querySelector(".tile-container.selected");
+                if (currentSelected) {
+                    currentSelected.classList.remove("selected");
+                }
+
+                tileContainer.classList.add("selected");
+
+                onclickFuncName();
+            });
+
+            return tileContainer;
+        },
     };
 
     return myWidget;
