@@ -108,7 +108,7 @@ define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function 
                                     baseUrl = baseUrl.replace('/3dspace', '');
                                 }
 								console.log("Resolved Base URL:", baseUrl);
-								resolve(baseUrl);
+								i(baseUrl);
 							},
                             onFailure: function () {
                                 console.error("Failed to get 3DSpace URL");
@@ -135,16 +135,14 @@ define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function
                         timeout: 86400000,
                         type: "json",
                         onComplete: function (response) {
-                            resolve(response);
+                            t(response);
                         },
-                        onFailure: function (error) {
-                            console.error("Failed to fetch security context:", error);
-                            reject(error);
+                        onFailure: function (e, t) {
+                            var n = e.message;
                         },
                         onTimeout: function () {
-                            console.error("Security context request timed out");
-                            reject("Timeout");
-                        }
+                            console.log("time out")
+                        },
                     });
                 }).catch(error => {
                     console.error("URL fetch failed:", error);
