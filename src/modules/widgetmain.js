@@ -46,11 +46,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             formContainer.className = "widget-container";
 
             var sideBar1 = myWidget.createSideBar1();
-            //var sideBar2 = myWidget.createSideBar2();
+            var sideBar2 = myWidget.createSideBar2();
            // var contentArea = myWidget.createContentArea();
 
             formContainer.appendChild(sideBar1);
-            //formContainer.appendChild(sideBar2);
+            formContainer.appendChild(sideBar2);
             //formContainer.appendChild(contentArea);
 
             return formContainer;
@@ -72,8 +72,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var sideBar1Ul = document.createElement("ul");
             sideBar1Ul.className = "sideBar1Ul";
 
-            var tile1 = myWidget.createTileElement("Test Report Management", imageURL + "I_Switch.png", "Test Report Management", myWidget.createSecondSidebar);
-            var tile2 = myWidget.createTileElement("Project Management", imageURL + "I_Switch.png", "Project Management", myWidget.createPrjMng);
+            var tile1 = myWidget.createTileElement("Report 1", imageURL + "I_Switch.png", "Report 1", myWidget.createSecondSidebar);
+            var tile2 = myWidget.createTileElement("Report 2", imageURL + "I_Switch.png", "Report 2", myWidget.createPrjMng);
 
             sideBar1.appendChild(dummyspace);
 
@@ -139,6 +139,120 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             });
 
             return tileContainer;
+        },
+		createSideBar2: function () {
+            var sideBar2 = document.createElement("div");
+            sideBar2.className = "second-sidebar";
+            sideBar2.style.display = "none";
+
+            var backArrow = myWidget.createBackArrow();
+            sideBar2.appendChild(backArrow);
+
+            var ul2 = myWidget.createSecondSidebarList();
+            sideBar2.appendChild(ul2);
+
+            return sideBar2;
+        },
+
+        createBackArrow: function () {
+            var backArrow = document.createElement("div");
+            backArrow.style.display = "flex";
+            backArrow.style.alignItems = "center";
+            backArrow.style.cursor = "pointer";
+
+            var img = document.createElement("img");
+            img.src = imageURL + "arrow.png";
+            img.className = "arro_icon_style";
+            img.alt = "Arrow Icon";
+            img.style.width = "20px";
+            img.style.marginRight = "10px";
+
+            var secNavTitle = document.createElement("h2");
+            secNavTitle.className = "secnavhead";
+            secNavTitle.textContent = "Test Report Management";
+
+            backArrow.appendChild(img);
+            backArrow.appendChild(secNavTitle);
+
+            backArrow.addEventListener("click", function () {
+                myWidget.toggleSecondSidebar(false);
+            });
+
+            return backArrow;
+        },
+
+        createSecondSidebarList: function () {
+            var ul2 = document.createElement("ul");
+
+            var items = [
+                { text: "EPR Comparison Report", image: imageURL + "I_AuthoringMode32.png", title: "EPR Comparison Report (Excel)", callback: myWidget.showEPRCompButtons },
+                { text: "EPR Review", image: imageURL + "I_AuthoringMode32.png", title: "EPR Review(PDF)", callback: myWidget.showEPRRevButtons },
+                { text: "EPR Report", image: imageURL + "I_AuthoringMode32.png", title: "EPR Report (Excel)", callback: myWidget.showEPRRepButtons },
+                { text: "EPR Upload", image: imageURL + "I_AuthoringMode32.png", title: "Exel Upload", callback: myWidget.showErpUplaod },
+                { text: "TPR", image: imageURL + "TPR_logo.png", title: "Product Report", callback: myWidget.showTPRButtons },
+            ];
+
+            items.forEach(function (item) {
+                var listItem = myWidget.createSecondSidebarItem(item.text, item.image, item.title, item.callback);
+                ul2.appendChild(listItem);
+            });
+
+            return ul2;
+        },
+
+
+        createSecondSidebarItem: function (title, imageSrc, subtitle, onclickFuncName) {
+            var li = document.createElement("li");
+            var tileContainer = document.createElement("div");
+            tileContainer.className = "tile-container";
+
+            var tileSubContainer = document.createElement("div");
+            tileSubContainer.className = "tile-sub-container";
+            tileSubContainer.setAttribute("draggable", "true");
+
+            var tileHeader = document.createElement("div");
+            tileHeader.className = "tile-header";
+
+            var img = document.createElement("img");
+            img.src = imageSrc;
+            img.className = "tile-image portrait";
+            img.setAttribute("draggable", "false");
+
+            tileHeader.appendChild(img);
+
+            var tileBody = document.createElement("div");
+            tileBody.className = "tile-body";
+
+            var tileTitle = document.createElement("div");
+            tileTitle.className = "tile-title";
+            tileTitle.textContent = title;
+
+            var tileSubtitle = document.createElement("div");
+            tileSubtitle.className = "tile-subtitle";
+            tileSubtitle.textContent = subtitle;
+
+            tileBody.appendChild(tileTitle);
+            tileBody.appendChild(tileSubtitle);
+
+            tileSubContainer.appendChild(tileHeader);
+            tileSubContainer.appendChild(tileBody);
+
+            tileContainer.appendChild(tileSubContainer);
+
+            tileContainer.addEventListener("click", function () {
+                var currentSelected = document.querySelector(".tile-container.selected");
+                if (currentSelected) {
+                    currentSelected.classList.remove("selected");
+                }
+
+                tileContainer.classList.add("selected");
+
+                onclickFuncName();
+            });
+
+            li.appendChild(tileContainer);
+
+            return li;
         },
     };
 
