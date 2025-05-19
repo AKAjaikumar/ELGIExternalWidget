@@ -1,7 +1,7 @@
 requirejs.config({
     paths: {
-        jspdf: "https://3dexperience2023x.solize.com/3dspace/webapps/YOHOHAMA_Report/src/javascript/jspdf.umd.min",
-        autotable: "https://akajaikumar.github.io/ExternalDocument/assets/jspdf.plugin.autotable.min"
+        jspdf: "https://akajaikumar.github.io/ELGIExternalWidget/src/javascript/jspdf.umd.min",
+        autotable: "https://akajaikumar.github.io/ELGIExternalWidget/src/javascript/jspdf.plugin.autotable.min"
 
     },
 }),
