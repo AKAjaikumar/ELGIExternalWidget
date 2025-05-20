@@ -280,7 +280,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return div1;
         },
-		EPRCompFun: function () {
+		EPRCompFun: async function () {
 
             console.log("Download button clicked");
             const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
