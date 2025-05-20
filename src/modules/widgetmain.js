@@ -185,7 +185,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var ul2 = document.createElement("ul");
 
             var items = [
-                { text: "Generate Consolidate Report", image: imageURL + "I_AuthoringMode32.png", title: "Generate Consolidate Report (PDF)", callback: myWidget.showEPRCompButtons },
+                { text: "Generate Control Copy", image: imageURL + "I_AuthoringMode32.png", title: "Generate Control Copy (PDF)", callback: myWidget.showCtrlCopyButtons },
             ];
 
             items.forEach(function (item) {
@@ -261,6 +261,74 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 		toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
             sideBar2.style.display = visible ? "block" : "none";
+        },
+		showCtrlCopyButtons: function () {
+            myWidget.createMainSkeleton("EPR Comparison Report (Excel)", myWidget.setBtnCtrlCopy);
+        },
+		setBtnCtrlCopy: function () {
+
+            return myWidget.paramCtrlCopyDiv(myWidget.EPRCompFun);
+
+        },
+		paramCtrlCopyDiv: function (btnonclickFun) {
+            const div1 = this.createDiv("scroller scroller-root", "parametersDiv");
+            const div2 = this.createDiv("no-native-scrollbars scroller-content");
+            //const div3 = this.createDiv("divided filled accordion accordion-root");
+            //div3.appendChild(myWidget.parmERPDownloadcontent("file-type-excel.svg", btnonclickFun));
+            div2.appendChild(div3);
+            div1.appendChild(div2);
+
+            return div1;
+        },
+		EPRCompFun: function () {
+
+            console.log("Download button clicked");
+            const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
+            const selectedIds = Array.from(chips).map(chip => chip.id);
+
+            if (selectedIds.length === 0) {
+                alert("Please drop at least one document.");
+                return;
+            }
+
+            const objectIds = selectedIds.join(",");
+            const apiUrl = `https://3dexperience2023x.solize.com/3dspace/resources/v1/bookmarkeditor/documentattributes/generatexcel?objectIds=${objectIds}`;
+            var methodWAF = "GET";
+            const popup = document.getElementById("downloadPopup");
+            if (popup) popup.style.display = "flex"; // Show popup
+
+            try {
+                var responses = WAFData.authenticatedRequest(apiUrl, {
+
+                    method: methodWAF,
+                    type: "json",
+                    params: {
+                        current: "true",
+                        select: "collabspaces",
+                    },
+                });
+
+                const xhr = responses.xhr;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (popup) popup.style.display = "none";
+                        if (xhr.status === 200) {
+                            const res = JSON.parse(xhr.response);
+                            console.log(res);
+                            console.log(res.downloadUrl);
+
+                        } else {
+                            console.error("Request failed with status:", xhr.status);
+                        }
+                    }
+                };
+
+                //alert("Exel downloaded in C:/Users/Administrator/Desktop/JPOS/");
+
+            } catch (error) {
+                console.log(error)
+                if (popup) popup.style.display = "none";
+            }
         },
     };
 
