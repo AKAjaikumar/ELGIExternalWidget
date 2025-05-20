@@ -270,9 +270,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             return myWidget.paramCtrlCopyDiv(myWidget.EPRCompFun);
 
         },
-		paramCtrlCopyDiv: function (
-		
-		) {
+		paramCtrlCopyDiv: function (btnonclickFun) {
             const div1 = this.createDiv("scroller scroller-root", "parametersDiv");
             const div2 = this.createDiv("no-native-scrollbars scroller-content");
             const div3 = this.createDiv("divided filled accordion accordion-root");
@@ -944,7 +942,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const buttonTextNode = document.createTextNode(buttonText);
             const caretSpan = this.createElementWithClass("span", "caret");
 
-            //button.appendChild(buttonIcon);
+            button.appendChild(buttonIcon);
             button.appendChild(buttonTextNode);
             button.appendChild(caretSpan);
 
