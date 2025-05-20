@@ -286,51 +286,76 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
             const selectedIds = Array.from(chips).map(chip => chip.id);
 
-            if (selectedIds.length === 0 || selectedIds.length > 2) {
-                alert("Please drop only two document.");
-                return;
-            }
+            if (selectedIds.length !== 2) {
+				alert("Please drop only two documents.");
+				return;
+			}
 
             const objectIds = selectedIds.join(",");
 			console.log("objectIds:",objectIds);
-            const apiUrl = `https://3dexperience2023x.solize.com/3dspace/resources/v1/bookmarkeditor/documentattributes/generatexcel?objectIds=${objectIds}`;
-            var methodWAF = "GET";
-            const popup = document.getElementById("downloadPopup");
-            if (popup) popup.style.display = "flex"; // Show popup
+            const bookmarks = await fetchBookmarksForDocument(objectIds);
+			console.log("Fetched bookmarks:", bookmarks);
 
-            try {
-                var responses = WAFData.authenticatedRequest(apiUrl, {
-
-                    method: methodWAF,
-                    type: "json",
-                    params: {
-                        current: "true",
-                        select: "collabspaces",
-                    },
-                });
-
-                const xhr = responses.xhr;
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (popup) popup.style.display = "none";
-                        if (xhr.status === 200) {
-                            const res = JSON.parse(xhr.response);
-                            console.log(res);
-                            console.log(res.downloadUrl);
-
-                        } else {
-                            console.error("Request failed with status:", xhr.status);
-                        }
-                    }
-                };
-
-                //alert("Exel downloaded in C:/Users/Administrator/Desktop/JPOS/");
+                
 
             } catch (error) {
                 console.log(error)
                 if (popup) popup.style.display = "none";
             }
         },
+		function fetchBookmarksForDocument(docId) {
+			  return new Promise((resolve, reject) => {
+				i3DXCompassServices.getServiceUrl({
+						platformId: platformId,
+						serviceName: '3DSpace',
+						onComplete: function (URL3DSpace) {
+							let baseUrl = typeof URL3DSpace === "string" ? URL3DSpace : URL3DSpace[0].url;
+							if (baseUrl.endsWith('/3dspace')) {
+								baseUrl = baseUrl.replace('/3dspace', '');
+							}
+
+							const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+							WAFData.authenticatedRequest(csrfURL, {
+								method: 'GET',
+								type: 'json',
+								onComplete: function (csrfData) {
+									const csrfToken = csrfData.csrf.value;
+									const csrfHeaderName = csrfData.csrf.name;
+									console.log("Bookmarks for document id", docId);
+									const docURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + docId + '/getRelatedBookmarks';
+									WAFData.authenticatedRequest(docURL, {
+										method: 'GET',
+										type: 'json',
+										headers: {
+											'Content-Type': 'application/json',
+											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+											[csrfHeaderName]: csrfToken
+										},
+										onComplete: function (data) {
+											console.log("Bookmarks for document", docId, data);
+											if (data && data.folders && data.folders.length > 0) {
+											  resolve(data.folders);  // Return all related bookmarks
+											} else {
+											  reject("No bookmarks found for this document.");
+											}
+										},
+										onFailure: function (err) {
+											reject(err);
+										}
+									});
+								},
+								onFailure: function (err) {
+									reject(err);
+								}
+							});
+						},
+						onFailure: function () {
+							reject("Failed to get 3DSpace URL");
+						}
+					});
+			});
+			},
 		createMainSkeleton: function (_mainTitle, paramDIv) {
             var contentArea = document.querySelector(".widget-content-area");
             contentArea.innerHTML = "";
