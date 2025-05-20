@@ -313,12 +313,231 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					}
 				}
 				console.log("All fetched CtrlCopy:", allCtrlCpy);
-				// TODO: process bookmarks or export Excel etc.
+				// Proceed with merging and PDF generation if needed
+								  
+				  const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
+				  const pdfData = await myWidget.generatePDF(mergedContent);
+				  await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
+				  alert("Document created and checked in successfully!");
 
 			} catch (error) {
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
 			}
+		},
+		mergeDocumentsIntoTable: function(doc1, doc2) {
+			const headers = ["Name", "Policy", "State"];
+			const rows = [
+				[doc1.dataelements.name, doc1.dataelements.policy, doc1.dataelements.state],
+				[doc2.dataelements.name, doc2.dataelements.policy, doc2.dataelements.state]
+			];
+
+			return { headers, rows };
+		}
+
+
+		generatePDF: async function (content) {
+			try {
+				if (!content.headers || !content.rows || !Array.isArray(content.headers) || !Array.isArray(content.rows)) {
+					throw new Error('Invalid content format. Expected object with "headers" and "rows" arrays.');
+				}
+
+				const doc = new jsPDF();
+				if (typeof doc.autoTable !== 'function') {
+					throw new Error("AutoTable plugin is not available.");
+				}
+
+				doc.autoTable({
+					head: [content.headers],
+					body: content.rows
+				});
+
+				return doc.output('blob');
+			} catch (err) {
+				console.error('Failed to generate PDF:', err);
+				throw err;
+			}
+		},
+		createDocumentWithPDF: function(pdfBlob,allCtrlCpy) {
+			return new Promise(function (resolve, reject) {
+				
+				URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:" + baseUrl);
+						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+						// 1. Fetch CSRF token
+						WAFData.authenticatedRequest(csrfURL, {
+							method: 'GET',
+							type: 'json',
+							onComplete: function (csrfData) {
+								const csrfToken = csrfData.csrf.value;
+								const csrfHeaderName = csrfData.csrf.name;
+
+								// 2. Create Document metadata
+								const createDocURL = baseUrl + '/resources/v1/modeler/documents';
+								const payload = {
+									data: [{
+										attributes: {
+											name: "Merged_Document_" + Date.now(),
+											type: "Document",
+											policy: "Document Release"
+										}
+									}]
+								};
+
+								WAFData.authenticatedRequest(createDocURL, {
+									method: 'POST',
+									type: 'json',
+									headers: {
+										'Content-Type': 'application/json',
+										[csrfHeaderName]: csrfToken
+									},
+									data: JSON.stringify(payload),
+									onComplete: function (createResponse) {
+										const docId = createResponse.data[0].id;
+										
+										// 3. Request Checkin Ticket
+										const ticketURL = baseUrl + '/resources/v1/modeler/documents/' + docId + '/files/CheckinTicket';
+										const ticketPayload = {
+											data: [{
+												id: docId,
+												dataelements: {
+													format: "pdf",
+													title: "MergedPDF",
+													fileName: "Merged_Document.pdf"
+												}
+											}]
+										};
+
+										WAFData.authenticatedRequest(ticketURL, {
+											method: 'PUT',
+											type: 'json',
+											headers: {
+												'Content-Type': 'application/json',
+												[csrfHeaderName]: csrfToken
+											},
+											data: JSON.stringify(ticketPayload),
+											onComplete: function (ticketResponse) {
+												console.log("ticketResponse:", ticketResponse);
+												const ticketInfo = ticketResponse.data[0].dataelements;
+												console.log("ticketInfo:", ticketInfo);
+												const paramName = ticketInfo.ticketparamname;
+												const ticket = ticketInfo.ticket;
+												const fcsUrl = ticketInfo.ticketURL;
+
+												console.log("Using ticket param:", paramName);
+												console.log("Ticket:", ticket);
+												console.log("FCS Upload URL:", fcsUrl);
+												console.log("PDF Blob size:", pdfBlob.size);
+												const formData = new FormData();
+												formData.append(paramName, ticket);
+												formData.append('file_0', pdfBlob, "Merged_Document.pdf");
+												
+												
+
+												const xhr = new XMLHttpRequest();
+												xhr.open('POST', fcsUrl, true);
+												console.log("xhr.status:", xhr.status);
+												//xhr.setRequestHeader(csrfHeaderName, csrfToken); 
+												xhr.onload = function () {
+													if (xhr.status === 200) {
+														// 5. Call Checkin
+														console.log("Raw FCS responseText:", xhr.responseText);
+														
+														const receipt = xhr.responseText;
+
+														if (!receipt) {
+															reject("FCS upload succeeded but no valid receipt was returned.");
+															return;
+														}
+														console.log("Receipt:", receipt);
+														
+														const checkInURL = baseUrl + '/resources/v1/modeler/documents' ;
+														console.log("Checkin URL:", checkInURL);
+														console.log("Document ID:", docId);
+														const checkInPayload = {
+														  data: [{
+															"id": docId,
+															"relateddata": {
+																			"files": [
+																				{
+																					"dataelements": {
+																						"comments": "COMING VIA EXTERNAM WIDGET",
+																						"receipt": receipt,
+																						"title": "Merged_Document"
+																					},
+																					"updateAction": "CREATE"
+																				}
+																			]
+																		},
+																		"updateAction": "NONE"
+																	}
+																]
+														};
+
+														WAFData.authenticatedRequest(checkInURL, {
+															method: 'PUT',
+															type: 'json',
+															headers: {
+																'Content-Type': 'application/json',
+																'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																[csrfHeaderName]: csrfToken
+															},
+															data: JSON.stringify(checkInPayload),
+															onComplete: function () {
+																const firstCtrlCopy = allCtrlCpy[0]?.ctrlCopyId;
+																if (!firstCtrlCopy) {
+																	reject("No CtrlCopy ID found to add document to.");
+																	return;
+																}
+																const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ firstCtrlCopy +'/content';
+																WAFData.authenticatedRequest(bookMarkURL, {
+																	method: 'POST',
+																	type: 'json',
+																	headers: {
+																		'Content-Type': 'application/json',
+																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																		[csrfHeaderName]: csrfToken
+																	},
+																	data: JSON.stringify({"IDs": docId}),
+																	onComplete: function (createResponse) {
+																		console.log("createResponse :"+createResponse);
+																		resolve(createResponse);
+																	},
+																	onFailure: function (err) {
+																		reject("Failed to add bookmark: " + err);
+																	}
+																});
+															},
+															onFailure: function (err) {
+																reject("Failed to check in the document: " + err);
+															}
+														});
+													} else {
+														reject("Failed to upload PDF to FCS. Status: " + xhr.status);
+													}
+												};
+												xhr.onerror = function () {
+													reject("FCS upload request failed.");
+												};
+												xhr.send(formData);
+											},
+											onFailure: function (err) {
+												reject("Failed to get checkin ticket: " + err);
+											}
+										});
+									},
+									onFailure: function (err) {
+										reject("Failed to create document: " + err);
+									}
+								});
+							},
+							onFailure: function (err) {
+								reject("Failed to get CSRF token: " + err);
+							}
+						});
+				});
+			});
 		},
 		getParentRelatedCtrlCopy: function (bookmarkId) {
 			return new Promise((resolve, reject) => {
