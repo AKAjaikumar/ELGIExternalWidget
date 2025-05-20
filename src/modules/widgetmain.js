@@ -401,6 +401,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             contentArea.className = "widget-content-area";
             return contentArea;
         },
+		createDiv: function (classNames, id, styles = {}) {
+            const div = document.createElement("div");
+            if (classNames) div.classList.add(...classNames.split(" "));
+            if (id) div.id = id;
+            for (const [key, value] of Object.entries(styles)) {
+                div.style[key] = value;
+            }
+            return div;
+        },
     };
 
     return myWidget;
