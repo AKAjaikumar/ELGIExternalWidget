@@ -185,11 +185,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var ul2 = document.createElement("ul");
 
             var items = [
-                { text: "EPR Comparison Report", image: imageURL + "I_AuthoringMode32.png", title: "EPR Comparison Report (Excel)", callback: myWidget.showEPRCompButtons },
-                { text: "EPR Review", image: imageURL + "I_AuthoringMode32.png", title: "EPR Review(PDF)", callback: myWidget.showEPRRevButtons },
-                { text: "EPR Report", image: imageURL + "I_AuthoringMode32.png", title: "EPR Report (Excel)", callback: myWidget.showEPRRepButtons },
-                { text: "EPR Upload", image: imageURL + "I_AuthoringMode32.png", title: "Exel Upload", callback: myWidget.showErpUplaod },
-                { text: "TPR", image: imageURL + "TPR_logo.png", title: "Product Report", callback: myWidget.showTPRButtons },
+                { text: "Generate Consolidate Report", image: imageURL + "I_AuthoringMode32.png", title: "Generate Consolidate Report (PDF)", callback: myWidget.showEPRCompButtons },
             ];
 
             items.forEach(function (item) {
