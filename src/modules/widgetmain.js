@@ -333,9 +333,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			];
 
 			return { headers, rows };
-		}
-
-
+		},
 		generatePDF: async function (content) {
 			try {
 				if (!content.headers || !content.rows || !Array.isArray(content.headers) || !Array.isArray(content.rows)) {
