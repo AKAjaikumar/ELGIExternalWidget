@@ -294,7 +294,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const objectIds = selectedIds.join(",");
 				console.log("objectIds:", objectIds);
 
-				const bookmarks = await fetchBookmarksForDocument(objectIds);
+				const bookmarks = await myWidget.fetchBookmarksForDocument(objectIds);
 				console.log("Fetched bookmarks:", bookmarks);
 
 				// TODO: process bookmarks or export Excel etc.
