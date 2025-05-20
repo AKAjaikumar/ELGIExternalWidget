@@ -185,7 +185,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var ul2 = document.createElement("ul");
 
             var items = [
-                { text: "Generate Control Copy", image: imageURL + "I_AuthoringMode32.png", title: "Generate Control Copy (PDF)", callback: myWidget.showCtrlCopyButtons },
+                { text: "Generate Controlled Copy", image: imageURL + "I_AuthoringMode32.png", title: "Generate Controlled Copy (PDF)", callback: myWidget.showCtrlCopyButtons },
             ];
 
             items.forEach(function (item) {
@@ -263,7 +263,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar2.style.display = visible ? "block" : "none";
         },
 		showCtrlCopyButtons: function () {
-            myWidget.createMainSkeleton("EPR Comparison Report (Excel)", myWidget.setBtnCtrlCopy);
+            myWidget.createMainSkeleton("Generate Controlled Copy (PDF)", myWidget.setBtnCtrlCopy);
         },
 		setBtnCtrlCopy: function () {
 
@@ -273,9 +273,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 		paramCtrlCopyDiv: function (btnonclickFun) {
             const div1 = this.createDiv("scroller scroller-root", "parametersDiv");
             const div2 = this.createDiv("no-native-scrollbars scroller-content");
-            //const div3 = this.createDiv("divided filled accordion accordion-root");
-            //div3.appendChild(myWidget.parmERPDownloadcontent("file-type-excel.svg", btnonclickFun));
-            //div2.appendChild(div3);
+            const div3 = this.createDiv("divided filled accordion accordion-root");
+            div3.appendChild(myWidget.parmERPDownloadcontent("file-type-excel.svg", btnonclickFun));
+            div2.appendChild(div3);
             div1.appendChild(div2);
 
             return div1;
@@ -409,6 +409,135 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
                 div.style[key] = value;
             }
             return div;
+        },
+		createElementWithClass: function (tag, classNames) {
+            const element = document.createElement(tag);
+            if (classNames) element.classList.add(...classNames.split(" "));
+            return element;
+        },
+		parmERPDownloadcontent: function (downloadIcon, btnonclickFun) {
+            const div4 = this.createDiv("accordion-item active");
+            const accordionTitle = this.createDiv("accordion-title");
+            const caretIcon = this.createElementWithClass("i", "caret-left");
+            const titleText = document.createTextNode("Download Document Configuration");
+            accordionTitle.appendChild(caretIcon);
+            accordionTitle.appendChild(titleText);
+            div4.appendChild(accordionTitle);
+
+            const contentWrapper = this.createDiv("content-wrapper");
+            const contentDiv = this.createDiv("content");
+
+            contentDiv.appendChild(myWidget.dragAndDropFile());
+            contentWrapper.appendChild(contentDiv);
+
+            const btnContainerdiv = this.createElementWithClass('div', 'btnContainerdiv');
+
+            const downloadPopupbtn = this.createDiv("downloadPopup");
+            downloadPopupbtn.id = "downloadPopup";
+            const loaderdiv = this.createDiv("spinner");
+            const downladptag = document.createElement('p');
+            downladptag.textContent = "Downloading........";
+
+            downloadPopupbtn.appendChild(loaderdiv);
+            downloadPopupbtn.appendChild(downladptag)
+            btnContainerdiv.appendChild(downloadPopupbtn);
+
+            btnContainerdiv.appendChild(this.createButtonCell("downloadIcon.png", "Download Selected File", "Download", btnonclickFun));
+            contentDiv.appendChild(btnContainerdiv);
+
+            div4.appendChild(contentWrapper);
+
+            return div4;
+        },
+		dragAndDropFile: function () {
+            const maincont = document.createElement("div");
+
+            const parentDiv = document.createElement('div');
+            parentDiv.classList.add('chg-add-member-assignee-field');
+
+            const controlsDiv = document.createElement('div');
+            controlsDiv.classList.add('YATG_wux-controls-abstract', 'YATG_wux-controls-autoComplete');
+
+            const selectionChipsDiv = document.createElement('div');
+            selectionChipsDiv.classList.add('YATG_wux-controls-abstract', 'YATG_wux-controls-selectionChips', 'YATG_wux-controls-autoComplete-selectionChips');
+            selectionChipsDiv.setAttribute('has-menu', 'true');
+
+            function createChipCell(labelText, docId) {
+
+                const chipContainer = document.createElement('div');
+                chipContainer.classList.add('YATG_wux-chip-cell-container');
+                chipContainer.setAttribute('draggable', 'true');
+
+                const img = document.createElement('img');
+                img.id = 'imgid1';
+                img.src = imageURL + 'document_888108.png';
+                img.alt = '';
+
+                const label = document.createElement('li');
+                label.classList.add('YATG_wux-chip-cell-label');
+                label.id = docId;
+                label.textContent = labelText;
+
+                const closeButton = document.createElement('li');
+                closeButton.classList.add('YATG_wux-chip-cell-close', 'YATG_wux-ui-3ds', 'YATG_wux-ui-3ds-1x', 'YATG_wux-ui-3ds-close');
+
+                const closeImg = document.createElement('img');
+                closeImg.id = 'imgid';
+                closeImg.src = imageURL + 'iconActionDelete.png';
+                closeImg.alt = '';
+
+                closeImg.addEventListener('click', function () {
+                    chipContainer.remove();
+                });
+
+                closeButton.appendChild(closeImg);
+                chipContainer.appendChild(img);
+                chipContainer.appendChild(label);
+                chipContainer.appendChild(closeButton);
+
+                return chipContainer;
+            }
+
+            const lastWidgetDiv = document.createElement('div');
+            lastWidgetDiv.classList.add('YATG_wux-controls-lastWidget-selectionChips');
+
+            controlsDiv.appendChild(selectionChipsDiv);
+            controlsDiv.appendChild(lastWidgetDiv);
+
+            parentDiv.appendChild(controlsDiv);
+
+            const addedObjectIds = new Set();
+
+            DataDnD.droppable(parentDiv, {
+                enter: function (el, event) {
+                    el.classList.add("drag-over");
+                },
+                over: function (el, event) {
+                    return true;
+                },
+                leave: function (el, event) {
+                    el.classList.remove("drag-over");
+                },
+                drop: function (data, el, event) {
+                    const res = JSON.parse(data);
+                    console.log(res);
+
+                    res.data.items.forEach(item => {
+                        const displayName = item.displayName;
+                        const objectId = item.objectId;
+                        if (!addedObjectIds.has(objectId)) {
+                            const chip = createChipCell(displayName, objectId);
+                            selectionChipsDiv.appendChild(chip);
+                            addedObjectIds.add(objectId);
+                        } else {
+                            console.log(`Duplicate drop ignored for objectId: ${objectId}`);
+                        }
+                    });
+                }
+            });
+            maincont.appendChild(parentDiv);
+
+            return maincont;
         },
     };
 
