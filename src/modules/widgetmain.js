@@ -320,9 +320,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const pdfData = await myWidget.generatePDF(mergedContent);
 				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
 				alert("Document created and checked in successfully!");
-				const chipContainer = document.querySelector('YATG_wux-chip-cell-container');
-				console.log("chipContainer:", chipContainer);
-				chipContainer.remove();
+				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
 			} catch (error) {
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
