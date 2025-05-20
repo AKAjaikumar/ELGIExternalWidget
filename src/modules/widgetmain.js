@@ -320,10 +320,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const pdfData = await myWidget.generatePDF(mergedContent);
 				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
 				alert("Document created and checked in successfully!");
-				document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label').forEach(label => {
-					const chip = label.closest('.wux-controls-chip'); // Get the full chip element
-					if (chip) chip.remove();
+				document.querySelectorAll('.YATG_wux-controls-selectionChips .wux-controls-chip').forEach(chip => {
+				  chip.remove();
 				});
+
+				// Clear selected nodes, if tracked
+				if (myWidget._selectedNodes) {
+				  myWidget._selectedNodes = [];
+				}
 			} catch (error) {
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
