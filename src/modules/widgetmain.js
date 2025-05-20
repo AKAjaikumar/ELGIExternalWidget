@@ -826,7 +826,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             downloadPopupbtn.appendChild(downladptag)
             btnContainerdiv.appendChild(downloadPopupbtn);
 
-            btnContainerdiv.appendChild(this.createButtonCell("", "Generate Controlled Copy", "Generate Controlled Copy", btnonclickFun));
+            btnContainerdiv.appendChild(this.createButtonCell("", "Generate Controlled Copy", "Generate", btnonclickFun));
             contentDiv.appendChild(btnContainerdiv);
 
             div4.appendChild(contentWrapper);
