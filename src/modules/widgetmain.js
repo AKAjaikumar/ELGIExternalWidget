@@ -303,11 +303,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				console.log("All fetched bookmarks:", allBookmarks);
 				
 				const allCtrlCpy = [];
-				for (const id of allBookmarks) {
-					console.log("Fetching Ctrl Copy for Bookmarks ID:", id);
-					const bookmarks = await myWidget.getParentRelatedCtrlCopy(id);
-					console.log("Ctrl Copy for", id, ":", bookmarks);
-					allCtrlCpy.push({ id, bookmarks });
+				for (const entry of allBookmarks) {
+					for (const bookmark of entry.bookmarks) {
+						const bookmarkId = bookmark.id;
+						console.log("Fetching Ctrl Copy for Bookmark ID:", bookmarkId);
+						const ctrlCopyId = await myWidget.getParentRelatedCtrlCopy(bookmarkId);
+						console.log("Ctrl Copy for", bookmarkId, ":", ctrlCopyId);
+						allCtrlCpy.push({ bookmarkId, ctrlCopyId });
+					}
 				}
 				console.log("All fetched CtrlCopy:", allCtrlCpy);
 				// TODO: process bookmarks or export Excel etc.
