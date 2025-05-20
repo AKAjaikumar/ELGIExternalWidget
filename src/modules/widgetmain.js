@@ -301,7 +301,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				}
 
 				console.log("All fetched bookmarks:", allBookmarks);
-
+				
+				const allCtrlCpy = [];
+				for (const id of allBookmarks) {
+					console.log("Fetching Ctrl Copy for Bookmarks ID:", id);
+					const bookmarks = await myWidget.getParentRelatedCtrlCopy(id);
+					console.log("Ctrl Copy for", id, ":", bookmarks);
+					allCtrlCpy.push({ id, bookmarks });
+				}
+				console.log("All fetched CtrlCopy:", allCtrlCpy);
 				// TODO: process bookmarks or export Excel etc.
 
 			} catch (error) {
@@ -309,6 +317,88 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				if (typeof popup !== 'undefined') popup.style.display = "none";
 			}
 		},
+		getParentRelatedCtrlCopy: function (bookmarkId) {
+			  return new Promise((resolve, reject) => {
+				URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:"+baseUrl);
+
+					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+					WAFData.authenticatedRequest(csrfURL, {
+					  method: 'GET',
+					  type: 'json',
+					  onComplete: function (csrfData) {
+						const csrfToken = csrfData.csrf.value;
+						const csrfHeaderName = csrfData.csrf.name;
+
+						const ecosystemURL = baseUrl + '/resources/v1/modeler/dsbks/dsbks:Bookmark/' + bookmarkId + '?$mask=dsbks:BksMask.Parent';
+
+						WAFData.authenticatedRequest(ecosystemURL, {
+						  method: 'GET',
+						  type: 'json',
+						  headers: {
+							'Content-Type': 'application/json',
+							'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+							[csrfHeaderName]: csrfToken
+						  },
+						  onComplete: function (response) {
+							console.log("getEcosystem result:", response);
+							try {
+							  const parentId = response?.member?.[0]?.parent?.member?.[0]?.referencedObject?.identifier;
+							  if (parentId) {
+								const folderTreeURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + parentId + '/folderTree';
+								WAFData.authenticatedRequest(folderTreeURL, {
+									method: 'POST',
+									type: 'json',
+									data: JSON.stringify({
+										expandList: "",
+										isRoot: "",
+										nextStart: 0,
+										nresults: 200,
+										Read: true,
+										refine: "",
+										sortMode: "ds6w:label",
+										sortOrder: "asc"
+									}),
+									headers: {
+										'Content-Type': 'application/json',
+										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+										[csrfHeaderName]: csrfToken
+								    }, 
+									onComplete: function (response) {
+										const controlledCopyFolder = response.folders.find(folder => folder.label === "Controlled Copy");
+
+										if (controlledCopyFolder) {
+										  const controlledCopyId = controlledCopyFolder.id;
+										  resolve(controlledCopyId); 
+										} else {
+											reject("Controlled Copy folder not found.");
+										  console.warn("Controlled Copy folder not found.");
+										} 
+									},
+									onFailure: function (err) {
+										reject("Failed to get Controlled COpy: " + JSON.stringify(err));
+									}
+								});
+							  } else {
+								reject("Parent ID not found in response");
+							  }
+							} catch (err) {
+							  reject("Error extracting parent ID: " + err);
+							}
+						  },
+						  onFailure: function (err) {
+							reject("Failed to get parent bookmark: " + JSON.stringify(err));
+						  }
+						});
+					  },
+					  onFailure: function (err) {
+						reject("CSRF fetch failed: " + JSON.stringify(err));
+					  }
+					});
+				});
+			  });
+			}.
 		fetchBookmarksForDocument: function (docId) {
 			return new Promise((resolve, reject) => {
 				URLS.getURLs().then(baseUrl => {
