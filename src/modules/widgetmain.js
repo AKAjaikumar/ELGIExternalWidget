@@ -330,6 +330,72 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
                 if (popup) popup.style.display = "none";
             }
         },
+		createMainSkeleton: function (_mainTitle, paramDIv) {
+            var contentArea = document.querySelector(".widget-content-area");
+            contentArea.innerHTML = "";
+            var contentArea1 = document.createElement("div");
+            contentArea1.className = "skeleton-panel";
+
+            var titlediv = myWidget.titleERPDiv(_mainTitle);
+            var contentContainer = myWidget.mainERPdiv(paramDIv);
+            contentArea1.appendChild(titlediv);
+            contentArea1.appendChild(contentContainer);
+            contentArea.appendChild(contentArea1);
+        },
+		titleERPDiv: function (maintitlename) {
+            const skeletonIdCnt = this.createDiv("skeleton-id-cnt");
+            const idCard = this.createDiv("id-card without-banner without-thumbnail without-facets ready");
+            const bannerSection = this.createDiv("banner-section");
+            const mainSection = this.createDiv("main-section");
+            const infoAndThumbnailSection = this.createDiv("info-and-thumbnail-section");
+            const thumbnailSection = this.createDiv("thumbnail-section");
+            const infoSection = this.createDiv("info-section");
+            const headerSection = this.createDiv("header-section");
+            const titleSection = this.createDiv("title-section");
+            const title = document.createElement("h1");
+            const span = document.createElement("span");
+            span.textContent = maintitlename;
+            title.appendChild(span);
+            titleSection.appendChild(title);
+
+            const actionsSection = this.createDiv("actions-section");
+            headerSection.appendChild(titleSection);
+            headerSection.appendChild(actionsSection);
+
+            const detailedInfoSection = this.createDiv("detailed-info-section");
+            const ownerNameSection = this.createDiv("owner-name-section");
+            infoSection.appendChild(headerSection);
+            infoSection.appendChild(detailedInfoSection);
+
+            infoAndThumbnailSection.appendChild(thumbnailSection);
+            infoAndThumbnailSection.appendChild(infoSection);
+
+            mainSection.appendChild(infoAndThumbnailSection);
+
+            idCard.appendChild(bannerSection);
+            idCard.appendChild(mainSection);
+
+            skeletonIdCnt.appendChild(idCard);
+
+            document.body.appendChild(skeletonIdCnt);
+
+            return skeletonIdCnt;
+        },
+		mainERPdiv: function (paramDIv) {
+            const mainBodyDiv = this.createDiv("facetviews");
+            const genericDetail = this.createDiv("generic-detail");
+            const mainParamDiv = this.createDiv("", "mainParamDiv");
+            const mainTitleDiv = this.createDiv("", null, { height: "5%" });
+
+            mainParamDiv.appendChild(mainTitleDiv);
+            const parameterDiv = paramDIv();
+            mainParamDiv.appendChild(parameterDiv);
+
+            genericDetail.appendChild(mainParamDiv);
+            mainBodyDiv.appendChild(genericDetail);
+
+            return mainBodyDiv;
+        },
     };
 
     return myWidget;
