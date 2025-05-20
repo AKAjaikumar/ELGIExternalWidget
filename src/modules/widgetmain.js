@@ -303,59 +303,50 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
                 if (popup) popup.style.display = "none";
             }
         },
-		function fetchBookmarksForDocument(docId) {
-			  return new Promise((resolve, reject) => {
-				i3DXCompassServices.getServiceUrl({
-						platformId: platformId,
-						serviceName: '3DSpace',
-						onComplete: function (URL3DSpace) {
-							let baseUrl = typeof URL3DSpace === "string" ? URL3DSpace : URL3DSpace[0].url;
-							if (baseUrl.endsWith('/3dspace')) {
-								baseUrl = baseUrl.replace('/3dspace', '');
-							}
+		fetchBookmarksForDocument: function (docId) {
+			return new Promise((resolve, reject) => {
+				URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:"+baseUrl);
 
-							const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
 
-							WAFData.authenticatedRequest(csrfURL, {
-								method: 'GET',
-								type: 'json',
-								onComplete: function (csrfData) {
-									const csrfToken = csrfData.csrf.value;
-									const csrfHeaderName = csrfData.csrf.name;
-									console.log("Bookmarks for document id", docId);
-									const docURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + docId + '/getRelatedBookmarks';
-									WAFData.authenticatedRequest(docURL, {
-										method: 'GET',
-										type: 'json',
-										headers: {
-											'Content-Type': 'application/json',
-											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-											[csrfHeaderName]: csrfToken
-										},
-										onComplete: function (data) {
-											console.log("Bookmarks for document", docId, data);
-											if (data && data.folders && data.folders.length > 0) {
-											  resolve(data.folders);  // Return all related bookmarks
-											} else {
-											  reject("No bookmarks found for this document.");
-											}
-										},
-										onFailure: function (err) {
-											reject(err);
+						WAFData.authenticatedRequest(csrfURL, {
+							method: 'GET',
+							type: 'json',
+							onComplete: function (csrfData) {
+								const csrfToken = csrfData.csrf.value;
+								const csrfHeaderName = csrfData.csrf.name;
+
+								console.log("Fetching bookmarks for document ID:", docId);
+								const docURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + docId + '/getRelatedBookmarks';
+
+								WAFData.authenticatedRequest(docURL, {
+									method: 'GET',
+									type: 'json',
+									headers: {
+										'Content-Type': 'application/json',
+										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+										[csrfHeaderName]: csrfToken
+									},
+									onComplete: function (data) {
+										if (data && data.folders && data.folders.length > 0) {
+											resolve(data.folders);  // Return all related bookmarks
+										} else {
+											reject("No bookmarks found for this document.");
 										}
-									});
-								},
-								onFailure: function (err) {
-									reject(err);
-								}
-							});
-						},
-						onFailure: function () {
-							reject("Failed to get 3DSpace URL");
-						}
-					});
+									},
+									onFailure: function (err) {
+										reject(err);
+									}
+								});
+							},
+							onFailure: function (err) {
+								reject(err);
+							}
+						});
+				});
 			});
-			},
+		},
 		createMainSkeleton: function (_mainTitle, paramDIv) {
             var contentArea = document.querySelector(".widget-content-area");
             contentArea.innerHTML = "";
