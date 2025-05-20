@@ -291,11 +291,16 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					return;
 				}
 
-				const objectIds = selectedIds.join(",");
-				console.log("objectIds:", objectIds);
+				const allBookmarks = [];
 
-				const bookmarks = await myWidget.fetchBookmarksForDocument(objectIds);
-				console.log("Fetched bookmarks:", bookmarks);
+				for (const id of selectedIds) {
+					console.log("Fetching bookmarks for document ID:", id);
+					const bookmarks = await myWidget.fetchBookmarksForDocument(id);
+					console.log("Bookmarks for", id, ":", bookmarks);
+					allBookmarks.push({ id, bookmarks });
+				}
+
+				console.log("All fetched bookmarks:", allBookmarks);
 
 				// TODO: process bookmarks or export Excel etc.
 
