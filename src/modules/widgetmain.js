@@ -539,6 +539,35 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return maincont;
         },
+		createButtonCell: function (iconClass, title, buttonText, btnonclickFun) {
+
+            const button = document.createElement("button");
+            button.setAttribute("type", "button");
+            button.setAttribute("title", title);
+            button.classList.add("btn-primary", "btn", "btn-root", "btn-with-icon");
+            button.style.width = "190px";
+
+            const buttonIcon = document.createElement("img");
+            buttonIcon.src = imageURL + iconClass;
+            buttonIcon.className = "arro_icon_style";
+            buttonIcon.alt = "Arrow Icon";
+            buttonIcon.style.width = "10";
+            buttonIcon.style.height = "10px";
+            buttonIcon.style.marginRight = "10px";
+            buttonIcon.style.alignItems = "left";
+            const buttonTextNode = document.createTextNode(buttonText);
+            const caretSpan = this.createElementWithClass("span", "caret");
+
+            button.appendChild(buttonIcon);
+            button.appendChild(buttonTextNode);
+            button.appendChild(caretSpan);
+
+            if (btnonclickFun) {
+                button.addEventListener("click", btnonclickFun);
+            }
+            return button;
+        },
+
     };
 
     return myWidget;
