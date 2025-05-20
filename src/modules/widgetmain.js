@@ -314,8 +314,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				}
 				console.log("All fetched CtrlCopy:", allCtrlCpy);
 				// Proceed with merging and PDF generation if needed
-				const doc1 = selectedIds[0];
-				const doc2 = selectedIds[1];				  
+				const doc1 = await myWidget.fetchDocumentData(selectedIds[0]);
+				const doc2 = await myWidget.fetchDocumentData(selectedIds[1]);				  
 				const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
 				const pdfData = await myWidget.generatePDF(mergedContent);
 				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
@@ -326,6 +326,48 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				if (typeof popup !== 'undefined') popup.style.display = "none";
 			}
 		},
+		fetchDocumentData: function (docId) {
+				return new Promise(function (resolve, reject) {
+					URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:" + baseUrl);
+
+							const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+							WAFData.authenticatedRequest(csrfURL, {
+								method: 'GET',
+								type: 'json',
+								onComplete: function (csrfData) {
+									const csrfToken = csrfData.csrf.value;
+									const csrfHeaderName = csrfData.csrf.name;
+
+									const docURL = baseUrl + '/resources/v1/modeler/documents/' + docId;
+									WAFData.authenticatedRequest(docURL, {
+										method: 'GET',
+										type: 'json',
+										headers: {
+											'Content-Type': 'application/json',
+											[csrfHeaderName]: csrfToken
+										},
+										onComplete: function (docData) {
+										console.log("Fetched docData for ID", docId, docData);
+											if (docData.data && docData.data.length > 0) {
+												resolve(docData.data[0]);  // Return first document object
+											} else {
+												reject("No document data returned");
+											}
+										},
+										onFailure: function (err) {
+											reject(err);
+										}
+									});
+								},
+								onFailure: function (err) {
+									reject(err);
+								}
+							});
+					});
+				});
+			},
 		mergeDocumentsIntoTable: function(doc1, doc2) {
 			const headers = ["Name", "Policy", "State"];
 			const rows = [
