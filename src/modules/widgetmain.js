@@ -286,12 +286,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
             const selectedIds = Array.from(chips).map(chip => chip.id);
 
-            if (selectedIds.length === 0) {
-                alert("Please drop at least one document.");
+            if (selectedIds.length === 0 || selectedIds.length > 2) {
+                alert("Please drop only two document.");
                 return;
             }
 
             const objectIds = selectedIds.join(",");
+			console.log("objectIds:",objectIds);
             const apiUrl = `https://3dexperience2023x.solize.com/3dspace/resources/v1/bookmarkeditor/documentattributes/generatexcel?objectIds=${objectIds}`;
             var methodWAF = "GET";
             const popup = document.getElementById("downloadPopup");
@@ -419,9 +420,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const div4 = this.createDiv("accordion-item active");
             const accordionTitle = this.createDiv("accordion-title");
             const caretIcon = this.createElementWithClass("i", "caret-left");
-            const titleText = document.createTextNode("Download Document Configuration");
+            //const titleText = document.createTextNode("Download Document Configuration");
             accordionTitle.appendChild(caretIcon);
-            accordionTitle.appendChild(titleText);
+            //accordionTitle.appendChild(titleText);
             div4.appendChild(accordionTitle);
 
             const contentWrapper = this.createDiv("content-wrapper");
