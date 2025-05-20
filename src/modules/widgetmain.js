@@ -275,7 +275,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const div2 = this.createDiv("no-native-scrollbars scroller-content");
             //const div3 = this.createDiv("divided filled accordion accordion-root");
             //div3.appendChild(myWidget.parmERPDownloadcontent("file-type-excel.svg", btnonclickFun));
-            div2.appendChild(div3);
+            //div2.appendChild(div3);
             div1.appendChild(div2);
 
             return div1;
