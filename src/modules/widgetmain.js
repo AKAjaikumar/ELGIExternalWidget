@@ -281,28 +281,29 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             return div1;
         },
 		EPRCompFun: async function () {
+			try {
+				console.log("Download button clicked");
+				const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
+				const selectedIds = Array.from(chips).map(chip => chip.id);
 
-            console.log("Download button clicked");
-            const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
-            const selectedIds = Array.from(chips).map(chip => chip.id);
+				if (selectedIds.length !== 2) {
+					alert("Please drop only two documents.");
+					return;
+				}
 
-            if (selectedIds.length !== 2) {
-				alert("Please drop only two documents.");
-				return;
+				const objectIds = selectedIds.join(",");
+				console.log("objectIds:", objectIds);
+
+				const bookmarks = await this.fetchBookmarksForDocument(objectIds);
+				console.log("Fetched bookmarks:", bookmarks);
+
+				// TODO: process bookmarks or export Excel etc.
+
+			} catch (error) {
+				console.error(error);
+				if (typeof popup !== 'undefined') popup.style.display = "none";
 			}
-
-            const objectIds = selectedIds.join(",");
-			console.log("objectIds:",objectIds);
-            const bookmarks = await fetchBookmarksForDocument(objectIds);
-			console.log("Fetched bookmarks:", bookmarks);
-
-                
-
-            } catch (error) {
-                console.log(error)
-                if (popup) popup.style.display = "none";
-            }
-        },
+		},
 		fetchBookmarksForDocument: function (docId) {
 			return new Promise((resolve, reject) => {
 				URLS.getURLs().then(baseUrl => {
