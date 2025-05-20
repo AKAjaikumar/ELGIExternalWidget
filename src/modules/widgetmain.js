@@ -47,7 +47,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             var sideBar1 = myWidget.createSideBar1();
             var sideBar2 = myWidget.createSideBar2();
-           // var contentArea = myWidget.createContentArea();
+            var contentArea = myWidget.createContentArea();
 
             formContainer.appendChild(sideBar1);
             formContainer.appendChild(sideBar2);
@@ -395,6 +395,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             mainBodyDiv.appendChild(genericDetail);
 
             return mainBodyDiv;
+        },
+		createContentArea: function () {
+            var contentArea = document.createElement("div");
+            contentArea.className = "widget-content-area";
+            return contentArea;
         },
     };
 
