@@ -51,7 +51,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             formContainer.appendChild(sideBar1);
             formContainer.appendChild(sideBar2);
-            //formContainer.appendChild(contentArea);
+            formContainer.appendChild(contentArea);
 
             return formContainer;
         },
