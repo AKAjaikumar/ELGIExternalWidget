@@ -314,11 +314,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				}
 				console.log("All fetched CtrlCopy:", allCtrlCpy);
 				// Proceed with merging and PDF generation if needed
-								  
-				  const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
-				  const pdfData = await myWidget.generatePDF(mergedContent);
-				  await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
-				  alert("Document created and checked in successfully!");
+				const doc1 = selectedIds[0];
+				const doc2 = selectedIds[1];				  
+				const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
+				const pdfData = await myWidget.generatePDF(mergedContent);
+				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
+				alert("Document created and checked in successfully!");
 
 			} catch (error) {
 				console.error(error);
