@@ -320,7 +320,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const pdfData = await myWidget.generatePDF(mergedContent);
 				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
 				alert("Document created and checked in successfully!");
-
+				document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label').forEach(chip => {
+					chip.remove();
+				});
 			} catch (error) {
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
@@ -824,7 +826,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             downloadPopupbtn.appendChild(downladptag)
             btnContainerdiv.appendChild(downloadPopupbtn);
 
-            btnContainerdiv.appendChild(this.createButtonCell("downloadIcon.png", "Download Selected File", "Download", btnonclickFun));
+            btnContainerdiv.appendChild(this.createButtonCell("", "Generate Controlled Copy", "Generate Controlled Copy", btnonclickFun));
             contentDiv.appendChild(btnContainerdiv);
 
             div4.appendChild(contentWrapper);
