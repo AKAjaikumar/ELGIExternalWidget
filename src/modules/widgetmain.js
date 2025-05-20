@@ -14,7 +14,7 @@ define("PDFAutoTable", ["autotable"], function (autotable) {
 }),
 
 
-define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "Solize/URLS", "Solize/SecurityContext"], function (WAFData, DataDnD, URLS, SecurityContext) {
+define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "Solize/URLS", "Solize/SecurityContext","PDFJsDependency","PDFAutoTable"], function (WAFData, DataDnD, URLS, SecurityContext,jspdfModule, autotablePlugin) {
 
     // Added for EPR Document Upload : Start
     var vData = [];
@@ -378,6 +378,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			return { headers, rows };
 		},
 		generatePDF: async function (content) {
+			const jsPDF = jspdfModule.default;
+			
+			 if (typeof jsPDF === 'function' && typeof jsPDF.API.autoTable === 'undefined') {
+				autotablePlugin(jsPDF);
+			}
+			 console.log("jsPDF",jsPDF);
 			try {
 				if (!content.headers || !content.rows || !Array.isArray(content.headers) || !Array.isArray(content.rows)) {
 					throw new Error('Invalid content format. Expected object with "headers" and "rows" arrays.');
