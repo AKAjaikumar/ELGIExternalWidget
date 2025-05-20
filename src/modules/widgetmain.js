@@ -942,7 +942,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             const buttonTextNode = document.createTextNode(buttonText);
             const caretSpan = this.createElementWithClass("span", "caret");
 
-            button.appendChild(buttonIcon);
+            //button.appendChild(buttonIcon);
             button.appendChild(buttonTextNode);
             button.appendChild(caretSpan);
 
