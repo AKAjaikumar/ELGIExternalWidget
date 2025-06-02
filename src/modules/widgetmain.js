@@ -361,6 +361,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						method: 'GET',
 						type: 'json',
 						oonComplete: function (csrfData) {
+								console.log("csrfData:" + csrfData);
 								const csrfToken = csrfData.csrf.value;
 								const csrfHeaderName = csrfData.csrf.name;
 								console.log("csrfToken:" + csrfToken);
