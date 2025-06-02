@@ -255,12 +255,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar2.style.display = "block";
         },
 		createPrjMng: function () {
-			let sideBar2 = document.querySelector(".second-sidebar");
+			let sideBar2 = document.querySelector(".third-sidebar");
 
 			// If the second-sidebar doesn't exist, create it
 			if (!sideBar2) {
 				sideBar2 = document.createElement("div");
-				sideBar2.className = "second-sidebar";
+				sideBar2.className = "third-sidebar";
 				document.body.appendChild(sideBar2);
 			}
 
