@@ -255,42 +255,50 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar2.style.display = "block";
         },
 		createPrjMng: function () {
-			 var container = document.querySelector(".widget-content");
-			 if (!container) {
-				container = document.createElement("div");
-				container.className = "widget-content";
-				document.body.appendChild(container); 
-			}
-			container.innerHTML = ""; 
-			
-			
+			let sideBar2 = document.querySelector(".second-sidebar");
 
-			var titleInput = document.createElement("input");
+			// If the second-sidebar doesn't exist, create it
+			if (!sideBar2) {
+				sideBar2 = document.createElement("div");
+				sideBar2.className = "second-sidebar";
+				document.body.appendChild(sideBar2);
+			}
+
+			// Show it and clear previous content
+			sideBar2.style.display = "block";
+			sideBar2.innerHTML = "";
+
+			// Title
+			const header = document.createElement("h2");
+			header.textContent = "Create Physical Product";
+			header.className = "sidebar-header";
+
+			const titleInput = document.createElement("input");
 			titleInput.type = "text";
 			titleInput.placeholder = "Enter Title";
 			titleInput.className = "form-input";
 
-			var descInput = document.createElement("textarea");
+			const descInput = document.createElement("textarea");
 			descInput.placeholder = "Enter Description";
 			descInput.className = "form-textarea";
 
-			var createBtn = document.createElement("button");
+			const createBtn = document.createElement("button");
 			createBtn.textContent = "Create Physical Product";
 			createBtn.className = "form-button";
 
-			var resultBox = document.createElement("div");
+			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
 
 			createBtn.onclick = function () {
-				var title = titleInput.value.trim();
-				var description = descInput.value.trim();
+				const title = titleInput.value.trim();
+				const description = descInput.value.trim();
 
 				if (!title) {
 					alert("Title is required.");
 					return;
 				}
 
-				var payload = {
+				const payload = {
 					items: [{
 						title: title,
 						description: description,
@@ -298,7 +306,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					}]
 				};
 
-				var options = {
+				const options = {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -307,9 +315,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					data: JSON.stringify(payload),
 					onComplete: function (response) {
 						try {
-							var resObj = JSON.parse(response);
-							resultBox.innerHTML = "<p>Physical Product created with ID: <strong>" +
-								resObj.data[0].id + "</strong></p>";
+							const resObj = JSON.parse(response);
+							resultBox.innerHTML = `<p>Physical Product created with ID: <strong>${resObj.data[0].id}</strong></p>`;
 						} catch (e) {
 							resultBox.innerHTML = "<p>Failed to create product.</p>";
 							console.error(e);
@@ -321,15 +328,16 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					}
 				};
 
-				var url = "/resources/v1/modeler/dspfl/physicalproducts";
+				const url = "/resources/v1/modeler/dspfl/physicalproducts";
 				WAFData.authenticatedRequest(url, options);
 			};
 
-			container.appendChild(titleInput);
-			container.appendChild(descInput);
-			container.appendChild(createBtn);
-			container.appendChild(resultBox);
-
+			// Append everything to the second-sidebar
+			sideBar2.appendChild(header);
+			sideBar2.appendChild(titleInput);
+			sideBar2.appendChild(descInput);
+			sideBar2.appendChild(createBtn);
+			sideBar2.appendChild(resultBox);
 		},
 		toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
