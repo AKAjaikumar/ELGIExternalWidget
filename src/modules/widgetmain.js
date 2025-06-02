@@ -335,7 +335,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
 
-			createBtn.onclick = function () {
+			createBtn.onclick = () => {
 				const title = titleInput.value.trim();
 				const description = descInput.value.trim();
 
