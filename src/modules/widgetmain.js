@@ -290,7 +290,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			dropZone.style.textAlign = "center";
 
 			let droppedProjectSpace = null;
-
+			let selectedProjectId = null; 
 			
 			dropZone.addEventListener("dragover", function (e) {
 				e.preventDefault();
@@ -316,6 +316,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						(dropped.displayType === "Project Space" || dropped.objectType === "Project Space")
 					) {
 						droppedProjectSpace = dropped;
+						selectedProjectId = dropped.objectId;
 						dropZone.textContent = `Project: ${dropped.displayName || dropped.objectId}`;
 					} else {
 						dropZone.textContent = "Invalid drop – Not a Project Space.";
@@ -339,11 +340,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 				console.log("title ", title);
 				console.log("description ", description);
-				if (!title || !partNumber) {
+				console.log("selectedProjectId ", selectedProjectId);
+				if (!title ) {
 					alert("Title and Part Number are required.");
 					return;
 				}
-
+				if (!selectedProjectId) {
+					alert("Please drag and drop a valid Project Space.");
+					return;
+				}
 				//createEngineeringItem(title, description);
 			};
 
