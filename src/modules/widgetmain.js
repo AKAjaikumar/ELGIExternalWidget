@@ -363,6 +363,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						oonComplete: function (csrfData) {
 								const csrfToken = csrfData.csrf.value;
 								const csrfHeaderName = csrfData.csrf.name;
+								console.log("csrfToken:" + csrfToken);
 							const payload = {
 								items: [{
 									type: "VPMReference",
@@ -385,6 +386,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 								},
 								data: JSON.stringify(payload),
 								onComplete: function (response) {
+									console.log("response:" + response);
 									const result = JSON.parse(response);
 									console.log("✅ Engineering item created:", result);
 									alert("Engineering Item ID: " + result.data[0].id);
