@@ -364,7 +364,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.appendChild(createBtn);
 			sideBar2.appendChild(resultBox);
 		},
-		function createEngineeringItem(title, description) {
+		createEngineeringItem: function (title, description) {
 			URLS.getURLs().then(baseUrl => {
 					console.log("baseUrl:" + baseUrl);
 					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
@@ -407,7 +407,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					});
 				},
 				onFailure: function (err) {
-					console.error("❌ Failed to fetch CSRF token", err);
+					console.error("Failed to fetch CSRF token", err);
 				}
 			});
 			});
