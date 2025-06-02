@@ -308,7 +308,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				try {
 					const parsed = JSON.parse(data);
 					console.log("Drop Parsed ", parsed);
-					const dropped = parsed?.items?.[0]; 
+					const dropped = parsed?.data?.items?.[0];  
 
 					if (
 						dropped &&
