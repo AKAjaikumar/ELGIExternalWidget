@@ -257,18 +257,17 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 		createPrjMng: function () {
 			let sideBar2 = document.querySelector(".second-sidebar");
 
-			// If the second-sidebar doesn't exist, create it
+
 			if (!sideBar2) {
 				sideBar2 = document.createElement("div");
 				sideBar2.className = "second-sidebar";
 				document.body.appendChild(sideBar2);
 			}
 
-			// Show it and clear previous content
 			sideBar2.style.display = "block";
 			sideBar2.innerHTML = "";
 
-			// Title
+
 			const header = document.createElement("h2");
 			header.textContent = "Create Physical Product";
 			header.className = "sidebar-header";
@@ -292,7 +291,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			let droppedProjectSpace = null;
 
-			// Handle drop from 3DEXPERIENCE
+			
 			dropZone.addEventListener("dragover", function (e) {
 				e.preventDefault();
 				dropZone.style.borderColor = "#3D9FE3";
@@ -308,15 +307,16 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const data = e.dataTransfer.getData("text/plain");
 				try {
 					const parsed = JSON.parse(data);
+					console.log("Drop Parsed ", parsed);
 					if (parsed && parsed.objectId && parsed.envId && parsed.source === "3DX") {
 						droppedProjectSpace = parsed;
-						dropZone.textContent = `✔ Project: ${parsed.objectLabel || parsed.objectId}`;
+						dropZone.textContent = `Project: ${parsed.objectLabel || parsed.objectId}`;
 					} else {
-						dropZone.textContent = "❌ Invalid drop – Not a Project Space.";
+						dropZone.textContent = "Invalid drop – Not a Project Space.";
 					}
 				} catch (err) {
 					console.error("Drop parsing failed", err);
-					dropZone.textContent = "❌ Drop error";
+					dropZone.textContent = "Drop error";
 				}
 			});
 			
