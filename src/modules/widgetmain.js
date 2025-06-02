@@ -354,7 +354,52 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				
 				
 				
-				self.createEngineeringItem(title, description);
+				URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:" + baseUrl);
+					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+					WAFData.authenticatedRequest(csrfURL, {
+						method: 'GET',
+						type: 'json',
+						oonComplete: function (csrfData) {
+								const csrfToken = csrfData.csrf.value;
+								const csrfHeaderName = csrfData.csrf.name;
+							const payload = {
+								items: [{
+									type: "VPMReference",
+									attributes: {
+										title: title,
+										description: description
+										
+									}
+								}]
+							};
+							const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
+							
+							WAFData.authenticatedRequest(engURL, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+									'Accept': 'application/json',
+									'ENO_CSRF_TOKEN': csrfToken,
+									'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+								},
+								data: JSON.stringify(payload),
+								onComplete: function (response) {
+									const result = JSON.parse(response);
+									console.log("✅ Engineering item created:", result);
+									alert("Engineering Item ID: " + result.data[0].id);
+								},
+								onFailure: function (error) {
+									console.error("❌ Failed to create Engineering Item", error);
+									alert("Error creating Engineering Item.");
+								}
+							});
+						},
+						onFailure: function (err) {
+							console.error("Failed to fetch CSRF token", err);
+						}
+					});
+				});
 			};
 
 			// Append everything to the second-sidebar
@@ -365,54 +410,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.appendChild(createBtn);
 			sideBar2.appendChild(resultBox);
 		},
-		createEngineeringItem: function (title, description) {
-			URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:" + baseUrl);
-					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
-			WAFData.authenticatedRequest(csrfURL, {
-				method: 'GET',
-				type: 'json',
-				oonComplete: function (csrfData) {
-						const csrfToken = csrfData.csrf.value;
-						const csrfHeaderName = csrfData.csrf.name;
-					const payload = {
-						items: [{
-							type: "VPMReference",
-							attributes: {
-								title: title,
-								description: description
-								
-							}
-						}]
-					};
-					const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
-					
-					WAFData.authenticatedRequest(engURL, {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'Accept': 'application/json',
-							'ENO_CSRF_TOKEN': csrfToken,
-							'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-						},
-						data: JSON.stringify(payload),
-						onComplete: function (response) {
-							const result = JSON.parse(response);
-							console.log("✅ Engineering item created:", result);
-							alert("Engineering Item ID: " + result.data[0].id);
-						},
-						onFailure: function (error) {
-							console.error("❌ Failed to create Engineering Item", error);
-							alert("Error creating Engineering Item.");
-						}
-					});
-				},
-				onFailure: function (err) {
-					console.error("Failed to fetch CSRF token", err);
-				}
-			});
-			});
-		},
+		
 		toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
             sideBar2.style.display = visible ? "block" : "none";
