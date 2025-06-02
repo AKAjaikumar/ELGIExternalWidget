@@ -281,7 +281,45 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			const descInput = document.createElement("textarea");
 			descInput.placeholder = "Enter Description";
 			descInput.className = "form-textarea";
+			
+			const dropZone = document.createElement("div");
+			dropZone.className = "drop-zone";
+			dropZone.textContent = "Drag & Drop Project Space here";
+			dropZone.style.border = "2px dashed #ccc";
+			dropZone.style.padding = "10px";
+			dropZone.style.marginBottom = "10px";
+			dropZone.style.textAlign = "center";
 
+			let droppedProjectSpace = null;
+
+			// Handle drop from 3DEXPERIENCE
+			dropZone.addEventListener("dragover", function (e) {
+				e.preventDefault();
+				dropZone.style.borderColor = "#3D9FE3";
+			});
+
+			dropZone.addEventListener("dragleave", function () {
+				dropZone.style.borderColor = "#ccc";
+			});
+
+			dropZone.addEventListener("drop", function (e) {
+				e.preventDefault();
+				dropZone.style.borderColor = "#28a745";
+				const data = e.dataTransfer.getData("text/plain");
+				try {
+					const parsed = JSON.parse(data);
+					if (parsed && parsed.objectId && parsed.envId && parsed.source === "3DX") {
+						droppedProjectSpace = parsed;
+						dropZone.textContent = `✔ Project: ${parsed.objectLabel || parsed.objectId}`;
+					} else {
+						dropZone.textContent = "❌ Invalid drop – Not a Project Space.";
+					}
+				} catch (err) {
+					console.error("Drop parsing failed", err);
+					dropZone.textContent = "❌ Drop error";
+				}
+			});
+			
 			const createBtn = document.createElement("button");
 			createBtn.textContent = "Create Physical Product";
 			createBtn.className = "form-button";
@@ -336,6 +374,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.appendChild(header);
 			sideBar2.appendChild(titleInput);
 			sideBar2.appendChild(descInput);
+			sideBar2.appendChild(dropZone);
 			sideBar2.appendChild(createBtn);
 			sideBar2.appendChild(resultBox);
 		},
