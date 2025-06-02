@@ -256,7 +256,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
         },
 		createPrjMng: function () {
 			 var container = document.querySelector(".widget-content");
-			container.innerHTML = ""; // Clear previous content
+			 if (!container) {
+				container = document.createElement("div");
+				container.className = "widget-content";
+				document.body.appendChild(container); 
+			}
+			container.innerHTML = ""; 
+			
+			
 
 			var titleInput = document.createElement("input");
 			titleInput.type = "text";
