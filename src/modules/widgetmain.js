@@ -255,7 +255,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar2.style.display = "block";
         },
 		createPrjMng: function () {
-			
+			const self = this; 
 			let sideBar2 = document.querySelector(".second-sidebar");
 
 
@@ -354,7 +354,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				
 				
 				
-				this.createEngineeringItem(title, description);
+				self.createEngineeringItem(title, description);
 			};
 
 			// Append everything to the second-sidebar
