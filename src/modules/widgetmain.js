@@ -360,7 +360,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					WAFData.authenticatedRequest(csrfURL, {
 						method: 'GET',
 						type: 'json',
-						oonComplete: function (csrfData) {
+						onComplete: function (csrfData) {
 								console.log("csrfData:" + csrfData);
 								const csrfToken = csrfData.csrf.value;
 								const csrfHeaderName = csrfData.csrf.name;
