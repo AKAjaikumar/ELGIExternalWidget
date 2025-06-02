@@ -73,7 +73,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar1Ul.className = "sideBar1Ul";
 
             var tile1 = myWidget.createTileElement("Report 1", imageURL + "I_Switch.png", "Report 1", myWidget.createSecondSidebar);
-            var tile2 = myWidget.createTileElement("Report 2", imageURL + "I_Switch.png", "Report 2", myWidget.createPrjMng);
+            var tile2 = myWidget.createTileElement("TPL Creation", imageURL + "I_Switch.png", "TPL Creation", myWidget.createPrjMng);
 
             sideBar1.appendChild(dummyspace);
 
@@ -255,9 +255,75 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             sideBar2.style.display = "block";
         },
 		createPrjMng: function () {
+			 var container = document.querySelector(".widget-content");
+			container.innerHTML = ""; // Clear previous content
 
+			var titleInput = document.createElement("input");
+			titleInput.type = "text";
+			titleInput.placeholder = "Enter Title";
+			titleInput.className = "form-input";
 
-        },
+			var descInput = document.createElement("textarea");
+			descInput.placeholder = "Enter Description";
+			descInput.className = "form-textarea";
+
+			var createBtn = document.createElement("button");
+			createBtn.textContent = "Create Physical Product";
+			createBtn.className = "form-button";
+
+			var resultBox = document.createElement("div");
+			resultBox.className = "result-box";
+
+			createBtn.onclick = function () {
+				var title = titleInput.value.trim();
+				var description = descInput.value.trim();
+
+				if (!title) {
+					alert("Title is required.");
+					return;
+				}
+
+				var payload = {
+					items: [{
+						title: title,
+						description: description,
+						type: "Physical Product"
+					}]
+				};
+
+				var options = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					},
+					data: JSON.stringify(payload),
+					onComplete: function (response) {
+						try {
+							var resObj = JSON.parse(response);
+							resultBox.innerHTML = "<p>Physical Product created with ID: <strong>" +
+								resObj.data[0].id + "</strong></p>";
+						} catch (e) {
+							resultBox.innerHTML = "<p>Failed to create product.</p>";
+							console.error(e);
+						}
+					},
+					onFailure: function (err) {
+						resultBox.innerHTML = "<p>Error creating product.</p>";
+						console.error(err);
+					}
+				};
+
+				var url = "/resources/v1/modeler/dspfl/physicalproducts";
+				WAFData.authenticatedRequest(url, options);
+			};
+
+			container.appendChild(titleInput);
+			container.appendChild(descInput);
+			container.appendChild(createBtn);
+			container.appendChild(resultBox);
+
+		},
 		toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
             sideBar2.style.display = visible ? "block" : "none";
