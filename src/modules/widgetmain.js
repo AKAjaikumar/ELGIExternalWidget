@@ -389,8 +389,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 								onComplete: function (response) {
 									console.log("response:" + response);
 									const result = JSON.parse(response);
-									console.log("✅ Engineering item created:", result);
-									alert("Engineering Item ID: " + result.data[0].id);
+									const createdItem = result.member[0];
+									alert("Engineering Item Name: " + createdItem.name);
 								},
 								onFailure: function (error) {
 									console.error("❌ Failed to create Engineering Item", error);
