@@ -308,9 +308,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				try {
 					const parsed = JSON.parse(data);
 					console.log("Drop Parsed ", parsed);
-					if (parsed && parsed.objectId && parsed.envId && parsed.source === "3DX") {
-						droppedProjectSpace = parsed;
-						dropZone.textContent = `Project: ${parsed.objectLabel || parsed.objectId}`;
+					const dropped = parsed?.items?.[0]; 
+
+					if (
+						dropped &&
+						dropped.objectId &&
+						(dropped.displayType === "Project Space" || dropped.objectType === "Project Space")
+					) {
+						droppedProjectSpace = dropped;
+						dropZone.textContent = `Project: ${dropped.displayName || dropped.objectId}`;
 					} else {
 						dropZone.textContent = "Invalid drop – Not a Project Space.";
 					}
