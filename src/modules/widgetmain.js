@@ -337,43 +337,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const title = titleInput.value.trim();
 				const description = descInput.value.trim();
 
-				if (!title) {
-					alert("Title is required.");
+				console.log("title ", title);
+				console.log("description ", description);
+				if (!title || !partNumber) {
+					alert("Title and Part Number are required.");
 					return;
 				}
 
-				const payload = {
-					items: [{
-						title: title,
-						description: description,
-						type: "Physical Product"
-					}]
-				};
-
-				const options = {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json'
-					},
-					data: JSON.stringify(payload),
-					onComplete: function (response) {
-						try {
-							const resObj = JSON.parse(response);
-							resultBox.innerHTML = `<p>Physical Product created with ID: <strong>${resObj.data[0].id}</strong></p>`;
-						} catch (e) {
-							resultBox.innerHTML = "<p>Failed to create product.</p>";
-							console.error(e);
-						}
-					},
-					onFailure: function (err) {
-						resultBox.innerHTML = "<p>Error creating product.</p>";
-						console.error(err);
-					}
-				};
-
-				const url = "/resources/v1/modeler/dspfl/physicalproducts";
-				WAFData.authenticatedRequest(url, options);
+				//createEngineeringItem(title, description);
 			};
 
 			// Append everything to the second-sidebar
