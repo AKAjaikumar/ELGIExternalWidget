@@ -251,24 +251,37 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             return li;
         },
 		createSecondSidebar: function () {
-            var sideBar2 = document.querySelector(".second-sidebar");
-            sideBar2.style.display = "block";
-        },
-		createPrjMng: function () {
-			let sideBar2 = document.querySelector(".third-sidebar");
+         
+			const third = document.querySelector(".third-sidebar");
+			if (third) third.style.display = "none";
 
-			// If the second-sidebar doesn't exist, create it
+			// Show second-sidebar
+			let sideBar2 = document.querySelector(".second-sidebar");
 			if (!sideBar2) {
 				sideBar2 = document.createElement("div");
-				sideBar2.className = "third-sidebar";
+				sideBar2.className = "second-sidebar";
 				document.body.appendChild(sideBar2);
 			}
 
-			// Show it and clear previous content
 			sideBar2.style.display = "block";
-			sideBar2.innerHTML = "";
+        },
+		createPrjMng: function () {
+			// Hide second-sidebar if visible
+			const second = document.querySelector(".second-sidebar");
+			if (second) second.style.display = "none";
 
-			// Title
+			// Show third-sidebar
+			let sideBar3 = document.querySelector(".third-sidebar");
+			if (!sideBar3) {
+				sideBar3 = document.createElement("div");
+				sideBar3.className = "third-sidebar";
+				document.body.appendChild(sideBar3);
+			}
+
+			sideBar3.style.display = "block";
+			sideBar3.innerHTML = "";
+
+			// Create and append form content as before
 			const header = document.createElement("h2");
 			header.textContent = "Create Physical Product";
 			header.className = "sidebar-header";
@@ -316,7 +329,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					onComplete: function (response) {
 						try {
 							const resObj = JSON.parse(response);
-							resultBox.innerHTML = `<p>Physical Product created with ID: <strong>${resObj.data[0].id}</strong></p>`;
+							resultBox.innerHTML = `<p>Product created with ID: <strong>${resObj.data[0].id}</strong></p>`;
 						} catch (e) {
 							resultBox.innerHTML = "<p>Failed to create product.</p>";
 							console.error(e);
@@ -332,12 +345,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				WAFData.authenticatedRequest(url, options);
 			};
 
-			// Append everything to the second-sidebar
-			sideBar2.appendChild(header);
-			sideBar2.appendChild(titleInput);
-			sideBar2.appendChild(descInput);
-			sideBar2.appendChild(createBtn);
-			sideBar2.appendChild(resultBox);
+			sideBar3.appendChild(header);
+			sideBar3.appendChild(titleInput);
+			sideBar3.appendChild(descInput);
+			sideBar3.appendChild(createBtn);
+			sideBar3.appendChild(resultBox);
 		},
 		toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
