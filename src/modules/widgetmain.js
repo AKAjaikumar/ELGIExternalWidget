@@ -336,227 +336,232 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			resultBox.className = "result-box";
 
 			createBtn.onclick = () => {
-				const title = titleInput.value.trim();
-				const description = descInput.value.trim();
+					const title = titleInput.value.trim();
+					const description = descInput.value.trim();
 
-				console.log("title ", title);
-				console.log("description ", description);
-				console.log("selectedProjectId ", selectedProjectId);
-				if (!title ) {
-					alert("Title and Part Number are required.");
-					return;
-				}
-				if (!selectedProjectId) {
-					alert("Please drag and drop a valid Project Space.");
-					return;
-				}
-				//
-				
-				
-				
-				URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:" + baseUrl);
-					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
-					WAFData.authenticatedRequest(csrfURL, {
-						method: 'GET',
-						type: 'json',
-						onComplete: function (csrfData) {
+					console.log("title ", title);
+					console.log("description ", description);
+					console.log("selectedProjectId ", selectedProjectId);
+
+					if (!title) {
+						alert("Title and Part Number are required.");
+						return;
+					}
+					if (!selectedProjectId) {
+						alert("Please drag and drop a valid Project Space.");
+						return;
+					}
+
+					URLS.getURLs().then(baseUrl => {
+						console.log("baseUrl:" + baseUrl);
+						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+						WAFData.authenticatedRequest(csrfURL, {
+							method: 'GET',
+							type: 'json',
+							onComplete: function (csrfData) {
 								console.log("csrfData:" + csrfData);
 								const csrfToken = csrfData.csrf.value;
 								const csrfHeaderName = csrfData.csrf.name;
 								console.log("csrfToken:" + csrfToken);
-							const payload = {
-								items: [{
-									type: "VPMReference",
-									attributes: {
-										title: title,
-										description: description
-										
-									}
-								}]
-							};
-							const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
-							
-							WAFData.authenticatedRequest(engURL, {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									'Accept': 'application/json',
-									'ENO_CSRF_TOKEN': csrfToken,
-									'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-								},
-								data: JSON.stringify(payload),
-								onComplete: function (response) {
-									console.log("response:" + response);
-									const result = JSON.parse(response);
-									const createdItem = result.member[0];
-									//alert("Engineering Item Name: " + createdItem.name);
-									
-									const createDocURL = baseUrl + '/resources/v1/modeler/documents';
-									const createDocPayload = {
-									  data: [{
-										attributes: {
-										  name: "SpecSheet_" + Date.now(),
-										  type: "Document",
-										  policy: "Document Release",
-											"extensions": [
-											  "XP_Document_Ext.DocumentType"
-											]
-										}
-									  }]
-									};
 
-									WAFData.authenticatedRequest(createDocURL, {
-									  method: 'POST',
-									  type: 'json',
-									  data: JSON.stringify(createDocPayload),
-									  headers: {
+								const payload = {
+									items: [{
+										type: "VPMReference",
+										attributes: {
+											title: title,
+											description: description
+										}
+									}]
+								};
+
+								const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
+
+								WAFData.authenticatedRequest(engURL, {
+									method: 'POST',
+									headers: {
 										'Content-Type': 'application/json',
-										[csrfHeaderName]: csrfToken,
+										'Accept': 'application/json',
+										'ENO_CSRF_TOKEN': csrfToken,
 										'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-									  },
-									  onComplete: function (response) {
-										const createdDoc = response.data[0];
-										const createdDocId = createdDoc.id;
-										console.log("Document created:", createdDocId);
-										
-										const updatePayload = {
-										  data: [{
-											id: createdDocId,
-											type: "Document",
-											updateAction: "MODIFY",
-											"dataelements": {
-												"DocumentType": "SpecSheet"
-											}
-										  }]
+									},
+									data: JSON.stringify(payload),
+									onComplete: function (response) {
+										console.log("response:" + response);
+										const result = JSON.parse(response);
+										const createdItem = result.member[0];
+
+										const createDocURL = baseUrl + '/resources/v1/modeler/documents';
+										const createDocPayload = {
+											data: [{
+												attributes: {
+													name: "SpecSheet_" + Date.now(),
+													type: "Document",
+													policy: "Document Release",
+													"extensions": [
+														"XP_Document_Ext.DocumentType"
+													]
+												}
+											}]
 										};
 
-										const updateDocURL = baseUrl + '/resources/v1/modeler/documents';
+										WAFData.authenticatedRequest(createDocURL, {
+											method: 'POST',
+											type: 'json',
+											data: JSON.stringify(createDocPayload),
+											headers: {
+												'Content-Type': 'application/json',
+												[csrfHeaderName]: csrfToken,
+												'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+											},
+											onComplete: function (response) {
+												const createdDoc = response.data[0];
+												const createdDocId = createdDoc.id;
+												console.log("Document created:", createdDocId);
 
-										WAFData.authenticatedRequest(updateDocURL, {
-										  method: 'PUT',
-										  type: 'json',
-										  data: JSON.stringify(updatePayload),
-										  headers: {
-											'Content-Type': 'application/json',
-											[csrfHeaderName]: csrfToken,
-											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-										  },
-										  onComplete: function (updateResponse) {
-											console.log("DocumentType updated successfully", updateResponse);
-											const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
-												const createSubSheetPayload = {
-												  data: [{
-													attributes: {
-													  name: "SubSheet_" + Date.now(),
-													  type: "Document",
-													  policy: "Document Release",
-														"extensions": [
-														  "XP_Document_Ext.DocumentType"
-														]
-													}
-												  }]
-												};
-												WAFData.authenticatedRequest(createDocURL, {
-												  method: 'POST',
-												  type: 'json',
-												  data: JSON.stringify(createDocPayload),
-												  headers: {
-													'Content-Type': 'application/json',
-													[csrfHeaderName]: csrfToken,
-													'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-												  },
-												  onComplete: function (response) {
-													const createdSubDoc = response.data[0];
-													const createdSubDocId = createdDoc.id;
-													console.log("Document created:", createdSubDocId);
-													
-													const updateSubPayload = {
-													  data: [{
-														id: createdSubDocId,
+												const updatePayload = {
+													data: [{
+														id: createdDocId,
 														type: "Document",
 														updateAction: "MODIFY",
 														"dataelements": {
-															"DocumentType": "SubSheet"
+															"DocumentType": "SpecSheet"
 														}
-													  }]
-													};
+													}]
+												};
 
-													const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+												const updateDocURL = baseUrl + '/resources/v1/modeler/documents';
 
-														WAFData.authenticatedRequest(updateSubSheetURL, {
-														  method: 'PUT',
-														  type: 'json',
-														  data: JSON.stringify(updateSubPayload),
-														  headers: {
-															'Content-Type': 'application/json',
-															[csrfHeaderName]: csrfToken,
-															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-														  },
-														  onComplete: function (subsheetResponse) {
-															console.log("DocumentType Subsheet updated successfully", subsheetResponse);
-														  },
-														  onFailure: function (err) {
-															console.error("Failed to update Subsheet DocumentType:", err);
-														  }
+												WAFData.authenticatedRequest(updateDocURL, {
+													method: 'PUT',
+													type: 'json',
+													data: JSON.stringify(updatePayload),
+													headers: {
+														'Content-Type': 'application/json',
+														[csrfHeaderName]: csrfToken,
+														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+													},
+													onComplete: function (updateResponse) {
+														console.log("DocumentType updated successfully", updateResponse);
+
+														const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+														const createSubSheetPayload = {
+															data: [{
+																attributes: {
+																	name: "SubSheet_" + Date.now(),
+																	type: "Document",
+																	policy: "Document Release",
+																	"extensions": [
+																		"XP_Document_Ext.DocumentType"
+																	]
+																}
+															}]
+														};
+
+														WAFData.authenticatedRequest(createSubSheetURL, {
+															method: 'POST',
+															type: 'json',
+															data: JSON.stringify(createSubSheetPayload),
+															headers: {
+																'Content-Type': 'application/json',
+																[csrfHeaderName]: csrfToken,
+																'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+															},
+															onComplete: function (response) {
+																const createdSubDoc = response.data[0];
+																const createdSubDocId = createdSubDoc.id;
+																console.log("SubSheet Document created:", createdSubDocId);
+
+																const updateSubPayload = {
+																	data: [{
+																		id: createdSubDocId,
+																		type: "Document",
+																		updateAction: "MODIFY",
+																		"dataelements": {
+																			"DocumentType": "SubSheet"
+																		}
+																	}]
+																};
+
+																const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+
+																WAFData.authenticatedRequest(updateSubSheetURL, {
+																	method: 'PUT',
+																	type: 'json',
+																	data: JSON.stringify(updateSubPayload),
+																	headers: {
+																		'Content-Type': 'application/json',
+																		[csrfHeaderName]: csrfToken,
+																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+																	},
+																	onComplete: function (subsheetResponse) {
+																		console.log("SubSheet DocumentType updated successfully", subsheetResponse);
+																	},
+																	onFailure: function (err) {
+																		console.error("Failed to update SubSheet DocumentType:", err);
+																	}
+																});
+															},
+															onFailure: function (err) {
+																console.error("Failed to create SubSheet Document:", err);
+															}
 														});
 													},
 													onFailure: function (err) {
-													  console.error("Failed to Create DocumentType:", err);
-													  }
-													});
-									  },
-									  onFailure: function (err) {
-										console.error("Failed to create Document:", err);
-									  }
-									});
-									const attachURL = baseUrl + '/resources/v1/modeler/projects';
-									console.log("attachURL", attachURL);
-									console.log("VPMReference ID:", createdItem.id);
-									const checkInPayload = {
-									  data: [{
-										"id": selectedProjectId,
-										"type": "Project Space",
-										"updateAction": "MODIFY",
-										"references": [{
-														"id": createdItem.id,
-														"type": "VPMReference",
-														"serviceId": "3DSpace",
-														"updateAction": "CONNECT"
-													}]
-												}
-											]
-									};
+														console.error("Failed to update SpecSheet DocumentType:", err);
+													}
+												});
 
-									WAFData.authenticatedRequest(attachURL, {
-										method: 'PUT',
-										type: 'json',
-										headers: {
-											'Content-Type': 'application/json',
-											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-											[csrfHeaderName]: csrfToken
-										},
-										data: JSON.stringify(checkInPayload),
-										onComplete: function (createResponse) {
-											console.log("createResponse :"+createResponse);
-										},
-										onFailure: function (err) {
-											reject("Failed to check in the document: " + err);
-										}
-									});
-								},
-								onFailure: function (error) {
-									console.error("❌ Failed to create Engineering Item", error);
-									alert("Error creating Engineering Item.");
-								}
-							});
-						},
-						onFailure: function (err) {
-							console.error("Failed to fetch CSRF token", err);
-						}
+												const attachURL = baseUrl + '/resources/v1/modeler/projects';
+												const checkInPayload = {
+													data: [{
+														"id": selectedProjectId,
+														"type": "Project Space",
+														"updateAction": "MODIFY",
+														"references": [{
+															"id": createdItem.id,
+															"type": "VPMReference",
+															"serviceId": "3DSpace",
+															"updateAction": "CONNECT"
+														}]
+													}]
+												};
+
+												WAFData.authenticatedRequest(attachURL, {
+													method: 'PUT',
+													type: 'json',
+													headers: {
+														'Content-Type': 'application/json',
+														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+														[csrfHeaderName]: csrfToken
+													},
+													data: JSON.stringify(checkInPayload),
+													onComplete: function (createResponse) {
+														console.log("createResponse :", createResponse);
+													},
+													onFailure: function (err) {
+														console.error("Failed to check in the document: ", err);
+													}
+												});
+											},
+											onFailure: function (err) {
+												console.error("Failed to create SpecSheet Document:", err);
+											}
+										});
+									},
+									onFailure: function (error) {
+										console.error("❌ Failed to create Engineering Item", error);
+										alert("Error creating Engineering Item.");
+									}
+								});
+							},
+							onFailure: function (err) {
+								console.error("Failed to fetch CSRF token", err);
+							}
+						});
 					});
-				});
-			};
+				};
+
 
 			// Append everything to the second-sidebar
 			sideBar2.appendChild(header);
