@@ -393,31 +393,63 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									//alert("Engineering Item Name: " + createdItem.name);
 									
 									const createDocURL = baseUrl + '/resources/v1/modeler/documents';
-									const payload = {
-										data: [{
-											attributes: {
-												name: "SpecSheet_" + Date.now(),
-												type: "Document",
-												policy: "Document Release",
-												"XP_Document_Ext.DocumentType": "SpecSheet"
-											}
-										}]
+									const createDocPayload = {
+									  data: [{
+										attributes: {
+										  name: "SpecSheet_" + Date.now(),
+										  type: "Document",
+										  policy: "Document Release"
+										}
+									  }]
 									};
-									 WAFData.authenticatedRequest(createDocURL, {
-                                            method: 'POST',
-                                            type: 'json',
-											data: JSON.stringify(payload),
-                                            headers: {
-                                                'Content-Type': 'application/json',
-                                                [csrfHeaderName]: csrfToken
-                                            },
-                                            onComplete: function (response) {
-												console.log("add Reference Document successful:", response);
-											},
-											onFailure: function (err) {
-												console.error("Failed to add Reference Document:", err);
+
+									const createDocURL = baseUrl + '/resources/v1/modeler/documents';
+
+									WAFData.authenticatedRequest(createDocURL, {
+									  method: 'POST',
+									  type: 'json',
+									  data: JSON.stringify(createDocPayload),
+									  headers: {
+										'Content-Type': 'application/json',
+										[csrfHeaderName]: csrfToken
+									  },
+									  onComplete: function (response) {
+										const createdDoc = response.data[0];
+										const createdDocId = createdDoc.id;
+										console.log("Document created:", createdDocId);
+
+										const updatePayload = {
+										  data: [{
+											id: createdDocId,
+											type: "Document",
+											updateAction: "MODIFY",
+											attributes: {
+											  "XP_Document_Ext.DocumentType": "SpecSheet"
 											}
-											
+										  }]
+										};
+
+										const updateDocURL = baseUrl + '/resources/v1/modeler/documents';
+
+										WAFData.authenticatedRequest(updateDocURL, {
+										  method: 'PUT',
+										  type: 'json',
+										  data: JSON.stringify(updatePayload),
+										  headers: {
+											'Content-Type': 'application/json',
+											[csrfHeaderName]: csrfToken
+										  },
+										  onComplete: function (updateResponse) {
+											console.log("DocumentType updated successfully", updateResponse);
+										  },
+										  onFailure: function (err) {
+											console.error("Failed to update DocumentType:", err);
+										  }
+										});
+									  },
+									  onFailure: function (err) {
+										console.error("Failed to create Document:", err);
+									  }
 									});
 									const attachURL = baseUrl + '/resources/v1/modeler/projects';
 									console.log("attachURL", attachURL);
