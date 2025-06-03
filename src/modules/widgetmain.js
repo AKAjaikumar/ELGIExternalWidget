@@ -400,7 +400,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 												name: "SpecSheet_" + Date.now(),
 												type: "Document",
 												policy: "Document Release",
-												XP_Document_Ext.DocumentType: "SpecSheet"
+												"XP_Document_Ext.DocumentType": "SpecSheet"
 											}
 										}]
 									};
