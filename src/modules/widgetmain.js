@@ -596,15 +596,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 												const attachURL = baseUrl + '/resources/v1/modeler/projects';
 												const attachDocPayload = {
 												  data: [{
-													id: engineeringItemId,     // ID of the VPMReference (Engineering Item)
+													id: createdItem.id,
 													type: "VPMReference",
 													updateAction: "MODIFY",
 													relateddata: {
 													  references: [{
-														id: specDocId,         // ID of the Specification Document
+														id: createdDocId,         
 														type: "Document",
-														updateAction: "CONNECT",
-														relType: "VPMReference/PLMDocument" // Or your custom relation if defined
+														updateAction: "CONNECT"
 													  }]
 													}
 												  }]
