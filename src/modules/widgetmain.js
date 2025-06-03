@@ -13,8 +13,7 @@ define("PDFAutoTable", ["autotable"], function (autotable) {
     return autotable;
 }),
 
-
-define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "Solize/URLS", "Solize/SecurityContext","PDFJsDependency","PDFAutoTable"], function (WAFData, DataDnD, URLS, SecurityContext,jspdfModule, autotablePlugin) {
+define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "Solize/URLS", "Solize/SecurityContext", "PDFJsDependency", "PDFAutoTable"], function (WAFData, DataDnD, URLS, SecurityContext, jspdfModule, autotablePlugin) {
 
     // Added for EPR Document Upload : Start
     var vData = [];
@@ -90,59 +89,59 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return sideBar1;
         },
-		createTileElement: function (title, imageSrc, subtitle, onClickCallback) {
-			var tileContainer = document.createElement("div");
-			tileContainer.className = "tile-container";
+        createTileElement: function (title, imageSrc, subtitle, onClickCallback) {
+            var tileContainer = document.createElement("div");
+            tileContainer.className = "tile-container";
 
-			var tileSubContainer = document.createElement("div");
-			tileSubContainer.className = "tile-sub-container";
-			tileSubContainer.setAttribute("draggable", "true");
+            var tileSubContainer = document.createElement("div");
+            tileSubContainer.className = "tile-sub-container";
+            tileSubContainer.setAttribute("draggable", "true");
 
-			var tileHeader = document.createElement("div");
-			tileHeader.className = "tile-header";
+            var tileHeader = document.createElement("div");
+            tileHeader.className = "tile-header";
 
-			var img = document.createElement("img");
-			img.src = imageSrc;
-			img.className = "tile-image portrait";
-			img.setAttribute("draggable", "false");
+            var img = document.createElement("img");
+            img.src = imageSrc;
+            img.className = "tile-image portrait";
+            img.setAttribute("draggable", "false");
 
-			tileHeader.appendChild(img);
+            tileHeader.appendChild(img);
 
-			var tileBody = document.createElement("div");
-			tileBody.className = "tile-body";
+            var tileBody = document.createElement("div");
+            tileBody.className = "tile-body";
 
-			var tileTitle = document.createElement("div");
-			tileTitle.className = "tile-title";
-			tileTitle.textContent = title;
+            var tileTitle = document.createElement("div");
+            tileTitle.className = "tile-title";
+            tileTitle.textContent = title;
 
-			var tileSubtitle = document.createElement("div");
-			tileSubtitle.className = "tile-subtitle";
-			tileSubtitle.textContent = subtitle;
+            var tileSubtitle = document.createElement("div");
+            tileSubtitle.className = "tile-subtitle";
+            tileSubtitle.textContent = subtitle;
 
-			tileBody.appendChild(tileTitle);
-			tileBody.appendChild(tileSubtitle);
+            tileBody.appendChild(tileTitle);
+            tileBody.appendChild(tileSubtitle);
 
-			tileSubContainer.appendChild(tileHeader);
-			tileSubContainer.appendChild(tileBody);
+            tileSubContainer.appendChild(tileHeader);
+            tileSubContainer.appendChild(tileBody);
 
-			tileContainer.appendChild(tileSubContainer);
+            tileContainer.appendChild(tileSubContainer);
 
-			tileContainer.addEventListener("click", function () {
-				var currentSelected = document.querySelector(".tile-container.selected");
-				if (currentSelected) {
-					currentSelected.classList.remove("selected");
-				}
+            tileContainer.addEventListener("click", function () {
+                var currentSelected = document.querySelector(".tile-container.selected");
+                if (currentSelected) {
+                    currentSelected.classList.remove("selected");
+                }
 
-				tileContainer.classList.add("selected");
+                tileContainer.classList.add("selected");
 
-				if (typeof onClickCallback === "function") {
-					onClickCallback();
-				}
-			});
+                if (typeof onClickCallback === "function") {
+                    onClickCallback();
+                }
+            });
 
-			return tileContainer;
-		},
-		createSideBar2: function () {
+            return tileContainer;
+        },
+        createSideBar2: function () {
             var sideBar2 = document.createElement("div");
             sideBar2.className = "second-sidebar";
             sideBar2.style.display = "none";
@@ -155,7 +154,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return sideBar2;
         },
-		createSideBar3: function () {
+        createSideBar3: function () {
             var sideBar3 = document.createElement("div");
             sideBar3.className = "third-sidebar";
             sideBar3.style.display = "none";
@@ -198,8 +197,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
         createSecondSidebarList: function () {
             var ul2 = document.createElement("ul");
 
-            var items = [
-                { text: "Generate Controlled Copy", image: imageURL + "I_AuthoringMode32.png", title: "Generate Controlled Copy (PDF)", callback: myWidget.showCtrlCopyButtons },
+            var items = [{
+                    text: "Generate Controlled Copy",
+                    image: imageURL + "I_AuthoringMode32.png",
+                    title: "Generate Controlled Copy (PDF)",
+                    callback: myWidget.showCtrlCopyButtons
+                },
             ];
 
             items.forEach(function (item) {
@@ -209,7 +212,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return ul2;
         },
-
 
         createSecondSidebarItem: function (title, imageSrc, subtitle, onclickFuncName) {
             var li = document.createElement("li");
@@ -264,445 +266,455 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return li;
         },
-		createSecondSidebar: function () {
-    
-			var sideBar3 = document.querySelector(".third-sidebar");
-			if (sideBar3) sideBar3.style.display = "none";
+        createSecondSidebar: function () {
 
-			var existing = document.querySelector(".second-sidebar");
-			if (!existing) {
-				var formContainer = document.querySelector(".widget-form-container");
-				var newSidebar = myWidget.createSideBar2();
-				formContainer.appendChild(newSidebar);
+            var sideBar3 = document.querySelector(".third-sidebar");
+            if (sideBar3)
+                sideBar3.style.display = "none";
+
+            var existing = document.querySelector(".second-sidebar");
+            if (!existing) {
+                var formContainer = document.querySelector(".widget-form-container");
+                var newSidebar = myWidget.createSideBar2();
+                formContainer.appendChild(newSidebar);
+            }
+            document.querySelector(".second-sidebar").style.display = "block";
+        },
+        createSideBar3: function () {
+            var sideBar3 = document.createElement("div");
+            sideBar3.className = "third-sidebar";
+            sideBar3.style.display = "block";
+
+            var backArrow = myWidget.createBackArrow();
+            sideBar3.appendChild(backArrow);
+
+            var message = document.createElement("div");
+            message.textContent = "TPL Creation content goes here.";
+            sideBar3.appendChild(message);
+
+            return sideBar3;
+        },
+        createPrjMng: function () {
+            const self = this;
+            var sideBar2 = document.querySelector(".second-sidebar");
+            if (sideBar2)
+                sideBar2.style.display = "none";
+
+            var existing = document.querySelector(".third-sidebar");
+            if (existing)
+                existing.remove();
+
+            var formContainer = document.querySelector(".widget-form-container");
+			if (!formContainer) {
+				formContainer = document.createElement("div");
+				formContainer.className = "widget-form-container";
+				document.body.appendChild(formContainer); 
 			}
-			document.querySelector(".second-sidebar").style.display = "block";
-		},
-		createSideBar3: function () {
-			var sideBar3 = document.createElement("div");
-			sideBar3.className = "third-sidebar";
-			sideBar3.style.display = "block";
 
-			var backArrow = myWidget.createBackArrow();
-			sideBar3.appendChild(backArrow);
 
-			var message = document.createElement("div");
-			message.textContent = "TPL Creation content goes here.";
-			sideBar3.appendChild(message);
-
-			return sideBar3;
-		},
-		createPrjMng: function () {
-			const self = this; 
-			 var sideBar2 = document.querySelector(".second-sidebar");
-			if (sideBar2) sideBar2.style.display = "none";
-
-			var existing = document.querySelector(".third-sidebar");
-			if (existing) existing.remove();
-
-			var formContainer = document.querySelector(".widget-form-container");
 			var newSidebar = myWidget.createSideBar3();
 			formContainer.appendChild(newSidebar);
 
+            const header = document.createElement("h2");
+            header.textContent = "Create TPL";
+            header.className = "sidebar-header";
 
-			const header = document.createElement("h2");
-			header.textContent = "Create TPL";
-			header.className = "sidebar-header";
+            const titleInput = document.createElement("input");
+            titleInput.type = "text";
+            titleInput.placeholder = "Enter Title";
+            titleInput.className = "form-input";
 
-			const titleInput = document.createElement("input");
-			titleInput.type = "text";
-			titleInput.placeholder = "Enter Title";
-			titleInput.className = "form-input";
+            const descInput = document.createElement("textarea");
+            descInput.placeholder = "Enter Description";
+            descInput.className = "form-textarea";
 
-			const descInput = document.createElement("textarea");
-			descInput.placeholder = "Enter Description";
-			descInput.className = "form-textarea";
-			
-			const dropZone = document.createElement("div");
-			dropZone.className = "drop-zone";
-			dropZone.textContent = "Drag & Drop Project Space here";
-			dropZone.style.border = "2px dashed #ccc";
-			dropZone.style.padding = "10px";
-			dropZone.style.marginBottom = "10px";
-			dropZone.style.textAlign = "center";
+            const dropZone = document.createElement("div");
+            dropZone.className = "drop-zone";
+            dropZone.textContent = "Drag & Drop Project Space here";
+            dropZone.style.border = "2px dashed #ccc";
+            dropZone.style.padding = "10px";
+            dropZone.style.marginBottom = "10px";
+            dropZone.style.textAlign = "center";
 
-			let droppedProjectSpace = null;
-			let selectedProjectId = null; 
-			
-			dropZone.addEventListener("dragover", function (e) {
-				e.preventDefault();
-				dropZone.style.borderColor = "#3D9FE3";
-			});
+            let droppedProjectSpace = null;
+            let selectedProjectId = null;
 
-			dropZone.addEventListener("dragleave", function () {
-				dropZone.style.borderColor = "#ccc";
-			});
+            dropZone.addEventListener("dragover", function (e) {
+                e.preventDefault();
+                dropZone.style.borderColor = "#3D9FE3";
+            });
 
-			dropZone.addEventListener("drop", function (e) {
-				e.preventDefault();
-				dropZone.style.borderColor = "#28a745";
-				const data = e.dataTransfer.getData("text/plain");
-				try {
-					const parsed = JSON.parse(data);
-					console.log("Drop Parsed ", parsed);
-					const dropped = parsed?.data?.items?.[0];  
+            dropZone.addEventListener("dragleave", function () {
+                dropZone.style.borderColor = "#ccc";
+            });
 
-					if (
-						dropped &&
-						dropped.objectId &&
-						(dropped.displayType === "Project Space" || dropped.objectType === "Project Space")
-					) {
-						droppedProjectSpace = dropped;
-						selectedProjectId = dropped.objectId;
-						dropZone.textContent = `Project: ${dropped.displayName || dropped.objectId}`;
-					} else {
-						dropZone.textContent = "Invalid drop – Not a Project Space.";
-					}
-				} catch (err) {
-					console.error("Drop parsing failed", err);
-					dropZone.textContent = "Drop error";
-				}
-			});
-			
-			const createBtn = document.createElement("button");
-			createBtn.textContent = "Create TPL";
-			createBtn.className = "form-button";
+            dropZone.addEventListener("drop", function (e) {
+                e.preventDefault();
+                dropZone.style.borderColor = "#28a745";
+                const data = e.dataTransfer.getData("text/plain");
+                try {
+                    const parsed = JSON.parse(data);
+                    console.log("Drop Parsed ", parsed);
+                    const dropped = parsed ? .data ? .items ? .[0];
 
-			const resultBox = document.createElement("div");
-			resultBox.className = "result-box";
+                    if (
+                        dropped &&
+                        dropped.objectId &&
+                        (dropped.displayType === "Project Space" || dropped.objectType === "Project Space")) {
+                        droppedProjectSpace = dropped;
+                        selectedProjectId = dropped.objectId;
+                        dropZone.textContent = `Project: ${dropped.displayName || dropped.objectId}`;
+                    } else {
+                        dropZone.textContent = "Invalid drop – Not a Project Space.";
+                    }
+                } catch (err) {
+                    console.error("Drop parsing failed", err);
+                    dropZone.textContent = "Drop error";
+                }
+            });
 
-			createBtn.onclick = () => {
-					const title = titleInput.value.trim();
-					const description = descInput.value.trim();
+            const createBtn = document.createElement("button");
+            createBtn.textContent = "Create TPL";
+            createBtn.className = "form-button";
 
-					console.log("title ", title);
-					console.log("description ", description);
-					console.log("selectedProjectId ", selectedProjectId);
+            const resultBox = document.createElement("div");
+            resultBox.className = "result-box";
 
-					if (!title) {
-						alert("Title and Part Number are required.");
-						return;
-					}
-					if (!selectedProjectId) {
-						alert("Please drag and drop a valid Project Space.");
-						return;
-					}
+            createBtn.onclick = () => {
+                const title = titleInput.value.trim();
+                const description = descInput.value.trim();
 
-					URLS.getURLs().then(baseUrl => {
-						console.log("baseUrl:" + baseUrl);
-						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+                console.log("title ", title);
+                console.log("description ", description);
+                console.log("selectedProjectId ", selectedProjectId);
 
-						WAFData.authenticatedRequest(csrfURL, {
-							method: 'GET',
-							type: 'json',
-							onComplete: function (csrfData) {
-								console.log("csrfData:" + csrfData);
-								const csrfToken = csrfData.csrf.value;
-								const csrfHeaderName = csrfData.csrf.name;
-								console.log("csrfToken:" + csrfToken);
+                if (!title) {
+                    alert("Title and Part Number are required.");
+                    return;
+                }
+                if (!selectedProjectId) {
+                    alert("Please drag and drop a valid Project Space.");
+                    return;
+                }
 
-								const payload = {
-									items: [{
-										type: "VPMReference",
-										attributes: {
-											title: title,
-											description: description
-										}
-									}]
-								};
+                URLS.getURLs().then(baseUrl => {
+                    console.log("baseUrl:" + baseUrl);
+                    const csrfURL = baseUrl + '/resources/v1/application/CSRF';
 
-								const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
+                    WAFData.authenticatedRequest(csrfURL, {
+                        method : 'GET',
+                        type : 'json',
+                        onComplete : function (csrfData) {
+                            console.log("csrfData:" + csrfData);
+                            const csrfToken = csrfData.csrf.value;
+                            const csrfHeaderName = csrfData.csrf.name;
+                            console.log("csrfToken:" + csrfToken);
 
-								WAFData.authenticatedRequest(engURL, {
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/json',
-										'Accept': 'application/json',
-										'ENO_CSRF_TOKEN': csrfToken,
-										'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-									},
-									data: JSON.stringify(payload),
-									onComplete: function (response) {
-										console.log("response:" + response);
-										const result = JSON.parse(response);
-										const createdItem = result.member[0];
+                            const payload = {
+                                items: [{
+                                        type: "VPMReference",
+                                        attributes: {
+                                            title: title,
+                                            description: description
+                                        }
+                                    }
+                                ]
+                            };
 
-										const createDocURL = baseUrl + '/resources/v1/modeler/documents';
-										const createDocPayload = {
-											data: [{
-												attributes: {
-													name: "SpecSheet_" + Date.now(),
-													type: "Document",
-													policy: "Document Release",
-													"extensions": [
-														"XP_Document_Ext.DocumentType"
-													]
-												}
-											}]
-										};
+                            const engURL = baseUrl + '/resources/v1/modeler/dseng/dseng:EngItem';
 
-										WAFData.authenticatedRequest(createDocURL, {
-											method: 'POST',
-											type: 'json',
-											data: JSON.stringify(createDocPayload),
-											headers: {
-												'Content-Type': 'application/json',
-												[csrfHeaderName]: csrfToken,
-												'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-											},
-											onComplete: function (response) {
-												const createdDoc = response.data[0];
-												const createdDocId = createdDoc.id;
-												console.log("Document created:", createdDocId);
+                            WAFData.authenticatedRequest(engURL, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json',
+                                    'ENO_CSRF_TOKEN': csrfToken,
+                                    'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+                                },
+                                data: JSON.stringify(payload),
+                                onComplete: function (response) {
+                                    console.log("response:" + response);
+                                    const result = JSON.parse(response);
+                                    const createdItem = result.member[0];
 
-												const updatePayload = {
-													data: [{
-														id: createdDocId,
-														type: "Document",
-														updateAction: "MODIFY",
-														"dataelements": {
-															"DocumentType": "SpecSheet"
-														}
-													}]
-												};
+                                    const createDocURL = baseUrl + '/resources/v1/modeler/documents';
+                                    const createDocPayload = {
+                                        data: [{
+                                                attributes: {
+                                                    name: "SpecSheet_" + Date.now(),
+                                                    type: "Document",
+                                                    policy: "Document Release",
+                                                    "extensions": [
+                                                        "XP_Document_Ext.DocumentType"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    };
 
-												const updateDocURL = baseUrl + '/resources/v1/modeler/documents';
+                                    WAFData.authenticatedRequest(createDocURL, {
+                                        method: 'POST',
+                                        type: 'json',
+                                        data: JSON.stringify(createDocPayload),
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            [csrfHeaderName]: csrfToken,
+                                            'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+                                        },
+                                        onComplete: function (response) {
+                                            const createdDoc = response.data[0];
+                                            const createdDocId = createdDoc.id;
+                                            console.log("Document created:", createdDocId);
 
-												WAFData.authenticatedRequest(updateDocURL, {
-													method: 'PUT',
-													type: 'json',
-													data: JSON.stringify(updatePayload),
-													headers: {
-														'Content-Type': 'application/json',
-														[csrfHeaderName]: csrfToken,
-														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-													},
-													onComplete: function (updateResponse) {
-														console.log("DocumentType updated successfully", updateResponse);
-														const addSpecDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=SpecificationDocument&parentDirection=from';
+                                            const updatePayload = {
+                                                data: [{
+                                                        id: createdDocId,
+                                                        type: "Document",
+                                                        updateAction: "MODIFY",
+                                                        "dataelements": {
+                                                            "DocumentType": "SpecSheet"
+                                                        }
+                                                    }
+                                                ]
+                                            };
 
-														const payload = {
-															csrf: {
-																name: csrfHeaderName,
-																value: csrfToken
-															},
-															data: [
-																{
-																	id: createdDocId,
-																	relateddata: {
-																		parents: [
-																			{
-																				id: createdItem.id,
-																				updateAction: 'CONNECT'
-																			}
-																		]
-																	},
-																	updateAction: 'NONE'
-																}
-															]
-														};
+                                            const updateDocURL = baseUrl + '/resources/v1/modeler/documents';
 
-														WAFData.authenticatedRequest(addSpecDocURL, {
-															method: 'POST',
-															type: 'json',
-															headers: {
-																'Content-Type': 'application/json',
-																[csrfHeaderName]: csrfToken,
-																'Accept': 'application/json'
-															},
-															data: JSON.stringify(payload),
-															onComplete: function (res) {
-																console.log('Connected Reference Document:', res);
-																alert('Document successfully connected as Specification Document!');
-															},
-															onFailure: function (err) {
-																console.error("Failed to connect document:", err);
-																alert('Failed to connect Specification document.');
-															}
-														});
-														const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
-														const createSubSheetPayload = {
-															data: [{
-																attributes: {
-																	name: "SubSheet_" + Date.now(),
-																	type: "Document",
-																	title: title,
-																	policy: "Document Release",
-																	"extensions": [
-																		"XP_Document_Ext.DocumentType"
-																	]
-																}
-															}]
-														};
+                                            WAFData.authenticatedRequest(updateDocURL, {
+                                                method: 'PUT',
+                                                type: 'json',
+                                                data: JSON.stringify(updatePayload),
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    [csrfHeaderName]: csrfToken,
+                                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+                                                },
+                                                onComplete: function (updateResponse) {
+                                                    console.log("DocumentType updated successfully", updateResponse);
+                                                    const addSpecDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=SpecificationDocument&parentDirection=from';
 
-														WAFData.authenticatedRequest(createSubSheetURL, {
-															method: 'POST',
-															type: 'json',
-															data: JSON.stringify(createSubSheetPayload),
-															headers: {
-																'Content-Type': 'application/json',
-																[csrfHeaderName]: csrfToken,
-																'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-															},
-															onComplete: function (response) {
-																const createdSubDoc = response.data[0];
-																const createdSubDocId = createdSubDoc.id;
-																console.log("SubSheet Document created:", createdSubDocId);
+                                                    const payload = {
+                                                        csrf: {
+                                                            name: csrfHeaderName,
+                                                            value: csrfToken
+                                                        },
+                                                        data: [{
+                                                                id: createdDocId,
+                                                                relateddata: {
+                                                                    parents: [{
+                                                                            id: createdItem.id,
+                                                                            updateAction: 'CONNECT'
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                updateAction: 'NONE'
+                                                            }
+                                                        ]
+                                                    };
 
-																const updateSubPayload = {
-																	data: [{
-																		id: createdSubDocId,
-																		type: "Document",
-																		updateAction: "MODIFY",
-																		"dataelements": {
-																			"DocumentType": "SubSheet"
-																		}
-																	}]
-																};
+                                                    WAFData.authenticatedRequest(addSpecDocURL, {
+                                                        method: 'POST',
+                                                        type: 'json',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            [csrfHeaderName]: csrfToken,
+                                                            'Accept': 'application/json'
+                                                        },
+                                                        data: JSON.stringify(payload),
+                                                        onComplete: function (res) {
+                                                            console.log('Connected Reference Document:', res);
+                                                            alert('Document successfully connected as Specification Document!');
+                                                        },
+                                                        onFailure: function (err) {
+                                                            console.error("Failed to connect document:", err);
+                                                            alert('Failed to connect Specification document.');
+                                                        }
+                                                    });
+                                                    const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+                                                    const createSubSheetPayload = {
+                                                        data: [{
+                                                                attributes: {
+                                                                    name: "SubSheet_" + Date.now(),
+                                                                    type: "Document",
+                                                                    title: title,
+                                                                    policy: "Document Release",
+                                                                    "extensions": [
+                                                                        "XP_Document_Ext.DocumentType"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        ]
+                                                    };
 
-																const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+                                                    WAFData.authenticatedRequest(createSubSheetURL, {
+                                                        method: 'POST',
+                                                        type: 'json',
+                                                        data: JSON.stringify(createSubSheetPayload),
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            [csrfHeaderName]: csrfToken,
+                                                            'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+                                                        },
+                                                        onComplete: function (response) {
+                                                            const createdSubDoc = response.data[0];
+                                                            const createdSubDocId = createdSubDoc.id;
+                                                            console.log("SubSheet Document created:", createdSubDocId);
 
-																WAFData.authenticatedRequest(updateSubSheetURL, {
-																	method: 'PUT',
-																	type: 'json',
-																	data: JSON.stringify(updateSubPayload),
-																	headers: {
-																		'Content-Type': 'application/json',
-																		[csrfHeaderName]: csrfToken,
-																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-																	},
-																	onComplete: function (subsheetResponse) {
-																		const addAttachedDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
+                                                            const updateSubPayload = {
+                                                                data: [{
+                                                                        id: createdSubDocId,
+                                                                        type: "Document",
+                                                                        updateAction: "MODIFY",
+                                                                        "dataelements": {
+                                                                            "DocumentType": "SubSheet"
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            };
 
-																			const payload = {
-																				csrf: {
-																					name: csrfHeaderName,
-																					value: csrfToken
-																				},
-																				data: [
-																					{
-																						id: createdSubDocId,
-																						relateddata: {
-																							parents: [
-																								{
-																									id: createdDocId,
-																									updateAction: 'CONNECT'
-																								}
-																							]
-																						},
-																						updateAction: 'NONE'
-																					}
-																				]
-																			};
+                                                            const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
 
-																			WAFData.authenticatedRequest(addAttachedDocURL, {
-																				method: 'POST',
-																				type: 'json',
-																				headers: {
-																					'Content-Type': 'application/json',
-																					[csrfHeaderName]: csrfToken,
-																					'Accept': 'application/json'
-																				},
-																				data: JSON.stringify(payload),
-																				onComplete: function (res) {
-																					console.log('Connected Reference Document:', res);
-																					alert('Document successfully connected as Reference Document!');
-																				},
-																				onFailure: function (err) {
-																					console.error("Failed to connect document:", err);
-																					alert('Failed to connect reference document.');
-																				}
-																			});
-																		console.log("SubSheet DocumentType updated successfully", subsheetResponse);
-																	},
-																	onFailure: function (err) {
-																		console.error("Failed to update SubSheet DocumentType:", err);
-																	}
-																});
-															},
-															onFailure: function (err) {
-																console.error("Failed to create SubSheet Document:", err);
-															}
-														});
-													},
-													onFailure: function (err) {
-														console.error("Failed to update SpecSheet DocumentType:", err);
-													}
-												});
+                                                            WAFData.authenticatedRequest(updateSubSheetURL, {
+                                                                method: 'PUT',
+                                                                type: 'json',
+                                                                data: JSON.stringify(updateSubPayload),
+                                                                headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                    [csrfHeaderName]: csrfToken,
+                                                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+                                                                },
+                                                                onComplete: function (subsheetResponse) {
+                                                                    const addAttachedDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
 
-												const attachURL = baseUrl + '/resources/v1/modeler/projects';
-												const attachDocPayload = {
-												  data: [{
-													id: selectedProjectId,
-													type: "Project Space",
-													updateAction: "MODIFY",
-													relateddata: {
-													  references: [{
-														id: createdItem.id,         
-														type: "VPMReference",
-														updateAction: "CONNECT"
-													  }]
-													}
-												  }]
-												};
+                                                                    const payload = {
+                                                                        csrf: {
+                                                                            name: csrfHeaderName,
+                                                                            value: csrfToken
+                                                                        },
+                                                                        data: [{
+                                                                                id: createdSubDocId,
+                                                                                relateddata: {
+                                                                                    parents: [{
+                                                                                            id: createdDocId,
+                                                                                            updateAction: 'CONNECT'
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                updateAction: 'NONE'
+                                                                            }
+                                                                        ]
+                                                                    };
 
-												WAFData.authenticatedRequest(attachURL, {
-													method: 'PUT',
-													type: 'json',
-													headers: {
-														'Content-Type': 'application/json',
-														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-														[csrfHeaderName]: csrfToken
-													},
-													data: JSON.stringify(attachDocPayload),
-													onComplete: function (createResponse) {
-														console.log("createResponse :", createResponse);
-													},
-													onFailure: function (err) {
-														console.error("Failed to check in the document: ", err);
-													}
-												});
-											},
-											onFailure: function (err) {
-												console.error("Failed to create SpecSheet Document:", err);
-											}
-										});
-									},
-									onFailure: function (error) {
-										console.error("❌ Failed to create Engineering Item", error);
-										alert("Error creating Engineering Item.");
-									}
-								});
-							},
-							onFailure: function (err) {
-								console.error("Failed to fetch CSRF token", err);
-							}
-						});
-					});
-				};
+                                                                    WAFData.authenticatedRequest(addAttachedDocURL, {
+                                                                        method: 'POST',
+                                                                        type: 'json',
+                                                                        headers: {
+                                                                            'Content-Type': 'application/json',
+                                                                            [csrfHeaderName]: csrfToken,
+                                                                            'Accept': 'application/json'
+                                                                        },
+                                                                        data: JSON.stringify(payload),
+                                                                        onComplete: function (res) {
+                                                                            console.log('Connected Reference Document:', res);
+                                                                            alert('Document successfully connected as Reference Document!');
+                                                                        },
+                                                                        onFailure: function (err) {
+                                                                            console.error("Failed to connect document:", err);
+                                                                            alert('Failed to connect reference document.');
+                                                                        }
+                                                                    });
+                                                                    console.log("SubSheet DocumentType updated successfully", subsheetResponse);
+                                                                },
+                                                                onFailure: function (err) {
+                                                                    console.error("Failed to update SubSheet DocumentType:", err);
+                                                                }
+                                                            });
+                                                        },
+                                                        onFailure: function (err) {
+                                                            console.error("Failed to create SubSheet Document:", err);
+                                                        }
+                                                    });
+                                                },
+                                                onFailure: function (err) {
+                                                    console.error("Failed to update SpecSheet DocumentType:", err);
+                                                }
+                                            });
 
+                                            const attachURL = baseUrl + '/resources/v1/modeler/projects';
+                                            const attachDocPayload = {
+                                                data: [{
+                                                        id: selectedProjectId,
+                                                        type: "Project Space",
+                                                        updateAction: "MODIFY",
+                                                        relateddata: {
+                                                            references: [{
+                                                                    id: createdItem.id,
+                                                                    type: "VPMReference",
+                                                                    updateAction: "CONNECT"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            };
 
-			// Append everything to the second-sidebar
-			newSidebar.appendChild(header);
-			newSidebar.appendChild(titleInput);
-			newSidebar.appendChild(descInput);
-			newSidebar.appendChild(dropZone);
-			newSidebar.appendChild(createBtn);
-			newSidebar.appendChild(resultBox);
-		},
-		
-		toggleSecondSidebar: function (visible) {
+                                            WAFData.authenticatedRequest(attachURL, {
+                                                method: 'PUT',
+                                                type: 'json',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                                    [csrfHeaderName]: csrfToken
+                                                },
+                                                data: JSON.stringify(attachDocPayload),
+                                                onComplete: function (createResponse) {
+                                                    console.log("createResponse :", createResponse);
+                                                },
+                                                onFailure: function (err) {
+                                                    console.error("Failed to check in the document: ", err);
+                                                }
+                                            });
+                                        },
+                                        onFailure: function (err) {
+                                            console.error("Failed to create SpecSheet Document:", err);
+                                        }
+                                    });
+                                },
+                                onFailure: function (error) {
+                                    console.error("❌ Failed to create Engineering Item", error);
+                                    alert("Error creating Engineering Item.");
+                                }
+                            });
+                        },
+                        onFailure: function (err) {
+                            console.error("Failed to fetch CSRF token", err);
+                        }
+                    });
+                });
+            };
+
+            // Append everything to the second-sidebar
+            newSidebar.appendChild(header);
+            newSidebar.appendChild(titleInput);
+            newSidebar.appendChild(descInput);
+            newSidebar.appendChild(dropZone);
+            newSidebar.appendChild(createBtn);
+            newSidebar.appendChild(resultBox);
+        },
+
+        toggleSecondSidebar: function (visible) {
             var sideBar2 = document.querySelector(".second-sidebar");
             sideBar2.style.display = visible ? "block" : "none";
         },
-		showCtrlCopyButtons: function () {
+        showCtrlCopyButtons: function () {
             myWidget.createMainSkeleton("Generate Controlled Copy (PDF)", myWidget.setBtnCtrlCopy);
         },
-		setBtnCtrlCopy: function () {
+        setBtnCtrlCopy: function () {
 
             return myWidget.paramCtrlCopyDiv(myWidget.EPRCompFun);
 
         },
-		paramCtrlCopyDiv: function (btnonclickFun) {
+        paramCtrlCopyDiv: function (btnonclickFun) {
             const div1 = this.createDiv("scroller scroller-root", "parametersDiv");
             const div2 = this.createDiv("no-native-scrollbars scroller-content");
             const div3 = this.createDiv("divided filled accordion accordion-root");
@@ -712,439 +724,450 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return div1;
         },
-		EPRCompFun: async function () {
-			try {
-				console.log("Download button clicked");
-				const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
-				const selectedIds = Array.from(chips).map(chip => chip.id);
+        EPRCompFun: async function () {
+            try {
+                console.log("Download button clicked");
+                const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
+                const selectedIds = Array.from(chips).map(chip => chip.id);
 
-				if (selectedIds.length !== 2) {
-					alert("Please drop only two documents.");
-					return;
-				}
+                if (selectedIds.length !== 2) {
+                    alert("Please drop only two documents.");
+                    return;
+                }
 
-				const allBookmarks = [];
+                const allBookmarks = [];
 
-				for (const id of selectedIds) {
-					console.log("Fetching bookmarks for document ID:", id);
-					const bookmarks = await myWidget.fetchBookmarksForDocument(id);
-					console.log("Bookmarks for", id, ":", bookmarks);
-					allBookmarks.push({ id, bookmarks });
-				}
+                for (const id of selectedIds) {
+                    console.log("Fetching bookmarks for document ID:", id);
+                    const bookmarks = await myWidget.fetchBookmarksForDocument(id);
+                    console.log("Bookmarks for", id, ":", bookmarks);
+                    allBookmarks.push({
+                        id,
+                        bookmarks
+                    });
+                }
 
-				console.log("All fetched bookmarks:", allBookmarks);
-				
-				const allCtrlCpy = [];
-				for (const entry of allBookmarks) {
-					for (const bookmark of entry.bookmarks) {
-						const bookmarkId = bookmark.id;
-						console.log("Fetching Ctrl Copy for Bookmark ID:", bookmarkId);
-						const ctrlCopyId = await myWidget.getParentRelatedCtrlCopy(bookmarkId);
-						console.log("Ctrl Copy for", bookmarkId, ":", ctrlCopyId);
-						allCtrlCpy.push({ bookmarkId, ctrlCopyId });
-					}
-				}
-				console.log("All fetched CtrlCopy:", allCtrlCpy);
-				// Proceed with merging and PDF generation if needed
-				const doc1 = await myWidget.fetchDocumentData(selectedIds[0]);
-				const doc2 = await myWidget.fetchDocumentData(selectedIds[1]);				  
-				const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
-				const pdfData = await myWidget.generatePDF(mergedContent);
-				await myWidget.createDocumentWithPDF(pdfData,allCtrlCpy);
-				alert("Document created and checked in successfully!");
-				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
-			} catch (error) {
-				console.error(error);
-				if (typeof popup !== 'undefined') popup.style.display = "none";
-			}
-		},
-		fetchDocumentData: function (docId) {
-				return new Promise(function (resolve, reject) {
-					URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:" + baseUrl);
+                console.log("All fetched bookmarks:", allBookmarks);
 
-							const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+                const allCtrlCpy = [];
+                for (const entry of allBookmarks) {
+                    for (const bookmark of entry.bookmarks) {
+                        const bookmarkId = bookmark.id;
+                        console.log("Fetching Ctrl Copy for Bookmark ID:", bookmarkId);
+                        const ctrlCopyId = await myWidget.getParentRelatedCtrlCopy(bookmarkId);
+                        console.log("Ctrl Copy for", bookmarkId, ":", ctrlCopyId);
+                        allCtrlCpy.push({
+                            bookmarkId,
+                            ctrlCopyId
+                        });
+                    }
+                }
+                console.log("All fetched CtrlCopy:", allCtrlCpy);
+                // Proceed with merging and PDF generation if needed
+                const doc1 = await myWidget.fetchDocumentData(selectedIds[0]);
+                const doc2 = await myWidget.fetchDocumentData(selectedIds[1]);
+                const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, doc2);
+                const pdfData = await myWidget.generatePDF(mergedContent);
+                await myWidget.createDocumentWithPDF(pdfData, allCtrlCpy);
+                alert("Document created and checked in successfully!");
+                document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
+            } catch (error) {
+                console.error(error);
+                if (typeof popup !== 'undefined')
+                    popup.style.display = "none";
+            }
+        },
+        fetchDocumentData: function (docId) {
+            return new Promise(function (resolve, reject) {
+                URLS.getURLs().then(baseUrl => {
+                    console.log("baseUrl:" + baseUrl);
 
-							WAFData.authenticatedRequest(csrfURL, {
-								method: 'GET',
-								type: 'json',
-								onComplete: function (csrfData) {
-									const csrfToken = csrfData.csrf.value;
-									const csrfHeaderName = csrfData.csrf.name;
+                    const csrfURL = baseUrl + '/resources/v1/application/CSRF';
 
-									const docURL = baseUrl + '/resources/v1/modeler/documents/' + docId;
-									WAFData.authenticatedRequest(docURL, {
-										method: 'GET',
-										type: 'json',
-										headers: {
-											'Content-Type': 'application/json',
-											[csrfHeaderName]: csrfToken
-										},
-										onComplete: function (docData) {
-										console.log("Fetched docData for ID", docId, docData);
-											if (docData.data && docData.data.length > 0) {
-												resolve(docData.data[0]);  // Return first document object
-											} else {
-												reject("No document data returned");
-											}
-										},
-										onFailure: function (err) {
-											reject(err);
-										}
-									});
-								},
-								onFailure: function (err) {
-									reject(err);
-								}
-							});
-					});
-				});
-			},
-		mergeDocumentsIntoTable: function(doc1, doc2) {
-			const headers = ["Name", "Policy", "State"];
-			const rows = [
-				[doc1.dataelements.name, doc1.dataelements.policy, doc1.dataelements.state],
-				[doc2.dataelements.name, doc2.dataelements.policy, doc2.dataelements.state]
-			];
+                    WAFData.authenticatedRequest(csrfURL, {
+                        method: 'GET',
+                        type: 'json',
+                        onComplete: function (csrfData) {
+                            const csrfToken = csrfData.csrf.value;
+                            const csrfHeaderName = csrfData.csrf.name;
 
-			return { headers, rows };
-		},
-		generatePDF: async function (content) {
-			const jsPDF = jspdfModule.default;
-			
-			 if (typeof jsPDF === 'function' && typeof jsPDF.API.autoTable === 'undefined') {
-				autotablePlugin(jsPDF);
-			}
-			 console.log("jsPDF",jsPDF);
-			try {
-				if (!content.headers || !content.rows || !Array.isArray(content.headers) || !Array.isArray(content.rows)) {
-					throw new Error('Invalid content format. Expected object with "headers" and "rows" arrays.');
-				}
+                            const docURL = baseUrl + '/resources/v1/modeler/documents/' + docId;
+                            WAFData.authenticatedRequest(docURL, {
+                                method: 'GET',
+                                type: 'json',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    [csrfHeaderName]: csrfToken
+                                },
+                                onComplete: function (docData) {
+                                    console.log("Fetched docData for ID", docId, docData);
+                                    if (docData.data && docData.data.length > 0) {
+                                        resolve(docData.data[0]); // Return first document object
+                                    } else {
+                                        reject("No document data returned");
+                                    }
+                                },
+                                onFailure: function (err) {
+                                    reject(err);
+                                }
+                            });
+                        },
+                        onFailure: function (err) {
+                            reject(err);
+                        }
+                    });
+                });
+            });
+        },
+        mergeDocumentsIntoTable: function (doc1, doc2) {
+            const headers = ["Name", "Policy", "State"];
+            const rows = [
+                [doc1.dataelements.name, doc1.dataelements.policy, doc1.dataelements.state],
+                [doc2.dataelements.name, doc2.dataelements.policy, doc2.dataelements.state]
+            ];
 
-				const doc = new jsPDF();
-				if (typeof doc.autoTable !== 'function') {
-					throw new Error("AutoTable plugin is not available.");
-				}
+            return {
+                headers,
+                rows
+            };
+        },
+        generatePDF: async function (content) {
+            const jsPDF = jspdfModule.default;
 
-				doc.autoTable({
-					head: [content.headers],
-					body: content.rows
-				});
+            if (typeof jsPDF === 'function' && typeof jsPDF.API.autoTable === 'undefined') {
+                autotablePlugin(jsPDF);
+            }
+            console.log("jsPDF", jsPDF);
+            try {
+                if (!content.headers || !content.rows || !Array.isArray(content.headers) || !Array.isArray(content.rows)) {
+                    throw new Error('Invalid content format. Expected object with "headers" and "rows" arrays.');
+                }
 
-				return doc.output('blob');
-			} catch (err) {
-				console.error('Failed to generate PDF:', err);
-				throw err;
-			}
-		},
-		createDocumentWithPDF: function(pdfBlob,allCtrlCpy) {
-			return new Promise(function (resolve, reject) {
-				
-				URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:" + baseUrl);
-						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+                const doc = new jsPDF();
+                if (typeof doc.autoTable !== 'function') {
+                    throw new Error("AutoTable plugin is not available.");
+                }
 
-						// 1. Fetch CSRF token
-						WAFData.authenticatedRequest(csrfURL, {
-							method: 'GET',
-							type: 'json',
-							onComplete: function (csrfData) {
-								const csrfToken = csrfData.csrf.value;
-								const csrfHeaderName = csrfData.csrf.name;
+                doc.autoTable({
+                    head: [content.headers],
+                    body: content.rows
+                });
 
-								// 2. Create Document metadata
-								const createDocURL = baseUrl + '/resources/v1/modeler/documents';
-								const payload = {
-									data: [{
-										attributes: {
-											name: "Merged_Document_" + Date.now(),
-											type: "Document",
-											policy: "Document Release"
-										}
-									}]
-								};
+                return doc.output('blob');
+            } catch (err) {
+                console.error('Failed to generate PDF:', err);
+                throw err;
+            }
+        },
+        createDocumentWithPDF: function (pdfBlob, allCtrlCpy) {
+            return new Promise(function (resolve, reject) {
 
-								WAFData.authenticatedRequest(createDocURL, {
-									method: 'POST',
-									type: 'json',
-									headers: {
-										'Content-Type': 'application/json',
-										[csrfHeaderName]: csrfToken
-									},
-									data: JSON.stringify(payload),
-									onComplete: function (createResponse) {
-										const docId = createResponse.data[0].id;
-										
-										// 3. Request Checkin Ticket
-										const ticketURL = baseUrl + '/resources/v1/modeler/documents/' + docId + '/files/CheckinTicket';
-										const ticketPayload = {
-											data: [{
-												id: docId,
-												dataelements: {
-													format: "pdf",
-													title: "MergedPDF",
-													fileName: "Merged_Document.pdf"
-												}
-											}]
-										};
+                URLS.getURLs().then(baseUrl => {
+                    console.log("baseUrl:" + baseUrl);
+                    const csrfURL = baseUrl + '/resources/v1/application/CSRF';
 
-										WAFData.authenticatedRequest(ticketURL, {
-											method: 'PUT',
-											type: 'json',
-											headers: {
-												'Content-Type': 'application/json',
-												[csrfHeaderName]: csrfToken
-											},
-											data: JSON.stringify(ticketPayload),
-											onComplete: function (ticketResponse) {
-												console.log("ticketResponse:", ticketResponse);
-												const ticketInfo = ticketResponse.data[0].dataelements;
-												console.log("ticketInfo:", ticketInfo);
-												const paramName = ticketInfo.ticketparamname;
-												const ticket = ticketInfo.ticket;
-												const fcsUrl = ticketInfo.ticketURL;
+                    // 1. Fetch CSRF token
+                    WAFData.authenticatedRequest(csrfURL, {
+                        method: 'GET',
+                        type: 'json',
+                        onComplete: function (csrfData) {
+                            const csrfToken = csrfData.csrf.value;
+                            const csrfHeaderName = csrfData.csrf.name;
 
-												console.log("Using ticket param:", paramName);
-												console.log("Ticket:", ticket);
-												console.log("FCS Upload URL:", fcsUrl);
-												console.log("PDF Blob size:", pdfBlob.size);
-												const formData = new FormData();
-												formData.append(paramName, ticket);
-												formData.append('file_0', pdfBlob, "Merged_Document.pdf");
-												
-												
+                            // 2. Create Document metadata
+                            const createDocURL = baseUrl + '/resources/v1/modeler/documents';
+                            const payload = {
+                                data: [{
+                                        attributes: {
+                                            name: "Merged_Document_" + Date.now(),
+                                            type: "Document",
+                                            policy: "Document Release"
+                                        }
+                                    }
+                                ]
+                            };
 
-												const xhr = new XMLHttpRequest();
-												xhr.open('POST', fcsUrl, true);
-												console.log("xhr.status:", xhr.status);
-												//xhr.setRequestHeader(csrfHeaderName, csrfToken); 
-												xhr.onload = function () {
-													if (xhr.status === 200) {
-														// 5. Call Checkin
-														console.log("Raw FCS responseText:", xhr.responseText);
-														
-														const receipt = xhr.responseText;
+                            WAFData.authenticatedRequest(createDocURL, {
+                                method: 'POST',
+                                type: 'json',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    [csrfHeaderName]: csrfToken
+                                },
+                                data: JSON.stringify(payload),
+                                onComplete: function (createResponse) {
+                                    const docId = createResponse.data[0].id;
 
-														if (!receipt) {
-															reject("FCS upload succeeded but no valid receipt was returned.");
-															return;
-														}
-														console.log("Receipt:", receipt);
-														
-														const checkInURL = baseUrl + '/resources/v1/modeler/documents' ;
-														console.log("Checkin URL:", checkInURL);
-														console.log("Document ID:", docId);
-														const checkInPayload = {
-														  data: [{
-															"id": docId,
-															"relateddata": {
-																			"files": [
-																				{
-																					"dataelements": {
-																						"comments": "COMING VIA EXTERNAM WIDGET",
-																						"receipt": receipt,
-																						"title": "Merged_Document"
-																					},
-																					"updateAction": "CREATE"
-																				}
-																			]
-																		},
-																		"updateAction": "NONE"
-																	}
-																]
-														};
+                                    // 3. Request Checkin Ticket
+                                    const ticketURL = baseUrl + '/resources/v1/modeler/documents/' + docId + '/files/CheckinTicket';
+                                    const ticketPayload = {
+                                        data: [{
+                                                id: docId,
+                                                dataelements: {
+                                                    format: "pdf",
+                                                    title: "MergedPDF",
+                                                    fileName: "Merged_Document.pdf"
+                                                }
+                                            }
+                                        ]
+                                    };
 
-														WAFData.authenticatedRequest(checkInURL, {
-															method: 'PUT',
-															type: 'json',
-															headers: {
-																'Content-Type': 'application/json',
-																'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-																[csrfHeaderName]: csrfToken
-															},
-															data: JSON.stringify(checkInPayload),
-															onComplete: function () {
-																const firstCtrlCopy = allCtrlCpy[0]?.ctrlCopyId;
-																if (!firstCtrlCopy) {
-																	reject("No CtrlCopy ID found to add document to.");
-																	return;
-																}
-																const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ firstCtrlCopy +'/content';
-																WAFData.authenticatedRequest(bookMarkURL, {
-																	method: 'POST',
-																	type: 'json',
-																	headers: {
-																		'Content-Type': 'application/json',
-																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-																		[csrfHeaderName]: csrfToken
-																	},
-																	data: JSON.stringify({"IDs": docId}),
-																	onComplete: function (createResponse) {
-																		console.log("createResponse :"+createResponse);
-																		resolve(createResponse);
-																	},
-																	onFailure: function (err) {
-																		reject("Failed to add bookmark: " + err);
-																	}
-																});
-															},
-															onFailure: function (err) {
-																reject("Failed to check in the document: " + err);
-															}
-														});
-													} else {
-														reject("Failed to upload PDF to FCS. Status: " + xhr.status);
-													}
-												};
-												xhr.onerror = function () {
-													reject("FCS upload request failed.");
-												};
-												xhr.send(formData);
-											},
-											onFailure: function (err) {
-												reject("Failed to get checkin ticket: " + err);
-											}
-										});
-									},
-									onFailure: function (err) {
-										reject("Failed to create document: " + err);
-									}
-								});
-							},
-							onFailure: function (err) {
-								reject("Failed to get CSRF token: " + err);
-							}
-						});
-				});
-			});
-		},
-		getParentRelatedCtrlCopy: function (bookmarkId) {
-			return new Promise((resolve, reject) => {
-				URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:" + baseUrl);
+                                    WAFData.authenticatedRequest(ticketURL, {
+                                        method: 'PUT',
+                                        type: 'json',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            [csrfHeaderName]: csrfToken
+                                        },
+                                        data: JSON.stringify(ticketPayload),
+                                        onComplete: function (ticketResponse) {
+                                            console.log("ticketResponse:", ticketResponse);
+                                            const ticketInfo = ticketResponse.data[0].dataelements;
+                                            console.log("ticketInfo:", ticketInfo);
+                                            const paramName = ticketInfo.ticketparamname;
+                                            const ticket = ticketInfo.ticket;
+                                            const fcsUrl = ticketInfo.ticketURL;
 
-					const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+                                            console.log("Using ticket param:", paramName);
+                                            console.log("Ticket:", ticket);
+                                            console.log("FCS Upload URL:", fcsUrl);
+                                            console.log("PDF Blob size:", pdfBlob.size);
+                                            const formData = new FormData();
+                                            formData.append(paramName, ticket);
+                                            formData.append('file_0', pdfBlob, "Merged_Document.pdf");
 
-					WAFData.authenticatedRequest(csrfURL, {
-						method: 'GET',
-						type: 'json',
-						onComplete: function (csrfData) {
-							const csrfToken = csrfData.csrf.value;
-							const csrfHeaderName = csrfData.csrf.name;
+                                            const xhr = new XMLHttpRequest();
+                                            xhr.open('POST', fcsUrl, true);
+                                            console.log("xhr.status:", xhr.status);
+                                            //xhr.setRequestHeader(csrfHeaderName, csrfToken);
+                                            xhr.onload = function () {
+                                                if (xhr.status === 200) {
+                                                    // 5. Call Checkin
+                                                    console.log("Raw FCS responseText:", xhr.responseText);
 
-							const ecosystemURL = baseUrl + '/resources/v1/modeler/dsbks/dsbks:Bookmark/' + bookmarkId + '?$mask=dsbks:BksMask.Parent';
+                                                    const receipt = xhr.responseText;
 
-							WAFData.authenticatedRequest(ecosystemURL, {
-								method: 'GET',
-								type: 'json',
-								headers: {
-									'Content-Type': 'application/json',
-									'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-									[csrfHeaderName]: csrfToken
-								},
-								onComplete: function (response) {
-									console.log("getEcosystem result:", response);
-									try {
-										const parentId = response?.member?.[0]?.parent?.member?.[0]?.referencedObject?.identifier;
-										if (parentId) {
-											const folderTreeURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + parentId + '/folderTree';
-											WAFData.authenticatedRequest(folderTreeURL, {
-												method: 'POST',
-												type: 'json',
-												data: JSON.stringify({
-													expandList: "",
-													isRoot: "",
-													nextStart: 0,
-													nresults: 200,
-													Read: true,
-													refine: "",
-													sortMode: "ds6w:label",
-													sortOrder: "asc"
-												}),
-												headers: {
-													'Content-Type': 'application/json',
-													'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-													[csrfHeaderName]: csrfToken
-												},
-												onComplete: function (response) {
-													const controlledCopyFolder = response.folders.find(folder => folder.label === "Controlled Copy");
+                                                    if (!receipt) {
+                                                        reject("FCS upload succeeded but no valid receipt was returned.");
+                                                        return;
+                                                    }
+                                                    console.log("Receipt:", receipt);
 
-													if (controlledCopyFolder) {
-														const controlledCopyId = controlledCopyFolder.id;
-														resolve(controlledCopyId);
-													} else {
-														console.warn("Controlled Copy folder not found.");
-														reject("Controlled Copy folder not found.");
-													}
-												},
-												onFailure: function (err) {
-													reject("Failed to get Controlled Copy: " + JSON.stringify(err));
-												}
-											});
-										} else {
-											reject("Parent ID not found in response");
-										}
-									} catch (err) {
-										reject("Error extracting parent ID: " + err);
-									}
-								},
-								onFailure: function (err) {
-									reject("Failed to get parent bookmark: " + JSON.stringify(err));
-								}
-							});
-						},
-						onFailure: function (err) {
-							reject("CSRF fetch failed: " + JSON.stringify(err));
-						}
-					});
-				});
-			});
-		},
-		fetchBookmarksForDocument: function (docId) {
-			return new Promise((resolve, reject) => {
-				URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:"+baseUrl);
+                                                    const checkInURL = baseUrl + '/resources/v1/modeler/documents';
+                                                    console.log("Checkin URL:", checkInURL);
+                                                    console.log("Document ID:", docId);
+                                                    const checkInPayload = {
+                                                        data: [{
+                                                                "id": docId,
+                                                                "relateddata": {
+                                                                    "files": [{
+                                                                            "dataelements": {
+                                                                                "comments": "COMING VIA EXTERNAM WIDGET",
+                                                                                "receipt": receipt,
+                                                                                "title": "Merged_Document"
+                                                                            },
+                                                                            "updateAction": "CREATE"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                "updateAction": "NONE"
+                                                            }
+                                                        ]
+                                                    };
 
-						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+                                                    WAFData.authenticatedRequest(checkInURL, {
+                                                        method: 'PUT',
+                                                        type: 'json',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                            'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                                            [csrfHeaderName]: csrfToken
+                                                        },
+                                                        data: JSON.stringify(checkInPayload),
+                                                        onComplete: function () {
+                                                            const firstCtrlCopy = allCtrlCpy[0] ? .ctrlCopyId;
+                                                            if (!firstCtrlCopy) {
+                                                                reject("No CtrlCopy ID found to add document to.");
+                                                                return;
+                                                            }
+                                                            const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + firstCtrlCopy + '/content';
+                                                            WAFData.authenticatedRequest(bookMarkURL, {
+                                                                method: 'POST',
+                                                                type: 'json',
+                                                                headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                                                    [csrfHeaderName]: csrfToken
+                                                                },
+                                                                data: JSON.stringify({
+                                                                    "IDs": docId
+                                                                }),
+                                                                onComplete: function (createResponse) {
+                                                                    console.log("createResponse :" + createResponse);
+                                                                    resolve(createResponse);
+                                                                },
+                                                                onFailure: function (err) {
+                                                                    reject("Failed to add bookmark: " + err);
+                                                                }
+                                                            });
+                                                        },
+                                                        onFailure : function (err) {
+                                                            reject("Failed to check in the document: " + err);
+                                                        }
+                                                    });
+                                                } else {
+                                                    reject("Failed to upload PDF to FCS. Status: " + xhr.status);
+                                                }
+                                            };
+                                            xhr.onerror = function () {
+                                                reject("FCS upload request failed.");
+                                            };
+                                            xhr.send(formData);
+                                        },
+                                        onFailure: function (err) {
+                                            reject("Failed to get checkin ticket: " + err);
+                                        }
+                                    });
+                                },
+                                onFailure: function (err) {
+                                    reject("Failed to create document: " + err);
+                                }
+                            });
+                        },
+                        onFailure: function (err) {
+                            reject("Failed to get CSRF token: " + err);
+                        }
+                    });
+                });
+            });
+        },
+        getParentRelatedCtrlCopy: function (bookmarkId) {
+            return new Promise((resolve, reject) => {
+                URLS.getURLs().then(baseUrl => {
+                    console.log("baseUrl:" + baseUrl);
 
-						WAFData.authenticatedRequest(csrfURL, {
-							method: 'GET',
-							type: 'json',
-							onComplete: function (csrfData) {
-								const csrfToken = csrfData.csrf.value;
-								const csrfHeaderName = csrfData.csrf.name;
+                    const csrfURL = baseUrl + '/resources/v1/application/CSRF';
 
-								console.log("Fetching bookmarks for document ID:", docId);
-								const docURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + docId + '/getRelatedBookmarks';
+                    WAFData.authenticatedRequest(csrfURL, {
+                        method: 'GET',
+                        type: 'json',
+                        onComplete: function (csrfData) {
+                            const csrfToken = csrfData.csrf.value;
+                            const csrfHeaderName = csrfData.csrf.name;
 
-								WAFData.authenticatedRequest(docURL, {
-									method: 'GET',
-									type: 'json',
-									headers: {
-										'Content-Type': 'application/json',
-										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
-										[csrfHeaderName]: csrfToken
-									},
-									onComplete: function (data) {
-										if (data && data.folders && data.folders.length > 0) {
-											resolve(data.folders);  // Return all related bookmarks
-										} else {
-											reject("No bookmarks found for this document.");
-										}
-									},
-									onFailure: function (err) {
-										reject(err);
-									}
-								});
-							},
-							onFailure: function (err) {
-								reject(err);
-							}
-						});
-				});
-			});
-		},
-		createMainSkeleton: function (_mainTitle, paramDIv) {
+                            const ecosystemURL = baseUrl + '/resources/v1/modeler/dsbks/dsbks:Bookmark/' + bookmarkId + '?$mask=dsbks:BksMask.Parent';
+
+                            WAFData.authenticatedRequest(ecosystemURL, {
+                                method: 'GET',
+                                type: 'json',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                    [csrfHeaderName]: csrfToken
+                                },
+                                onComplete: function (response) {
+                                    console.log("getEcosystem result:", response);
+                                    try {
+                                        const parentId = response ? .member ? .[0] ? .parent ? .member ? .[0] ? .referencedObject ? .identifier;
+                                        if (parentId) {
+                                            const folderTreeURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + parentId + '/folderTree';
+                                            WAFData.authenticatedRequest(folderTreeURL, {
+                                                method: 'POST',
+                                                type: 'json',
+                                                data: JSON.stringify({
+                                                    expandList: "",
+                                                    isRoot: "",
+                                                    nextStart: 0,
+                                                    nresults: 200,
+                                                    Read: true,
+                                                    refine: "",
+                                                    sortMode: "ds6w:label",
+                                                    sortOrder: "asc"
+                                                }),
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                                    [csrfHeaderName]: csrfToken
+                                                },
+                                                onComplete: function (response) {
+                                                    const controlledCopyFolder = response.folders.find(folder => folder.label === "Controlled Copy");
+
+                                                    if (controlledCopyFolder) {
+                                                        const controlledCopyId = controlledCopyFolder.id;
+                                                        resolve(controlledCopyId);
+                                                    } else {
+                                                        console.warn("Controlled Copy folder not found.");
+                                                        reject("Controlled Copy folder not found.");
+                                                    }
+                                                },
+                                                onFailure: function (err) {
+                                                    reject("Failed to get Controlled Copy: " + JSON.stringify(err));
+                                                }
+                                            });
+                                        } else {
+                                            reject("Parent ID not found in response");
+                                        }
+                                    } catch (err) {
+                                        reject("Error extracting parent ID: " + err);
+                                    }
+                                },
+                                onFailure : function (err) {
+                                    reject("Failed to get parent bookmark: " + JSON.stringify(err));
+                                }
+                            });
+                        },
+                        onFailure : function (err) {
+                            reject("CSRF fetch failed: " + JSON.stringify(err));
+                        }
+                    });
+                });
+            });
+        },
+        fetchBookmarksForDocument : function (docId) {
+            return new Promise((resolve, reject) => {
+                URLS.getURLs().then(baseUrl => {
+                    console.log("baseUrl:" + baseUrl);
+
+                    const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+                    WAFData.authenticatedRequest(csrfURL, {
+                        method : 'GET',
+                        type : 'json',
+                        onComplete : function (csrfData) {
+                            const csrfToken = csrfData.csrf.value;
+                            const csrfHeaderName = csrfData.csrf.name;
+
+                            console.log("Fetching bookmarks for document ID:", docId);
+                            const docURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + docId + '/getRelatedBookmarks';
+
+                            WAFData.authenticatedRequest(docURL, {
+                                method : 'GET',
+                                type: 'json',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+                                    [csrfHeaderName]: csrfToken
+                                },
+                                onComplete: function (data) {
+                                    if (data && data.folders && data.folders.length > 0) {
+                                        resolve(data.folders); // Return all related bookmarks
+                                    } else {
+                                        reject("No bookmarks found for this document.");
+                                    }
+                                },
+                                onFailure: function (err) {
+                                    reject(err);
+                                }
+                            });
+                        },
+                        onFailure: function (err) {
+                            reject(err);
+                        }
+                    });
+                });
+            });
+        },
+        createMainSkeleton: function (_mainTitle, paramDIv) {
             var contentArea = document.querySelector(".widget-content-area");
             contentArea.innerHTML = "";
             var contentArea1 = document.createElement("div");
@@ -1156,7 +1179,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             contentArea1.appendChild(contentContainer);
             contentArea.appendChild(contentArea1);
         },
-		titleERPDiv: function (maintitlename) {
+        titleERPDiv: function (maintitlename) {
             const skeletonIdCnt = this.createDiv("skeleton-id-cnt");
             const idCard = this.createDiv("id-card without-banner without-thumbnail without-facets ready");
             const bannerSection = this.createDiv("banner-section");
@@ -1195,11 +1218,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return skeletonIdCnt;
         },
-		mainERPdiv: function (paramDIv) {
+        mainERPdiv: function (paramDIv) {
             const mainBodyDiv = this.createDiv("facetviews");
             const genericDetail = this.createDiv("generic-detail");
             const mainParamDiv = this.createDiv("", "mainParamDiv");
-            const mainTitleDiv = this.createDiv("", null, { height: "5%" });
+            const mainTitleDiv = this.createDiv("", null, {
+                height: "5%"
+            });
 
             mainParamDiv.appendChild(mainTitleDiv);
             const parameterDiv = paramDIv();
@@ -1210,26 +1235,29 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return mainBodyDiv;
         },
-		createContentArea: function () {
+        createContentArea: function () {
             var contentArea = document.createElement("div");
             contentArea.className = "widget-content-area";
             return contentArea;
         },
-		createDiv: function (classNames, id, styles = {}) {
+        createDiv: function (classNames, id, styles = {}) {
             const div = document.createElement("div");
-            if (classNames) div.classList.add(...classNames.split(" "));
-            if (id) div.id = id;
-            for (const [key, value] of Object.entries(styles)) {
+            if (classNames)
+                div.classList.add(...classNames.split(" "));
+            if (id)
+                div.id = id;
+            for (const[key, value]of Object.entries(styles)) {
                 div.style[key] = value;
             }
             return div;
         },
-		createElementWithClass: function (tag, classNames) {
+        createElementWithClass: function (tag, classNames) {
             const element = document.createElement(tag);
-            if (classNames) element.classList.add(...classNames.split(" "));
+            if (classNames)
+                element.classList.add(...classNames.split(" "));
             return element;
         },
-		parmERPDownloadcontent: function (downloadIcon, btnonclickFun) {
+        parmERPDownloadcontent: function (downloadIcon, btnonclickFun) {
             const div4 = this.createDiv("accordion-item active");
             const accordionTitle = this.createDiv("accordion-title");
             const caretIcon = this.createElementWithClass("i", "caret-left");
@@ -1263,7 +1291,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return div4;
         },
-		dragAndDropFile: function () {
+        dragAndDropFile: function () {
             const maincont = document.createElement("div");
 
             const parentDiv = document.createElement('div');
@@ -1353,7 +1381,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return maincont;
         },
-		createButtonCell: function (iconClass, title, buttonText, btnonclickFun) {
+        createButtonCell: function (iconClass, title, buttonText, btnonclickFun) {
 
             const button = document.createElement("button");
             button.setAttribute("type", "button");
@@ -1387,30 +1415,30 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
     return myWidget;
 });
 
-define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices',], function (i3DXCompassServices) {
-	const platformId = widget.getValue("x3dPlatformId");
+define("Solize/URLS", ['DS/i3DXCompassServices/i3DXCompassServices', ], function (i3DXCompassServices) {
+    const platformId = widget.getValue("x3dPlatformId");
     var URLs = {
-        getURLs : function () {
+        getURLs: function () {
             return new Promise(function (i, a) {
                 i3DXCompassServices.getServiceUrl({
-                            platformId: platformId,
-                            serviceName: '3DSpace',
-                            onComplete: function (URL3DSpace) {
-                                let baseUrl = typeof URL3DSpace === "string" ? URL3DSpace : URL3DSpace[0].url;
-                                if (baseUrl.endsWith('/3dspace')) {
-                                    baseUrl = baseUrl.replace('/3dspace', '');
-                                }
-								console.log("Resolved Base URL:", baseUrl);
-								i(baseUrl);
-							},
-                            onFailure: function () {
-                                console.error("Failed to get 3DSpace URL");
-                            }
+                    platformId: platformId,
+                    serviceName: '3DSpace',
+                    onComplete: function (URL3DSpace) {
+                        let baseUrl = typeof URL3DSpace === "string" ? URL3DSpace : URL3DSpace[0].url;
+                        if (baseUrl.endsWith('/3dspace')) {
+                            baseUrl = baseUrl.replace('/3dspace', '');
+                        }
+                        console.log("Resolved Base URL:", baseUrl);
+                        i(baseUrl);
+                    },
+                    onFailure: function () {
+                        console.error("Failed to get 3DSpace URL");
+                    }
                 });
             });
         },
     };
-	console.log("URLs:"+URLs);
+    console.log("URLs:" + URLs);
     return URLs;
 });
 
@@ -1419,7 +1447,7 @@ define("Solize/SecurityContext", ['Solize/URLS', 'DS/WAFData/WAFData'], function
         getSecurityContext: function () {
             return new Promise(function (resolve, reject) {
                 URLS.getURLs().then(baseUrl => {
-					console.log("baseUrl:"+baseUrl);
+                    console.log("baseUrl:" + baseUrl);
                     const url = baseUrl + "/resources/pno/person/getsecuritycontext?current=true&select=preferredcredentials&select=collabspaces";
                     WAFData.authenticatedRequest(url, {
                         method: "GET",
