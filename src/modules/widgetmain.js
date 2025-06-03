@@ -265,22 +265,43 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             return li;
         },
 		createSecondSidebar: function () {
-            var sideBar2 = document.querySelector(".second-sidebar");
-            sideBar2.style.display = "block";
-        },
+    
+			var sideBar3 = document.querySelector(".third-sidebar");
+			if (sideBar3) sideBar3.style.display = "none";
+
+			var existing = document.querySelector(".second-sidebar");
+			if (!existing) {
+				var formContainer = document.querySelector(".widget-form-container");
+				var newSidebar = myWidget.createSideBar2();
+				formContainer.appendChild(newSidebar);
+			}
+			document.querySelector(".second-sidebar").style.display = "block";
+		},
+		createSideBar3: function () {
+			var sideBar3 = document.createElement("div");
+			sideBar3.className = "third-sidebar";
+			sideBar3.style.display = "block";
+
+			var backArrow = myWidget.createBackArrow();
+			sideBar3.appendChild(backArrow);
+
+			var message = document.createElement("div");
+			message.textContent = "TPL Creation content goes here.";
+			sideBar3.appendChild(message);
+
+			return sideBar3;
+		},
 		createPrjMng: function () {
 			const self = this; 
-			let sideBar2 = document.querySelector(".second-sidebar");
+			 var sideBar2 = document.querySelector(".second-sidebar");
+			if (sideBar2) sideBar2.style.display = "none";
 
+			var existing = document.querySelector(".third-sidebar");
+			if (existing) existing.remove();
 
-			if (!sideBar2) {
-				sideBar2 = document.createElement("div");
-				sideBar2.className = "second-sidebar";
-				document.body.appendChild(sideBar2);
-			}
-
-			sideBar2.style.display = "block";
-			sideBar2.innerHTML = "";
+			var formContainer = document.querySelector(".widget-form-container");
+			var newSidebar = myWidget.createSideBar3();
+			formContainer.appendChild(newSidebar);
 
 
 			const header = document.createElement("h2");
