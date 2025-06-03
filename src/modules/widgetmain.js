@@ -391,7 +391,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const result = JSON.parse(response);
 									const createdItem = result.member[0];
 									//alert("Engineering Item Name: " + createdItem.name);
-									const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/'+ createdItem.id +'?parentRelName=Reference Document&parentDirection=to&$fields=indexedImage,indexedTypeicon,isDocumentType,organizationTitle,isLatestRevision,!parentId';
+									const fields = encodeURIComponent('indexedImage,indexedTypeicon,isDocumentType,organizationTitle,isLatestRevision,!parentId');
+										const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + createdItem.id +
+																			'?parentRelName=Reference Document&parentDirection=to&$fields=' + fields;
 									const payload = {
 										data: [{
 											attributes: {
