@@ -617,7 +617,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
 														[csrfHeaderName]: csrfToken
 													},
-													data: JSON.stringify(checkInPayload),
+													data: JSON.stringify(attachDocPayload),
 													onComplete: function (createResponse) {
 														console.log("createResponse :", createResponse);
 													},
