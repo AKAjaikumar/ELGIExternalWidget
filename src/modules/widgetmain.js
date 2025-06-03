@@ -51,6 +51,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             formContainer.appendChild(sideBar1);
             formContainer.appendChild(sideBar2);
+			formContainer.appendChild(sideBar3);
             formContainer.appendChild(contentArea);
 
             return formContainer;
@@ -90,56 +91,58 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return sideBar1;
         },
-		createTileElement: function (title, imageSrc, subtitle, onclickFuncName) {
-            var tileContainer = document.createElement("div");
-            tileContainer.className = "tile-container";
+		createTileElement: function (title, imageSrc, subtitle, onClickCallback) {
+			var tileContainer = document.createElement("div");
+			tileContainer.className = "tile-container";
 
-            var tileSubContainer = document.createElement("div");
-            tileSubContainer.className = "tile-sub-container";
-            tileSubContainer.setAttribute("draggable", "true");
+			var tileSubContainer = document.createElement("div");
+			tileSubContainer.className = "tile-sub-container";
+			tileSubContainer.setAttribute("draggable", "true");
 
-            var tileHeader = document.createElement("div");
-            tileHeader.className = "tile-header";
+			var tileHeader = document.createElement("div");
+			tileHeader.className = "tile-header";
 
-            var img = document.createElement("img");
-            img.src = imageSrc;
-            img.className = "tile-image portrait";
-            img.setAttribute("draggable", "false");
+			var img = document.createElement("img");
+			img.src = imageSrc;
+			img.className = "tile-image portrait";
+			img.setAttribute("draggable", "false");
 
-            tileHeader.appendChild(img);
+			tileHeader.appendChild(img);
 
-            var tileBody = document.createElement("div");
-            tileBody.className = "tile-body";
+			var tileBody = document.createElement("div");
+			tileBody.className = "tile-body";
 
-            var tileTitle = document.createElement("div");
-            tileTitle.className = "tile-title";
-            tileTitle.textContent = title;
+			var tileTitle = document.createElement("div");
+			tileTitle.className = "tile-title";
+			tileTitle.textContent = title;
 
-            var tileSubtitle = document.createElement("div");
-            tileSubtitle.className = "tile-subtitle";
-            tileSubtitle.textContent = subtitle;
+			var tileSubtitle = document.createElement("div");
+			tileSubtitle.className = "tile-subtitle";
+			tileSubtitle.textContent = subtitle;
 
-            tileBody.appendChild(tileTitle);
-            tileBody.appendChild(tileSubtitle);
+			tileBody.appendChild(tileTitle);
+			tileBody.appendChild(tileSubtitle);
 
-            tileSubContainer.appendChild(tileHeader);
-            tileSubContainer.appendChild(tileBody);
+			tileSubContainer.appendChild(tileHeader);
+			tileSubContainer.appendChild(tileBody);
 
-            tileContainer.appendChild(tileSubContainer);
+			tileContainer.appendChild(tileSubContainer);
 
-            tileContainer.addEventListener("click", function () {
-                var currentSelected = document.querySelector(".tile-container.selected");
-                if (currentSelected) {
-                    currentSelected.classList.remove("selected");
-                }
+			tileContainer.addEventListener("click", function () {
+				var currentSelected = document.querySelector(".tile-container.selected");
+				if (currentSelected) {
+					currentSelected.classList.remove("selected");
+				}
 
-                tileContainer.classList.add("selected");
+				tileContainer.classList.add("selected");
 
-                onclickFuncName();
-            });
+				if (typeof onClickCallback === "function") {
+					onClickCallback();
+				}
+			});
 
-            return tileContainer;
-        },
+			return tileContainer;
+		},
 		createSideBar2: function () {
             var sideBar2 = document.createElement("div");
             sideBar2.className = "second-sidebar";
@@ -153,7 +156,19 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return sideBar2;
         },
+		createSideBar3: function () {
+            var sideBar3 = document.createElement("div");
+            sideBar3.className = "third-sidebar";
+            sideBar3.style.display = "none";
 
+            var backArrow = myWidget.createBackArrow();
+            sideBar2.appendChild(backArrow);
+
+            var ul2 = myWidget.createSecondSidebarList();
+            sideBar3.appendChild(ul2);
+
+            return sideBar3;
+        },
         createBackArrow: function () {
             var backArrow = document.createElement("div");
             backArrow.style.display = "flex";
@@ -270,7 +285,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 
 			const header = document.createElement("h2");
-			header.textContent = "Create Physical Product";
+			header.textContent = "Create TPL";
 			header.className = "sidebar-header";
 
 			const titleInput = document.createElement("input");
@@ -329,7 +344,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			});
 			
 			const createBtn = document.createElement("button");
-			createBtn.textContent = "Create Physical Product";
+			createBtn.textContent = "Create TPL";
 			createBtn.className = "form-button";
 
 			const resultBox = document.createElement("div");
@@ -490,6 +505,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																attributes: {
 																	name: "SubSheet_" + Date.now(),
 																	type: "Document",
+																	title: title,
 																	policy: "Document Release",
 																	"extensions": [
 																		"XP_Document_Ext.DocumentType"
