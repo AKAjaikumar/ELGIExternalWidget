@@ -467,13 +467,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
 												  },
 												  onComplete: function (response) {
-													const createdDoc = response.data[0];
-													const createdDocId = createdDoc.id;
-													console.log("Document created:", createdDocId);
+													const createdSubDoc = response.data[0];
+													const createdSubDocId = createdDoc.id;
+													console.log("Document created:", createdSubDocId);
 													
 													const updateSubPayload = {
 													  data: [{
-														id: createdDocId,
+														id: createdSubDocId,
 														type: "Document",
 														updateAction: "MODIFY",
 														"dataelements": {
@@ -503,8 +503,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													},
 													onFailure: function (err) {
 													  console.error("Failed to Create DocumentType:", err);
+													  }
 													});
-										});
 									  },
 									  onFailure: function (err) {
 										console.error("Failed to create Document:", err);
