@@ -419,7 +419,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										const createdDoc = response.data[0];
 										const createdDocId = createdDoc.id;
 										console.log("Document created:", createdDocId);
-										const getDocURL = baseUrl + '/resources/v1/modeler/documents/'+ createdDocId +'=?$mask=XP_Document_Ext';
+										const getDocURL = baseUrl + '/resources/v1/modeler/documents/'+ createdDocId +'?$mask=XP_Document_Ext';
 										WAFData.authenticatedRequest(getDocURL, {
 										  method: 'GET',
 										  type: 'json',
