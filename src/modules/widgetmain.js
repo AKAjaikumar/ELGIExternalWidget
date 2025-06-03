@@ -393,7 +393,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									//alert("Engineering Item Name: " + createdItem.name);
 									
 									const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + createdItem.id +
-																			'?parentRelName=Reference Document&parentDirection=to';
+																			'?parentRelName=SpecificationDocument&parentDirection=to';
 									const payload = {
 										data: [{
 											attributes: {
