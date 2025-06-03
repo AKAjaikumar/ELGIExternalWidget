@@ -391,7 +391,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const result = JSON.parse(response);
 									const createdItem = result.member[0];
 									alert("Engineering Item Name: " + createdItem.name);
-									const attachURL = baseUrl + '/resources/v1/modeler/projects/'+selectedProjectId;
+									const attachURL = baseUrl + '/resources/v1/modeler/projects';
 									console.log("attachURL", attachURL);
 									console.log("VPMReference ID:", createdItem.id);
 									const checkInPayload = {
