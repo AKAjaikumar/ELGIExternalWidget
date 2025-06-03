@@ -594,18 +594,20 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 												});
 
 												const attachURL = baseUrl + '/resources/v1/modeler/projects';
-												const checkInPayload = {
-													data: [{
-														"id": selectedProjectId,
-														"type": "Project Space",
-														"updateAction": "MODIFY",
-														"references": [{
-															"id": createdItem.id,
-															"type": "VPMReference",
-															"serviceId": "3DSpace",
-															"updateAction": "CONNECT"
-														}]
-													}]
+												const attachDocPayload = {
+												  data: [{
+													id: engineeringItemId,     // ID of the VPMReference (Engineering Item)
+													type: "VPMReference",
+													updateAction: "MODIFY",
+													relateddata: {
+													  references: [{
+														id: specDocId,         // ID of the Specification Document
+														type: "Document",
+														updateAction: "CONNECT",
+														relType: "VPMReference/PLMDocument" // Or your custom relation if defined
+													  }]
+													}
+												  }]
 												};
 
 												WAFData.authenticatedRequest(attachURL, {
