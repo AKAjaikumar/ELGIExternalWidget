@@ -383,7 +383,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									'Content-Type': 'application/json',
 									'Accept': 'application/json',
 									'ENO_CSRF_TOKEN': csrfToken,
-									'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+									'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
 								},
 								data: JSON.stringify(payload),
 								onComplete: function (response) {
@@ -413,7 +413,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									  headers: {
 										'Content-Type': 'application/json',
 										[csrfHeaderName]: csrfToken,
-										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+										'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
 									  },
 									  onComplete: function (response) {
 										const createdDoc = response.data[0];
@@ -426,7 +426,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										  headers: {
 											'Content-Type': 'application/json',
 											[csrfHeaderName]: csrfToken,
-											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+											'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
 										  },
 										  onComplete: function (updateResponse) {
 											console.log("DocumentType GET successfully", updateResponse);
@@ -440,8 +440,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											id: createdDocId,
 											type: "Document",
 											updateAction: "MODIFY",
-											"attributes": {
-											  "XP_Document_Ext.DocumentType": "SpecSheet"
+											"customerAttributes": {
+											  "DocumentType": "SpecSheet"
 											}
 										  }]
 										};
