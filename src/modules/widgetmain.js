@@ -422,7 +422,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											type: "Document",
 											updateAction: "MODIFY",
 											"attributes": {
-											  "DocumentType": "SpecSheet"
+											  "XP_Document_Ext.DocumentType": "SpecSheet"
 											}
 										  }]
 										};
