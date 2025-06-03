@@ -405,7 +405,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										}]
 									};
 									 WAFData.authenticatedRequest(createDocURL, {
-                                            method: 'POST',
+                                            method: 'PUT',
                                             type: 'json',
 											data: JSON.stringify(payload),
                                             headers: {
