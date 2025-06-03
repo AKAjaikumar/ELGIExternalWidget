@@ -399,12 +399,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										"id": selectedProjectId,
 										"type": "Project Space",
 										"updateAction": "MODIFY",
-										"references": {
+										"references": [{
 														"id": createdItem.id,
 														"type": "VPMReference",
 														"serviceId": "3DSpace",
 														"updateAction": "CONNECT"
-													}
+													}]
 												}
 											]
 									};
