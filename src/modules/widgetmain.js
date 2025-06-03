@@ -400,7 +400,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										  type: "Document",
 										  policy: "Document Release",
 											"extensions": [
-											  "XP_Document_Ext"
+											  "XP_Document_Ext.DocumentType"
 											]
 										}
 									  }]
