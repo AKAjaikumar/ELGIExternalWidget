@@ -392,8 +392,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const createdItem = result.member[0];
 									//alert("Engineering Item Name: " + createdItem.name);
 									
-									const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + createdItem.id +
-																			'?parentRelName=SpecificationDocument&parentDirection=to';
+									const createDocURL = baseUrl + '/resources/v1/modeler/documents';
 									const payload = {
 										data: [{
 											attributes: {
@@ -405,7 +404,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										}]
 									};
 									 WAFData.authenticatedRequest(createDocURL, {
-                                            method: 'PUT',
+                                            method: 'POST',
                                             type: 'json',
 											data: JSON.stringify(payload),
                                             headers: {
