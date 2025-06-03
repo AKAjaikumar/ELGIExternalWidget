@@ -419,22 +419,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										const createdDoc = response.data[0];
 										const createdDocId = createdDoc.id;
 										console.log("Document created:", createdDocId);
-										const getDocURL = baseUrl + '/resources/v1/modeler/documents/'+ createdDocId +'?$mask=XP_Document_Ext';
-										WAFData.authenticatedRequest(getDocURL, {
-										  method: 'GET',
-										  type: 'json',
-										  headers: {
-											'Content-Type': 'application/json',
-											[csrfHeaderName]: csrfToken,
-											'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
-										  },
-										  onComplete: function (updateResponse) {
-											console.log("DocumentType GET successfully", updateResponse);
-										  },
-										  onFailure: function (err) {
-											console.error("Failed to update DocumentType:", err);
-										  }
-										});
+										
 										const updatePayload = {
 										  data: [{
 											id: createdDocId,
@@ -459,10 +444,65 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										  },
 										  onComplete: function (updateResponse) {
 											console.log("DocumentType updated successfully", updateResponse);
-										  },
-										  onFailure: function (err) {
-											console.error("Failed to update DocumentType:", err);
-										  }
+											const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+												const createSubSheetPayload = {
+												  data: [{
+													attributes: {
+													  name: "SubSheet_" + Date.now(),
+													  type: "Document",
+													  policy: "Document Release",
+														"extensions": [
+														  "XP_Document_Ext.DocumentType"
+														]
+													}
+												  }]
+												};
+												WAFData.authenticatedRequest(createDocURL, {
+												  method: 'POST',
+												  type: 'json',
+												  data: JSON.stringify(createDocPayload),
+												  headers: {
+													'Content-Type': 'application/json',
+													[csrfHeaderName]: csrfToken,
+													'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+												  },
+												  onComplete: function (response) {
+													const createdDoc = response.data[0];
+													const createdDocId = createdDoc.id;
+													console.log("Document created:", createdDocId);
+													
+													const updateSubPayload = {
+													  data: [{
+														id: createdDocId,
+														type: "Document",
+														updateAction: "MODIFY",
+														"dataelements": {
+															"DocumentType": "SubSheet"
+														}
+													  }]
+													};
+
+													const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
+
+													WAFData.authenticatedRequest(updateSubSheetURL, {
+													  method: 'PUT',
+													  type: 'json',
+													  data: JSON.stringify(updateSubPayload),
+													  headers: {
+														'Content-Type': 'application/json',
+														[csrfHeaderName]: csrfToken,
+														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+													  },
+													  onComplete: function (subsheetResponse) {
+														console.log("DocumentType Subsheet updated successfully", subsheetResponse);
+													  },
+													  onFailure: function (err) {
+														console.error("Failed to update Subsheet DocumentType:", err);
+													  }
+												  },
+												  onFailure: function (err) {
+													console.error("Failed to update DocumentType:", err);
+												  }
 										});
 									  },
 									  onFailure: function (err) {
