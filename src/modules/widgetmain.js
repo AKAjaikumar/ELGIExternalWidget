@@ -495,6 +495,47 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 																	},
 																	onComplete: function (subsheetResponse) {
+																		const addAttachedDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
+
+																			const payload = {
+																				csrf: {
+																					name: csrfHeaderName,
+																					value: csrfToken
+																				},
+																				data: [
+																					{
+																						id: createdSubDocId,
+																						relateddata: {
+																							parents: [
+																								{
+																									id: createdDocId,
+																									updateAction: 'CONNECT'
+																								}
+																							]
+																						},
+																						updateAction: 'NONE'
+																					}
+																				]
+																			};
+
+																			WAFData.authenticatedRequest(addAttachedDocURL, {
+																				method: 'POST',
+																				type: 'json',
+																				headers: {
+																					'Content-Type': 'application/json',
+																					[csrfHeaderName]: csrfToken,
+																					'Accept': 'application/json'
+																				},
+																				data: JSON.stringify(payload),
+																				onComplete: function (res) {
+																					console.log('Connected Reference Document:', res);
+																					alert('Document successfully connected as Reference Document!');
+																				},
+																				onFailure: function (err) {
+																					console.error("Failed to connect document:", err);
+																					alert('Failed to connect reference document.');
+																				}
+																			});
 																		console.log("SubSheet DocumentType updated successfully", subsheetResponse);
 																	},
 																	onFailure: function (err) {
