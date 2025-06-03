@@ -390,7 +390,34 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									console.log("response:" + response);
 									const result = JSON.parse(response);
 									const createdItem = result.member[0];
-									alert("Engineering Item Name: " + createdItem.name);
+									//alert("Engineering Item Name: " + createdItem.name);
+									const createDocURL = /resources/v1/modeler/documents/parentId/'+ createdItem +'?parentRelName=Reference Document&parentDirection=to&$fields=indexedImage,indexedTypeicon,isDocumentType,organizationTitle,isLatestRevision,!parentId';
+									const payload = {
+										data: [{
+											attributes: {
+												name: "SpecSheet_" + Date.now(),
+												type: "Document",
+												policy: "Document Release",
+												XP_Document_Ext.DocumentType: "SpecSheet"
+											}
+										}]
+									};
+									 WAFData.authenticatedRequest(createDocURL, {
+                                            method: 'POST',
+                                            type: 'json',
+											data: JSON.stringify(payload),
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                [csrfHeaderName]: csrfToken
+                                            },
+                                            onComplete: function (response) {
+												console.log("add Reference Document successful:", response);
+											},
+											onFailure: function (err) {
+												console.error("Failed to add Reference Document:", err);
+											}
+											
+									});
 									const attachURL = baseUrl + '/resources/v1/modeler/projects';
 									console.log("attachURL", attachURL);
 									console.log("VPMReference ID:", createdItem.id);
