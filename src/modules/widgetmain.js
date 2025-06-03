@@ -403,8 +403,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									  }]
 									};
 
-									const createDocURL = baseUrl + '/resources/v1/modeler/documents';
-
 									WAFData.authenticatedRequest(createDocURL, {
 									  method: 'POST',
 									  type: 'json',
