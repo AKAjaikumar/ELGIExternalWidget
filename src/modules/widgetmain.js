@@ -391,6 +391,40 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const result = JSON.parse(response);
 									const createdItem = result.member[0];
 									alert("Engineering Item Name: " + createdItem.name);
+									const attachURL = baseUrl + '/resources/v1/modeler/projects'+selectedProjectId;
+									console.log("attachURL", attachURL);
+									console.log("VPMReference ID:", createdItem.id);
+									const checkInPayload = {
+									  data: [{
+										"id": selectedProjectId,
+										"type": "Project Space",
+										"updateAction": "MODIFY"
+										"references": {
+														"id": createdItem.id,
+														"type": "VPMReference",
+														"serviceId": "3DSpace",
+														"updateAction": "CONNECT"
+													}
+												}
+											]
+									};
+
+									WAFData.authenticatedRequest(attachURL, {
+										method: 'PUT',
+										type: 'json',
+										headers: {
+											'Content-Type': 'application/json',
+											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+											[csrfHeaderName]: csrfToken
+										},
+										data: JSON.stringify(checkInPayload),
+										onComplete: function (createResponse) {
+											console.log("createResponse :"+createResponse);
+										},
+										onFailure: function (err) {
+											reject("Failed to check in the document: " + err);
+										}
+									});
 								},
 								onFailure: function (error) {
 									console.error("❌ Failed to create Engineering Item", error);
