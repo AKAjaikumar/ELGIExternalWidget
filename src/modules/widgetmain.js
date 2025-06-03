@@ -682,12 +682,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 
 			// Append everything to the second-sidebar
-			sideBar2.appendChild(header);
-			sideBar2.appendChild(titleInput);
-			sideBar2.appendChild(descInput);
-			sideBar2.appendChild(dropZone);
-			sideBar2.appendChild(createBtn);
-			sideBar2.appendChild(resultBox);
+			newSidebar.appendChild(header);
+			newSidebar.appendChild(titleInput);
+			newSidebar.appendChild(descInput);
+			newSidebar.appendChild(dropZone);
+			newSidebar.appendChild(createBtn);
+			newSidebar.appendChild(resultBox);
 		},
 		
 		toggleSecondSidebar: function (visible) {
