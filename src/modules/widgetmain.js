@@ -443,7 +443,47 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													},
 													onComplete: function (updateResponse) {
 														console.log("DocumentType updated successfully", updateResponse);
+														const addSpecDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=SpecificationDocument&parentDirection=from';
 
+														const payload = {
+															csrf: {
+																name: csrfHeaderName,
+																value: csrfToken
+															},
+															data: [
+																{
+																	id: createdDocId,
+																	relateddata: {
+																		parents: [
+																			{
+																				id: createdItem.id,
+																				updateAction: 'CONNECT'
+																			}
+																		]
+																	},
+																	updateAction: 'NONE'
+																}
+															]
+														};
+
+														WAFData.authenticatedRequest(addSpecDocURL, {
+															method: 'POST',
+															type: 'json',
+															headers: {
+																'Content-Type': 'application/json',
+																[csrfHeaderName]: csrfToken,
+																'Accept': 'application/json'
+															},
+															data: JSON.stringify(payload),
+															onComplete: function (res) {
+																console.log('Connected Reference Document:', res);
+																alert('Document successfully connected as Specification Document!');
+															},
+															onFailure: function (err) {
+																console.error("Failed to connect document:", err);
+																alert('Failed to connect Specification document.');
+															}
+														});
 														const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
 														const createSubSheetPayload = {
 															data: [{
