@@ -421,8 +421,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											id: createdDocId,
 											type: "Document",
 											updateAction: "MODIFY",
-											attributes: {
-											  "XP_Document_Ext.DocumentType": "SpecSheet"
+											"attributes": {
+											  "DocumentType": "SpecSheet"
 											}
 										  }]
 										};
