@@ -484,25 +484,26 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 													const updateSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
 
-													WAFData.authenticatedRequest(updateSubSheetURL, {
-													  method: 'PUT',
-													  type: 'json',
-													  data: JSON.stringify(updateSubPayload),
-													  headers: {
-														'Content-Type': 'application/json',
-														[csrfHeaderName]: csrfToken,
-														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-													  },
-													  onComplete: function (subsheetResponse) {
-														console.log("DocumentType Subsheet updated successfully", subsheetResponse);
-													  },
-													  onFailure: function (err) {
-														console.error("Failed to update Subsheet DocumentType:", err);
-													  }
-												  },
-												  onFailure: function (err) {
-													console.error("Failed to update DocumentType:", err);
-												  }
+														WAFData.authenticatedRequest(updateSubSheetURL, {
+														  method: 'PUT',
+														  type: 'json',
+														  data: JSON.stringify(updateSubPayload),
+														  headers: {
+															'Content-Type': 'application/json',
+															[csrfHeaderName]: csrfToken,
+															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+														  },
+														  onComplete: function (subsheetResponse) {
+															console.log("DocumentType Subsheet updated successfully", subsheetResponse);
+														  },
+														  onFailure: function (err) {
+															console.error("Failed to update Subsheet DocumentType:", err);
+														  }
+														});
+													},
+													onFailure: function (err) {
+													  console.error("Failed to Create DocumentType:", err);
+													});
 										});
 									  },
 									  onFailure: function (err) {
