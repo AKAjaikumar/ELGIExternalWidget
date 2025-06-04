@@ -377,8 +377,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				{ label: "Product Class", type: "text", placeholder: "Enter Product Class" }
 			];
 			
-			const attributeContainer = document.createElement("div");
-			attributeContainer.className = "attribute-container";
+			
 			const attributeContainer = document.createElement("div");
 				attributeContainer.className = "attribute-container";
 
