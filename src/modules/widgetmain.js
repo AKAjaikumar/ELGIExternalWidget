@@ -481,7 +481,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										  ClassID: "4111F5971C5417006811852A00005AEF", 
 										  ObjectsToClassify: [
 											{
-											  source: "", 
+											  source: baseUrl, 
 											  type: "dseng:EngItem", 
 											  identifier: createdItem.id, 
 											  relativePath: "/resources/v1/modeler/dseng/dseng:EngItem/"+createdItem.id
@@ -495,7 +495,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											'Content-Type': 'application/json',
 											'Accept': 'application/json',
 											'ENO_CSRF_TOKEN': csrfToken,
-											'SecurityContext': 'VPLMProjectLeader.MyCompany.Common Space' 
+											'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space' 
 										  },
 										  data: JSON.stringify(payload),
 										  onComplete: function (response) {
