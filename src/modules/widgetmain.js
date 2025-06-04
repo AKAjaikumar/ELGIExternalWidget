@@ -713,6 +713,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.appendChild(descLabel);
 			sideBar2.appendChild(descInput);
 			sideBar2.appendChild(dropZone);
+			sideBar2.appendChild(attributeContainer);
 			sideBar2.appendChild(createBtn);
 			sideBar2.appendChild(resultBox);
 		},
