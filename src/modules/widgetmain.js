@@ -373,6 +373,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
 			
+			const attributeInputs = {};
 			const tplAttributes = [
 				{ label: "Product Class", type: "select", options: ["E07", "C56" ,"E46", "S01", "S15", "G12", "E23", "B32", "S09", "S67","B36", "E47"] }
 			];
@@ -415,7 +416,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				input.style.width = "100%";
 				input.style.padding = "6px";
 				input.style.boxSizing = "border-box";
-
+				attributeInputs[attr.label] = input;
 				wrapper.appendChild(label);
 				wrapper.appendChild(input);
 				attributeContainer.appendChild(wrapper);
@@ -436,7 +437,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						alert("Please drag and drop a valid Project Space.");
 						return;
 					}
+					const tplAttributeValues = {};
+					Object.keys(attributeInputs).forEach(label => {
+						tplAttributeValues[label] = attributeInputs[label].value;
+					});
 
+					console.log("TPL Attributes:", tplAttributeValues);
 					URLS.getURLs().then(baseUrl => {
 						console.log("baseUrl:" + baseUrl);
 						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
@@ -468,7 +474,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										'Content-Type': 'application/json',
 										'Accept': 'application/json',
 										'ENO_CSRF_TOKEN': csrfToken,
-										'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 									},
 									data: JSON.stringify(payload),
 									onComplete: function (response) {
@@ -495,13 +501,59 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											'Content-Type': 'application/json',
 											'Accept': 'application/json',
 											'ENO_CSRF_TOKEN': csrfToken,
-											'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space' 
+											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA' 
 										  },
 										  data: JSON.stringify(payload),
 										  onComplete: function (response) {
 											try {
 											  const result = JSON.parse(response);
 											  console.log("Classification result:", result);
+											  const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
+
+												WAFData.authenticatedRequest(getURL, {
+												  method: 'GET',
+												  headers: {
+													'Accept': 'application/json',
+													'ENO_CSRF_TOKEN': csrfToken,
+													'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+												  },
+												  onComplete: function (data) {
+													const result = JSON.parse(data);
+													const item = result.member[0]; 
+													const cestamp = item.cestamp;
+
+													console.log("Current cestamp:", cestamp);
+													console.log("Current attributes:", item.attributes);
+
+													
+													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + classifiedItemId;
+													const updatePayload = {
+													  cestamp: cestamp,
+													  ProductClass: "C56" 
+													};
+
+													WAFData.authenticatedRequest(updateURL, {
+													  method: 'PATCH',
+													  headers: {
+														'Content-Type': 'application/json',
+														'Accept': 'application/json',
+														'ENO_CSRF_TOKEN': csrfToken,
+														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+													  },
+													  data: JSON.stringify(updatePayload),
+													  onComplete: function (resp) {
+														console.log("PATCH success:", resp);
+													  },
+													  onFailure: function (err) {
+														console.error("PATCH failed:", err);
+													  }
+													});
+
+												  },
+												  onFailure: function (error) {
+													console.error("GET classified item failed:", error);
+												  }
+												});
 											} catch (e) {
 											  console.error("Failed to parse response:", response);
 											}
@@ -531,7 +583,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 											headers: {
 												'Content-Type': 'application/json',
 												[csrfHeaderName]: csrfToken,
-												'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+												'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 											},
 											onComplete: function (response) {
 												const createdDoc = response.data[0];
