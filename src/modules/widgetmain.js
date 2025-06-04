@@ -300,11 +300,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			const header = document.createElement("h2");
 			header.textContent = "Create TPL";
-			header.className = "sidebar-header"; // Make this bold and larger in CSS
+			header.className = "sidebar-header";
 
 			const titleLabel = document.createElement("label");
 			titleLabel.textContent = "Title:";
-			titleLabel.className = "form-label"; // Style with margin and bold
+			titleLabel.className = "form-label";
 
 			const titleInput = document.createElement("input");
 			titleInput.type = "text";
@@ -372,7 +372,29 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
+			
+			const tplAttributes = [
+				{ label: "Product Class", type: "text", placeholder: "Enter Product Class" }
+			];
+			
+			const attributeContainer = document.createElement("div");
+			attributeContainer.className = "attribute-container";
+			const attributeContainer = document.createElement("div");
+				attributeContainer.className = "attribute-container";
 
+				tplAttributes.forEach(attr => {
+					const label = document.createElement("label");
+					label.textContent = attr.label;
+					label.className = "form-label";
+
+					const input = document.createElement("input");
+					input.type = attr.type;
+					input.placeholder = attr.placeholder;
+					input.className = "form-input";
+
+					attributeContainer.appendChild(label);
+					attributeContainer.appendChild(input);
+				});
 			createBtn.onclick = () => {
 					const title = titleInput.value.trim();
 					const description = descInput.value.trim();
