@@ -505,7 +505,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															data: JSON.stringify(payload),
 															onComplete: function (res) {
 																console.log('Connected Reference Document:', res);
-																alert('Document successfully connected as Specification Document!');
+																
 															},
 															onFailure: function (err) {
 																console.error("Failed to connect document:", err);
@@ -598,7 +598,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																				data: JSON.stringify(payload),
 																				onComplete: function (res) {
 																					console.log('Connected Reference Document:', res);
-																					alert('Document successfully connected as Reference Document!');
+																					//alert('Document successfully connected as Reference Document!');
 																				},
 																				onFailure: function (err) {
 																					console.error("Failed to connect document:", err);
@@ -649,6 +649,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													data: JSON.stringify(attachDocPayload),
 													onComplete: function (createResponse) {
 														console.log("createResponse :", createResponse);
+														alert("TPL Created Successfully: " + createdItem.name);
 													},
 													onFailure: function (err) {
 														console.error("Failed to check in the document: ", err);
