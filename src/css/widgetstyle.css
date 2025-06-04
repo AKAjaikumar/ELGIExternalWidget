@@ -18,7 +18,33 @@ html {
   transform-style: preserve-3d;
   transform: translate3d(0px, 0px, 0px);
 }
+.sidebar-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
 
+.form-label {
+    font-weight: 600;
+    margin-top: 12px;
+    display: block;
+    color: #444;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
 
 .widget-body-content {
   flex: 1;
