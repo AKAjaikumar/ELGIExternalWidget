@@ -475,7 +475,41 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										console.log("response:" + response);
 										const result = JSON.parse(response);
 										const createdItem = result.member[0];
+										const classifyURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem';
 
+										const payload = {
+										  ClassID: "4111F5971C5417006811852A00005AEF", 
+										  ObjectsToClassify: [
+											{
+											  source: "", 
+											  type: "dseng:EngItem", 
+											  identifier: createdItem.id, 
+											  relativePath: "/resources/v1/modeler/dseng/dseng:EngItem/"+createdItem.id
+											}
+										  ]
+										};
+
+										WAFData.authenticatedRequest(classifyURL, {
+										  method: 'POST',
+										  headers: {
+											'Content-Type': 'application/json',
+											'Accept': 'application/json',
+											'ENO_CSRF_TOKEN': csrfToken,
+											'SecurityContext': 'VPLMProjectLeader.MyCompany.Common Space' 
+										  },
+										  data: JSON.stringify(payload),
+										  onComplete: function (response) {
+											try {
+											  const result = JSON.parse(response);
+											  console.log("Classification result:", result);
+											} catch (e) {
+											  console.error("Failed to parse response:", response);
+											}
+										  },
+										  onFailure: function (error) {
+											console.error("Classification failed:", error);
+										  }
+										});
 										const createDocURL = baseUrl + '/resources/v1/modeler/documents';
 										const createDocPayload = {
 											data: [{
