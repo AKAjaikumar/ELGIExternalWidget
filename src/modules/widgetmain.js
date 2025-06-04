@@ -297,14 +297,24 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.innerHTML = "";
 
 
+
 			const header = document.createElement("h2");
 			header.textContent = "Create TPL";
-			header.className = "sidebar-header";
+			header.className = "sidebar-header"; // Make this bold and larger in CSS
+
+			const titleLabel = document.createElement("label");
+			titleLabel.textContent = "Title:";
+			titleLabel.className = "form-label"; // Style with margin and bold
 
 			const titleInput = document.createElement("input");
 			titleInput.type = "text";
 			titleInput.placeholder = "Enter Title";
 			titleInput.className = "form-input";
+
+
+			const descLabel = document.createElement("label");
+			descLabel.textContent = "Description:";
+			descLabel.className = "form-label";
 
 			const descInput = document.createElement("textarea");
 			descInput.placeholder = "Enter Description";
@@ -675,9 +685,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				};
 
 
-			// Append everything to the second-sidebar
 			sideBar2.appendChild(header);
+			sideBar2.appendChild(titleLabel);
 			sideBar2.appendChild(titleInput);
+
+			sideBar2.appendChild(descLabel);
 			sideBar2.appendChild(descInput);
 			sideBar2.appendChild(dropZone);
 			sideBar2.appendChild(createBtn);
