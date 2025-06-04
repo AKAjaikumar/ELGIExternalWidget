@@ -441,8 +441,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					Object.keys(attributeInputs).forEach(label => {
 						tplAttributeValues[label] = attributeInputs[label].value;
 					});
-
 					console.log("TPL Attributes:", tplAttributeValues);
+					const productClass = tplAttributeValues["Product Class"];
+					console.log("Product Class:", productClass);
+					
 					URLS.getURLs().then(baseUrl => {
 						console.log("baseUrl:" + baseUrl);
 						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
@@ -521,15 +523,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													const result = JSON.parse(data);
 													const item = result.member[0]; 
 													const cestamp = item.cestamp;
-
+													console.log("result:", result);
 													console.log("Current cestamp:", cestamp);
 													console.log("Current attributes:", item.attributes);
 
 													
-													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + classifiedItemId;
+													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id;
 													const updatePayload = {
 													  cestamp: cestamp,
-													  ProductClass: "C56" 
+													  ProductClass: productClass 
 													};
 
 													WAFData.authenticatedRequest(updateURL, {
