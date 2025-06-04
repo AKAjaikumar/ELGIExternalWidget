@@ -263,8 +263,24 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             return li;
         },
 		createSecondSidebar: function () {
-            var sideBar2 = document.querySelector(".second-sidebar");
-            sideBar2.style.display = "block";
+            let sideBar2 = document.querySelector(".second-sidebar");
+
+			if (!sideBar2) {
+				sideBar2 = document.createElement("div");
+				sideBar2.className = "second-sidebar";
+				document.body.appendChild(sideBar2);
+			}
+
+
+			sideBar2.innerHTML = "";
+			sideBar2.style.display = "block";
+
+
+			const backArrow = myWidget.createBackArrow();
+			sideBar2.appendChild(backArrow);
+
+			const ul2 = myWidget.createSecondSidebarList();
+			sideBar2.appendChild(ul2);
         },
 		createPrjMng: function () {
 			const self = this; 
@@ -645,7 +661,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										});
 									},
 									onFailure: function (error) {
-										console.error("❌ Failed to create Engineering Item", error);
+										console.error("Failed to create Engineering Item", error);
 										alert("Error creating Engineering Item.");
 									}
 								});
