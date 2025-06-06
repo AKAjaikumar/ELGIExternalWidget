@@ -553,6 +553,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														type: "Document",
 														updateAction: "MODIFY",
 														"dataelements": {
+															"title": title,
 															"DocumentType": "SpecSheet"
 														}
 													}]
@@ -618,7 +619,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																attributes: {
 																	name: "SubSheet_" + Date.now(),
 																	type: "Document",
-																	title: title,
+																	
 																	policy: "Document Release",
 																	"extensions": [
 																		"XP_Document_Ext.DocumentType"
@@ -647,6 +648,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																		type: "Document",
 																		updateAction: "MODIFY",
 																		"dataelements": {
+																			"title": title,
 																			"DocumentType": "SubSheet"
 																		}
 																	}]
