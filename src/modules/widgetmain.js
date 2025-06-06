@@ -750,19 +750,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													},
 													data: JSON.stringify(attachDocPayload),
 													onComplete: function (createResponse) {
-														console.log("createResponse :", createResponse);
-														alert("TPL Created Successfully: " + createdItem.name);
-													},
-													onFailure: function (err) {
-														console.error("Failed to check in the document: ", err);
-													}
-												});
-											},
-											onFailure: function (err) {
-												console.error("Failed to create SpecSheet Document:", err);
-											}
-										});
-												const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
+														console.log("createResponse :", createResponse);const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
 												  method: 'GET',
@@ -797,6 +785,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
 														console.log("PATCH success:", resp);
+														alert("TPL Created Successfully: " + createdItem.name);
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
@@ -808,6 +797,18 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.error("GET classified item failed:", error);
 												  }
 												});
+														
+													},
+													onFailure: function (err) {
+														console.error("Failed to check in the document: ", err);
+													}
+												});
+											},
+											onFailure: function (err) {
+												console.error("Failed to create SpecSheet Document:", err);
+											}
+										});
+												
 									},
 									onFailure: function (error) {
 										console.error("Failed to create Engineering Item", error);
