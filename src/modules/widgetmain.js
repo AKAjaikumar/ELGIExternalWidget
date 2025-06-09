@@ -1494,10 +1494,22 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				
 				const rawData = e.dataTransfer.getData('text') || '';
 				console.log("RAW DROP DATA:", e.dataTransfer.getData('text'));
-				const droppedIds = rawData
-					.split(',')
-					.map(id => id.trim())
-					.filter(id => id); 
+				let droppedIds = [];
+
+				try {
+					const json = JSON.parse(rawData);
+					if (
+						json &&
+						json.protocol === "3DXContent" &&
+						Array.isArray(json.data?.items)
+					) {
+						droppedIds = json.data.items.map(item => item.objectId);
+					}
+				} catch (err) {
+					console.error("Invalid drag data:", err);
+					alert("Unsupported drag format");
+					return;
+				}
 
 				const existingCount = wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length;
 				console.log("Dropped:", droppedIds.length, "Existing:", existingCount, "Max:", maxFiles);
