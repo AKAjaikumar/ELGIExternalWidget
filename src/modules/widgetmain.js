@@ -72,7 +72,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var sideBar1Ul = document.createElement("ul");
             sideBar1Ul.className = "sideBar1Ul";
 
-            var tile1 = myWidget.createTileElement("Report 1", imageURL + "I_Switch.png", "Report 1", myWidget.createSecondSidebar);
+            var tile1 = myWidget.createTileElement("Reports", imageURL + "I_Switch.png", "Reports", myWidget.createSecondSidebar);
             var tile2 = myWidget.createTileElement("TPL Creation", imageURL + "I_Switch.png", "TPL Creation", myWidget.createPrjMng);
 
             sideBar1.appendChild(dummyspace);
@@ -858,7 +858,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
             return div1;
         },
-		EPRCompFun: async function () {
+		/*EPRCompFun: async function () {
 			try {
 				console.log("Download button clicked");
 				const chips = document.querySelectorAll('.YATG_wux-controls-selectionChips .YATG_wux-chip-cell-label');
@@ -903,6 +903,56 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
 			}
+		},*/
+		EPRCompFun: async function () {
+			try {
+				const specChips = document.querySelectorAll('#specsheetDrop .YATG_wux-chip-cell-label');
+				const tplChips = document.querySelectorAll('#tplDrop .YATG_wux-chip-cell-label');
+
+				if (specChips.length !== 1) {
+					alert("Please drop exactly one Spec Sheet document.");
+					return;
+				}
+				if (tplChips.length === 0 || tplChips.length > 3) {
+					alert("Please drop between 1 to 3 TPL documents.");
+					return;
+				}
+
+				const specId = specChips[0].id;
+				const tplIds = Array.from(tplChips).map(c => c.id);
+				console.log("Spec:", specId);
+				console.log("TPLs:", tplIds);
+
+				
+
+				/*const allBookmarks = [];
+
+				for (const id of [specId, ...tplIds]) {
+					console.log("Fetching bookmarks for document ID:", id);
+					const bookmarks = await myWidget.fetchBookmarksForDocument(id);
+					allBookmarks.push({ id, bookmarks });
+				}
+
+				const allCtrlCpy = [];
+				for (const entry of allBookmarks) {
+					for (const bookmark of entry.bookmarks) {
+						const ctrlCopyId = await myWidget.getParentRelatedCtrlCopy(bookmark.id);
+						allCtrlCpy.push({ bookmarkId: bookmark.id, ctrlCopyId });
+					}
+				}
+
+				const doc1 = await myWidget.fetchDocumentData(specId);
+				const tplDocs = await Promise.all(tplIds.map(id => myWidget.fetchDocumentData(id)));
+				const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, ...tplDocs);
+				const pdfData = await myWidget.generatePDF(mergedContent);
+
+				await myWidget.createDocumentWithPDF(pdfData, allCtrlCpy);
+				alert("PDF document created and checked in successfully!");
+				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());*/
+			} catch (error) {
+				console.error(error);
+				if (typeof popup !== 'undefined') popup.style.display = "none";
+			}
 		},
 		fetchDocumentData: function (docId) {
 				return new Promise(function (resolve, reject) {
@@ -929,7 +979,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										onComplete: function (docData) {
 										console.log("Fetched docData for ID", docId, docData);
 											if (docData.data && docData.data.length > 0) {
-												resolve(docData.data[0]);  // Return first document object
+												resolve(docData.data[0]);  
 											} else {
 												reject("No document data returned");
 											}
@@ -1375,40 +1425,97 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             if (classNames) element.classList.add(...classNames.split(" "));
             return element;
         },
-		parmERPDownloadcontent: function (downloadIcon, btnonclickFun) {
-            const div4 = this.createDiv("accordion-item active");
-            const accordionTitle = this.createDiv("accordion-title");
-            const caretIcon = this.createElementWithClass("i", "caret-left");
-            //const titleText = document.createTextNode("Download Document Configuration");
-            accordionTitle.appendChild(caretIcon);
-            //accordionTitle.appendChild(titleText);
-            div4.appendChild(accordionTitle);
+		parmERPDownloadcontent: function (icon, btnonclickFun) {
+			const container = new UWA.Element('div', {
+				'class': 'parameter-section',
+				styles: { padding: '10px' }
+			});
 
-            const contentWrapper = this.createDiv("content-wrapper");
-            const contentDiv = this.createDiv("content");
+			// Drop area for Specs Sheet (1 document max)
+			container.appendChild(myWidget.dragDropArea("specsheetDrop", 1, "Drop Spec Sheet Document (only 1)"));
 
-            contentDiv.appendChild(myWidget.dragAndDropFile());
-            contentWrapper.appendChild(contentDiv);
+			// Drop area for TPL (3 documents max)
+			container.appendChild(myWidget.dragDropArea("tplDrop", 3, "Drop up to 3 TPL Documents"));
 
-            const btnContainerdiv = this.createElementWithClass('div', 'btnContainerdiv');
+			// Download button
+			new UWA.Element('button', {
+				html: "Generate & Upload PDF",
+				'class': 'btn primary',
+				styles: {
+					marginTop: '15px',
+					padding: '8px 16px',
+					cursor: 'pointer'
+				},
+				events: {
+					click: btnonclickFun
+				}
+			}).inject(container);
 
-            const downloadPopupbtn = this.createDiv("downloadPopup");
-            downloadPopupbtn.id = "downloadPopup";
-            const loaderdiv = this.createDiv("spinner");
-            const downladptag = document.createElement('p');
-            downladptag.textContent = "Downloading........";
+			return container;
+		},
+		dragDropArea: function (id, maxFiles, label) {
+			const wrapper = new UWA.Element('div', {
+				id: id,
+				'class': 'YATG_wux-controls-selectionChips',
+				styles: {
+					border: '2px dashed #ccc',
+					padding: '10px',
+					margin: '10px 0',
+					backgroundColor: '#fafafa',
+					minHeight: '60px',
+					position: 'relative'
+				}
+			});
 
-            downloadPopupbtn.appendChild(loaderdiv);
-            downloadPopupbtn.appendChild(downladptag)
-            btnContainerdiv.appendChild(downloadPopupbtn);
+			new UWA.Element('div', {
+				html: label,
+				styles: {
+					position: 'absolute',
+					top: '5px',
+					left: '10px',
+					fontSize: '12px',
+					color: '#999'
+				}
+			}).inject(wrapper);
 
-            btnContainerdiv.appendChild(this.createButtonCell("", "Generate Controlled Copy", "Generate", btnonclickFun));
-            contentDiv.appendChild(btnContainerdiv);
+			wrapper.addEventListener('dragover', function (e) {
+				e.preventDefault();
+				wrapper.setStyle('border-color', '#0078d4');
+			});
 
-            div4.appendChild(contentWrapper);
+			wrapper.addEventListener('dragleave', function () {
+				wrapper.setStyle('border-color', '#ccc');
+			});
 
-            return div4;
-        },
+			wrapper.addEventListener('drop', async function (e) {
+				e.preventDefault();
+				wrapper.setStyle('border-color', '#ccc');
+
+				// Example: get dropped document IDs from dataTransfer (depends on source)
+				const data = e.dataTransfer.getData('text');
+				const droppedIds = data ? data.split(',') : [];
+
+				if (wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length + droppedIds.length > maxFiles) {
+					alert(`You can only drop up to ${maxFiles} document(s) here.`);
+					return;
+				}
+
+				for (const docId of droppedIds) {
+					const chip = new UWA.Element('div', {
+						'class': 'YATG_wux-chip-cell-container',
+						html: `<li class="YATG_wux-chip-cell-label" id="${docId}">${docId}</li>`,
+						draggable: 'true',
+						styles: {
+							padding: '5px',
+							backgroundColor: '#e0e0e0',
+							marginTop: '5px'
+						}
+					}).inject(wrapper);
+				}
+			});
+
+			return wrapper;
+		},
 		dragAndDropFile: function () {
             const maincont = document.createElement("div");
 
