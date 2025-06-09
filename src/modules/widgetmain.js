@@ -1724,7 +1724,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					) {
 						droppedItems = json.data.items.map(item => ({
 							id: item.objectId,
-							name: item.dataelements?.name || item.name || item.objectId
+							name: item.dataelements?.name || item.name || item.displayName
 						}));
 					}
 				} catch (err) {
