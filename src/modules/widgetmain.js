@@ -797,24 +797,31 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'ENO_CSRF_TOKEN': csrfToken,
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
-														  onComplete: function (data) {
-															  console.log("data:", data);
-															  if (response && response.data && Array.isArray(response.data)) {
-																const specificationObj = response.data.find(item =>
-																	item.dataelements?.title === "Specification"
-																);
+														  onComplete: function (response) {
+															  console.log("Full response:", response);
 
-																if (specificationObj) {
-																	const specId = specificationObj.id;
-																	console.log("Found Specification ID:", specId);
+																if (response && response.data && Array.isArray(response.data)) {
+																	// Debug log: show all titles
+																	response.data.forEach(item => {
+																		console.log("Title found:", item?.dataelements?.title);
+																	});
 
+																	// Case-insensitive match for "Specification"
+																	const specificationObj = response.data.find(item =>
+																		item?.dataelements?.title?.toLowerCase() === "specification"
+																	);
+
+																	if (specificationObj) {
+																		const specId = specificationObj.id;
+																		console.log("✅ Specification ID:", specId);
+																		alert("Specification Folder ID: " + specId);
+																	} else {
+																		console.warn("❌ No folder with title 'Specification' found.");
+																		alert("No Specification folder found.");
+																	}
 																} else {
-																	console.warn("No Specification title found in the response");
-																	alert("No Specification folder found.");
-																}
-																} else {
-																	console.error("Invalid or empty response structure");
-																	alert("Failed to get folders.");
+																	console.error("❌ Invalid response format.");
+																	alert("Invalid response format.");
 																}
 															  alert("TPL Created Successfully: " + createdItem.name);
 														  },
