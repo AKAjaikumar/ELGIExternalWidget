@@ -799,6 +799,23 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														  },
 														  onComplete: function (data) {
 															  console.log("data:", data);
+															  if (response && response.data && Array.isArray(response.data)) {
+																const specificationObj = response.data.find(item =>
+																	item.dataelements?.title === "Specification"
+																);
+
+																if (specificationObj) {
+																	const specId = specificationObj.id;
+																	console.log("Found Specification ID:", specId);
+
+																} else {
+																	console.warn("No Specification title found in the response");
+																	alert("No Specification folder found.");
+																}
+																} else {
+																	console.error("Invalid or empty response structure");
+																	alert("Failed to get folders.");
+																}
 															  alert("TPL Created Successfully: " + createdItem.name);
 														  },
 														  onFailure: function (err) {
