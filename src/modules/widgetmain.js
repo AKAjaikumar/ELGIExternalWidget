@@ -798,7 +798,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
 														  onComplete: function (response) {
-															   const SpecFolder = response.data.find(data => item.dataelements.title === "Specification");
+															   const SpecFolder = response.data.find(data => data.dataelements.title === "Specification");
 
 																if (SpecFolder) {
 																  const SpecFolderId = SpecFolder.id;
