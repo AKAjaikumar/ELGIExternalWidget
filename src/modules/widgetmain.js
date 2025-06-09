@@ -1010,7 +1010,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const csrfToken = csrfData.csrf.value;
 									const csrfHeaderName = csrfData.csrf.name;
 
-									const docURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + docId + '?parentRelName=SpecificationDocument&$include=all&parentDirection=to';
+									const docURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + docId + '?parentRelName=SpecificationDocument&$include=all&parentDirection=from';
 									WAFData.authenticatedRequest(docURL, {
 										method: 'GET',
 										type: 'json',
