@@ -754,6 +754,55 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																										}, 
 																										onComplete: function (response) {
 																											console.log("response:", response);
+																											const specsheet = response.folders.find(folder => folder.label === "SpecSheet");
+																											const subsheet = response.folders.find(folder => folder.label === "SubSheet");
+																											if (specsheet) {
+																											  const specsheetId = specsheet.id;
+																											  const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ specsheet.id +'/content';
+																												WAFData.authenticatedRequest(bookMarkURL, {
+																													method: 'POST',
+																													type: 'json',
+																													headers: {
+																														'Content-Type': 'application/json',
+																														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																														[csrfHeaderName]: csrfToken
+																													},
+																													data: JSON.stringify({"IDs": createdDocId}),
+																													onComplete: function (createResponse) {
+																														console.log("createResponse :"+createResponse);
+																														resolve(createResponse);
+																													},
+																													onFailure: function (err) {
+																														reject("Failed to add bookmark: " + err);
+																													}
+																												}); 
+																											} else {
+																												
+																											  console.warn("Specsheet folder not found.");
+																											} 
+																											if (subsheet) {
+																											  const subsheetId = subsheet.id;
+																											  const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ subsheet.id +'/content';
+																												WAFData.authenticatedRequest(bookMarkURL, {
+																													method: 'POST',
+																													type: 'json',
+																													headers: {
+																														'Content-Type': 'application/json',
+																														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																														[csrfHeaderName]: csrfToken
+																													},
+																													data: JSON.stringify({"IDs": createdSubDocId}),
+																													onComplete: function (createResponse) {
+																														console.log("createResponse :"+createResponse);
+																													},
+																													onFailure: function (err) {
+																														reject("Failed to add bookmark: " + err);
+																													}
+																												}); 
+																											} else {
+																												reject("Controlled Copy folder not found.");
+																											  console.warn("Controlled Copy folder not found.");
+																											} 
 																										},
 																										onFailure: function (err) {
 																											console.error(" error:", err);
