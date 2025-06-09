@@ -1713,6 +1713,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const rawData = e.dataTransfer.getData('text') || '';
 				console.log("RAW DROP DATA:", e.dataTransfer.getData('text'));
 				let droppedIds = [];
+				let droppedName = [];
 
 				try {
 					const json = JSON.parse(rawData);
@@ -1721,7 +1722,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						json.protocol === "3DXContent" &&
 						Array.isArray(json.data?.items)
 					) {
-						droppedIds = json.data.items.map(item => item.objectId);
+						droppedItems = json.data.items.map(item => ({
+							id: item.objectId,
+							name: item.dataelements?.name || item.name || item.objectId
+						}));
 					}
 				} catch (err) {
 					console.error("Invalid drag data:", err);
@@ -1739,12 +1743,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 				
 				const existingIds = Array.from(wrapper.querySelectorAll('.YATG_wux-chip-cell-label')).map(el => el.id);
-				const filteredNewIds = droppedIds.filter(id => !existingIds.includes(id));
+				const filteredNewItems = droppedItems.filter(item => !existingIds.includes(item.id));
 
-				for (const docId of filteredNewIds) {
+				for (const item of filteredNewItems) {
 					const chip = new UWA.Element('div', {
 						'class': 'YATG_wux-chip-cell-container',
-						html: `<li class="YATG_wux-chip-cell-label" id="${docId}">${docId}</li>`,
+						html: `<li class="YATG_wux-chip-cell-label" id="${item.id}">${item.name}</li>`,
 						draggable: 'true',
 						styles: {
 							padding: '5px',
