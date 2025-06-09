@@ -939,11 +939,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						const ctrlCopyId = await myWidget.getParentRelatedCtrlCopy(bookmark.id);
 						allCtrlCpy.push({ bookmarkId: bookmark.id, ctrlCopyId });
 					}
-				}
+				}*/
 
 				const doc1 = await myWidget.fetchDocumentData(specId);
-				const tplDocs = await Promise.all(tplIds.map(id => myWidget.fetchDocumentData(id)));
-				const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, ...tplDocs);
+				const tplDocs = await Promise.all(tplIds.map(id => myWidget.fetchTPLDocumentData(id)));
+				/*const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, ...tplDocs);
 				const pdfData = await myWidget.generatePDF(mergedContent);
 
 				await myWidget.createDocumentWithPDF(pdfData, allCtrlCpy);
@@ -969,6 +969,48 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 									const csrfHeaderName = csrfData.csrf.name;
 
 									const docURL = baseUrl + '/resources/v1/modeler/documents/' + docId;
+									WAFData.authenticatedRequest(docURL, {
+										method: 'GET',
+										type: 'json',
+										headers: {
+											'Content-Type': 'application/json',
+											[csrfHeaderName]: csrfToken
+										},
+										onComplete: function (docData) {
+										console.log("Fetched docData for ID", docId, docData);
+											if (docData.data && docData.data.length > 0) {
+												resolve(docData.data[0]);  
+											} else {
+												reject("No document data returned");
+											}
+										},
+										onFailure: function (err) {
+											reject(err);
+										}
+									});
+								},
+								onFailure: function (err) {
+									reject(err);
+								}
+							});
+					});
+				});
+			},
+		fetchTPLDocumentData: function (docId) {
+				return new Promise(function (resolve, reject) {
+					URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:" + baseUrl);
+
+							const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+							WAFData.authenticatedRequest(csrfURL, {
+								method: 'GET',
+								type: 'json',
+								onComplete: function (csrfData) {
+									const csrfToken = csrfData.csrf.value;
+									const csrfHeaderName = csrfData.csrf.name;
+
+									const docURL = baseUrl + '/resources/v1/modeler/documents/parentId/' + docId + '?parentRelName=SpecificationDocument&$include=all&parentDirection=to';
 									WAFData.authenticatedRequest(docURL, {
 										method: 'GET',
 										type: 'json',
@@ -1431,10 +1473,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				styles: { padding: '10px' }
 			});
 
-			// Drop area for Specs Sheet (1 document max)
+			
 			container.appendChild(myWidget.dragDropArea("specsheetDrop", 1, "Drop Spec Sheet Document"));
 
-			// Drop area for TPL (3 documents max)
+			
 			container.appendChild(myWidget.dragDropArea("tplDrop", 3, "Drop up to 3 TPL's"));
 
 			// Download button
