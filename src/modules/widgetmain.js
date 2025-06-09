@@ -798,42 +798,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
 														  onComplete: function (response) {
-															   let json;
+															   const SpecFolder = response.data.find(data => item.dataelements.title === "Specification");
 
-																try {
-																	if (response && response.responseJSON) {
-																		json = response.responseJSON;
-																	} 
-																	else if (response && typeof response.responseText === "string") {
-																		json = JSON.parse(response.responseText);
-																	} 
-																	else {
-																		console.error("Unknown response format:", response);
-																		alert("Invalid response format.");
-																		return;
-																	}
-
-																	if (!Array.isArray(json.data)) {
-																		console.error("Expected 'data' array not found in response:", json);
-																		alert("Invalid response format.");
-																		return;
-																	}
-
-																	const specFolder = json.data.find(item =>
-																		item.dataelements?.title?.toLowerCase() === "specification"
-																	);
-
-																	if (specFolder) {
-																		console.log("Specification folder found:", specFolder);
-																		alert("Specification Folder ID: " + specFolder.id);
-																	} else {
-																		console.warn("No Specification folder found in data.");
-																		alert("No Specification folder found.");
-																	}
-																} catch (e) {
-																	console.error("Exception during response parsing:", e);
-																	alert("Invalid response format.");
-																}
+																if (SpecFolder) {
+																  const SpecFolderId = SpecFolder.id;
+																   console.log("SpecFolderId",SpecFolderId);
+																} else {
+																	
+																  console.warn("Specification folder not found.");
+																} 
 															  alert("TPL Created Successfully: " + createdItem.name);
 														  },
 														  onFailure: function (err) {
