@@ -946,7 +946,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const mergedContent = myWidget.mergeDocumentsIntoTable(tplDocs);
 				const pdfData = await myWidget.generatePDF(mergedContent);
 
-				await myWidget.createDocumentWithPDF(pdfData, allCtrlCpy);
+				await myWidget.createDocumentWithPDF(pdfData, specId);
 				alert("PDF document created and checked in successfully!");
 				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
 			} catch (error) {
@@ -1115,6 +1115,141 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				console.error('Failed to generate PDF:', err);
 				throw err;
 			}
+		},
+		checkinPDF: function(pdfBlob,docId) {
+			return new Promise(function (resolve, reject) {
+				
+				URLS.getURLs().then(baseUrl => {
+					console.log("baseUrl:" + baseUrl);
+						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
+
+						// 1. Fetch CSRF token
+						WAFData.authenticatedRequest(csrfURL, {
+							method: 'GET',
+							type: 'json',
+							onComplete: function (csrfData) {
+								const csrfToken = csrfData.csrf.value;
+								const csrfHeaderName = csrfData.csrf.name;
+
+								
+										
+										// 3. Request Checkin Ticket
+										const ticketURL = baseUrl + '/resources/v1/modeler/documents/' + docId + '/files/CheckinTicket';
+										const ticketPayload = {
+											data: [{
+												id: docId,
+												dataelements: {
+													format: "pdf",
+													title: "MergedPDF",
+													fileName: "Merged_Document.pdf"
+												}
+											}]
+										};
+
+										WAFData.authenticatedRequest(ticketURL, {
+											method: 'PUT',
+											type: 'json',
+											headers: {
+												'Content-Type': 'application/json',
+												[csrfHeaderName]: csrfToken
+											},
+											data: JSON.stringify(ticketPayload),
+											onComplete: function (ticketResponse) {
+												console.log("ticketResponse:", ticketResponse);
+												const ticketInfo = ticketResponse.data[0].dataelements;
+												console.log("ticketInfo:", ticketInfo);
+												const paramName = ticketInfo.ticketparamname;
+												const ticket = ticketInfo.ticket;
+												const fcsUrl = ticketInfo.ticketURL;
+
+												console.log("Using ticket param:", paramName);
+												console.log("Ticket:", ticket);
+												console.log("FCS Upload URL:", fcsUrl);
+												console.log("PDF Blob size:", pdfBlob.size);
+												const formData = new FormData();
+												formData.append(paramName, ticket);
+												formData.append('file_0', pdfBlob, "Merged_Document.pdf");
+												
+												
+
+												const xhr = new XMLHttpRequest();
+												xhr.open('POST', fcsUrl, true);
+												console.log("xhr.status:", xhr.status);
+												//xhr.setRequestHeader(csrfHeaderName, csrfToken); 
+												xhr.onload = function () {
+													if (xhr.status === 200) {
+														// 5. Call Checkin
+														console.log("Raw FCS responseText:", xhr.responseText);
+														
+														const receipt = xhr.responseText;
+
+														if (!receipt) {
+															reject("FCS upload succeeded but no valid receipt was returned.");
+															return;
+														}
+														console.log("Receipt:", receipt);
+														
+														const checkInURL = baseUrl + '/resources/v1/modeler/documents' ;
+														console.log("Checkin URL:", checkInURL);
+														console.log("Document ID:", docId);
+														const checkInPayload = {
+														  data: [{
+															"id": docId,
+															"relateddata": {
+																			"files": [
+																				{
+																					"dataelements": {
+																						"comments": "COMING VIA EXTERNAM WIDGET",
+																						"receipt": receipt,
+																						"title": "Merged_Document"
+																					},
+																					"updateAction": "CREATE"
+																				}
+																			]
+																		},
+																		"updateAction": "NONE"
+																	}
+																]
+														};
+
+														WAFData.authenticatedRequest(checkInURL, {
+															method: 'PUT',
+															type: 'json',
+															headers: {
+																'Content-Type': 'application/json',
+																'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																[csrfHeaderName]: csrfToken
+															},
+															data: JSON.stringify(checkInPayload),
+															onComplete: function (createResponse) {
+																console.log("createResponse :"+createResponse);
+																resolve(createResponse);
+																
+															},
+															onFailure: function (err) {
+																reject("Failed to check in the document: " + err);
+															}
+														});
+													} else {
+														reject("Failed to upload PDF to FCS. Status: " + xhr.status);
+													}
+												};
+												xhr.onerror = function () {
+													reject("FCS upload request failed.");
+												};
+												xhr.send(formData);
+											},
+											onFailure: function (err) {
+												reject("Failed to get checkin ticket: " + err);
+											}
+										});
+							},
+							onFailure: function (err) {
+								reject("Failed to get CSRF token: " + err);
+							}
+						});
+				});
+			});
 		},
 		createDocumentWithPDF: function(pdfBlob,allCtrlCpy) {
 			return new Promise(function (resolve, reject) {
