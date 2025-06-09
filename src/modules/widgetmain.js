@@ -1491,17 +1491,26 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				e.preventDefault();
 				wrapper.setStyle('border-color', '#ccc');
 
-				// Example: get dropped document IDs from dataTransfer (depends on source)
-				const data = e.dataTransfer.getData('text');
-				const droppedIds = data ? data.split(',') : [];
-				console.log(wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length + droppedIds.length);
-				console.log(maxFiles);
-				if (wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length + droppedIds.length > maxFiles) {
+				// Get and sanitize dropped IDs
+				const rawData = e.dataTransfer.getData('text') || '';
+				const droppedIds = rawData
+					.split(',')
+					.map(id => id.trim())
+					.filter(id => id); // Removes empty strings
+
+				const existingCount = wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length;
+				console.log("Dropped:", droppedIds.length, "Existing:", existingCount, "Max:", maxFiles);
+
+				if (existingCount + droppedIds.length > maxFiles) {
 					alert(`You can only drop up to ${maxFiles} document(s) here.`);
 					return;
 				}
 
-				for (const docId of droppedIds) {
+				// Optional: Prevent duplicates
+				const existingIds = Array.from(wrapper.querySelectorAll('.YATG_wux-chip-cell-label')).map(el => el.id);
+				const filteredNewIds = droppedIds.filter(id => !existingIds.includes(id));
+
+				for (const docId of filteredNewIds) {
 					const chip = new UWA.Element('div', {
 						'class': 'YATG_wux-chip-cell-container',
 						html: `<li class="YATG_wux-chip-cell-label" id="${docId}">${docId}</li>`,
