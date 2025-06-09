@@ -943,12 +943,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 				const doc1 = await myWidget.fetchDocumentData(specId);
 				const tplDocs = await Promise.all(tplIds.map(id => myWidget.fetchTPLDocumentData(id)));
-				/*const mergedContent = myWidget.mergeDocumentsIntoTable(doc1, ...tplDocs);
+				const mergedContent = myWidget.mergeDocumentsIntoTable(tplDocs);
 				const pdfData = await myWidget.generatePDF(mergedContent);
 
 				await myWidget.createDocumentWithPDF(pdfData, allCtrlCpy);
 				alert("PDF document created and checked in successfully!");
-				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());*/
+				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
 			} catch (error) {
 				console.error(error);
 				if (typeof popup !== 'undefined') popup.style.display = "none";
@@ -1049,7 +1049,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																});
 
 																alert(`Document List: ${JSON.stringify(allFileIds, null, 2)}`);
-																resolve(documentList.data[0]);
+																resolve(documentList[0]);
 															} else {
 																console.warn('No document found');
 																alert("No document data found.");
@@ -1076,12 +1076,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					});
 				});
 			},
-		mergeDocumentsIntoTable: function(doc1, doc2) {
+		mergeDocumentsIntoTable: function(docs) {
 			const headers = ["Name", "Policy", "State"];
-			const rows = [
-				[doc1.dataelements.name, doc1.dataelements.policy, doc1.dataelements.state],
-				[doc2.dataelements.name, doc2.dataelements.policy, doc2.dataelements.state]
-			];
+			const rows = docs.map(doc => [
+				doc.dataelements?.name || 'N/A',
+				doc.dataelements?.policy || 'N/A',
+				doc.dataelements?.state || 'N/A',
+				doc.dataelements?.DocumentType || 'N/A',
+				doc.dataelements?.originated || 'N/A'
+			]);
 
 			return { headers, rows };
 		},
