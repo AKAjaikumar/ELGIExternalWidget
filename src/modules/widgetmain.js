@@ -798,29 +798,28 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
 														  onComplete: function (response) {
-															  console.log("Full response:", response);
+															   console.log("Raw response:", response);
 
-																if (response && response.data && Array.isArray(response.data)) {
-																	// Debug log: show all titles
-																	response.data.forEach(item => {
-																		console.log("Title found:", item?.dataelements?.title);
+																const data = response?.responseJSON?.data;
+
+																if (Array.isArray(data)) {
+																	data.forEach(item => {
+																		console.log("Folder title:", item?.dataelements?.title);
 																	});
 
-																	// Case-insensitive match for "Specification"
-																	const specificationObj = response.data.find(item =>
+																	const specificationObj = data.find(item =>
 																		item?.dataelements?.title?.toLowerCase() === "specification"
 																	);
 
 																	if (specificationObj) {
 																		const specId = specificationObj.id;
-																		console.log("✅ Specification ID:", specId);
+																		console.log("Found Specification ID:", specId);
 																		alert("Specification Folder ID: " + specId);
 																	} else {
-																		console.warn("❌ No folder with title 'Specification' found.");
+																		console.warn("No Specification folder found.");
 																		alert("No Specification folder found.");
 																	}
 																} else {
-																	console.error("❌ Invalid response format.");
 																	alert("Invalid response format.");
 																}
 															  alert("TPL Created Successfully: " + createdItem.name);
