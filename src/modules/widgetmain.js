@@ -798,28 +798,40 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
 														  onComplete: function (response) {
-															   console.log("Raw response:", response);
+															   let json;
 
-																const data = response?.responseJSON?.data;
+																try {
+																	if (response && response.responseJSON) {
+																		json = response.responseJSON;
+																	} 
+																	else if (response && typeof response.responseText === "string") {
+																		json = JSON.parse(response.responseText);
+																	} 
+																	else {
+																		console.error("Unknown response format:", response);
+																		alert("Invalid response format.");
+																		return;
+																	}
 
-																if (Array.isArray(data)) {
-																	data.forEach(item => {
-																		console.log("Folder title:", item?.dataelements?.title);
-																	});
+																	if (!Array.isArray(json.data)) {
+																		console.error("Expected 'data' array not found in response:", json);
+																		alert("Invalid response format.");
+																		return;
+																	}
 
-																	const specificationObj = data.find(item =>
-																		item?.dataelements?.title?.toLowerCase() === "specification"
+																	const specFolder = json.data.find(item =>
+																		item.dataelements?.title?.toLowerCase() === "specification"
 																	);
 
-																	if (specificationObj) {
-																		const specId = specificationObj.id;
-																		console.log("Found Specification ID:", specId);
-																		alert("Specification Folder ID: " + specId);
+																	if (specFolder) {
+																		console.log("Specification folder found:", specFolder);
+																		alert("Specification Folder ID: " + specFolder.id);
 																	} else {
-																		console.warn("No Specification folder found.");
+																		console.warn("No Specification folder found in data.");
 																		alert("No Specification folder found.");
 																	}
-																} else {
+																} catch (e) {
+																	console.error("Exception during response parsing:", e);
 																	alert("Invalid response format.");
 																}
 															  alert("TPL Created Successfully: " + createdItem.name);
