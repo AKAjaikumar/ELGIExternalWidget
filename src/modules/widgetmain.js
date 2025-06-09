@@ -1077,7 +1077,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				});
 			},
 		mergeDocumentsIntoTable: function(docs) {
-			const headers = ["Name", "Policy", "State"];
+			const headers = ["Name", "Policy", "State", "Document Type", "Originated"];
 			const rows = docs.map(doc => [
 				doc.dataelements?.name || 'N/A',
 				doc.dataelements?.policy || 'N/A',
