@@ -770,10 +770,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																													data: JSON.stringify({"IDs": createdDocId}),
 																													onComplete: function (createResponse) {
 																														console.log("createResponse :"+createResponse);
-																														resolve(createResponse);
+														
 																													},
 																													onFailure: function (err) {
-																														reject("Failed to add bookmark: " + err);
+																														console.error(" error:", err);
 																													}
 																												}); 
 																											} else {
@@ -796,11 +796,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																														console.log("createResponse :"+createResponse);
 																													},
 																													onFailure: function (err) {
-																														reject("Failed to add bookmark: " + err);
+																														console.error(" error:", err);
 																													}
 																												}); 
 																											} else {
-																												reject("Controlled Copy folder not found.");
+																												
 																											  console.warn("Controlled Copy folder not found.");
 																											} 
 																										},
