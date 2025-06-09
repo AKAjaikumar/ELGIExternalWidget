@@ -1432,14 +1432,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			});
 
 			// Drop area for Specs Sheet (1 document max)
-			container.appendChild(myWidget.dragDropArea("specsheetDrop", 1, "Drop Spec Sheet Document (only 1)"));
+			container.appendChild(myWidget.dragDropArea("specsheetDrop", 1, "Drop Spec Sheet Document"));
 
 			// Drop area for TPL (3 documents max)
 			container.appendChild(myWidget.dragDropArea("tplDrop", 3, "Drop up to 3 TPL Documents"));
 
 			// Download button
 			new UWA.Element('button', {
-				html: "Generate & Upload PDF",
+				html: "Generate Controlled Copy",
 				'class': 'btn primary',
 				styles: {
 					marginTop: '15px',
