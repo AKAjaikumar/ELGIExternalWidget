@@ -804,7 +804,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														  onFailure: function (err) {
 															console.error("PATCH failed:", err);
 														  }
-														
+														});
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
