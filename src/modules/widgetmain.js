@@ -701,6 +701,78 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																				onComplete: function (res) {
 																					console.log('Connected Reference Document:', res);
 																					//alert('Document successfully connected as Reference Document!');
+																					const getFolderURL = baseUrl + '/resources/v1/modeler/projects/' + selectedProjectId + '/folders';
+
+																					WAFData.authenticatedRequest(getFolderURL, {
+																					  method: 'GET',
+																					  headers: {
+																						'Accept': 'application/json',
+																						'ENO_CSRF_TOKEN': csrfToken,
+																						'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+																					  },
+																					  onComplete: function (response) {
+																						   try {
+																								let json;
+
+																								if (response && response.success && Array.isArray(response.data)) {
+																									json = response;
+																								}
+																								else if (response && response.responseText) {
+																									json = JSON.parse(response.responseText);
+																								} else if (typeof response === "string") {
+																									json = JSON.parse(response);
+																								} else {
+																									throw new Error("Unknown response format");
+																								}
+
+																								const specFolder = json.data.find(item =>
+																									item.dataelements &&
+																									item.dataelements.title &&
+																									item.dataelements.title.toLowerCase() === "specification"
+																								);
+
+																								if (specFolder) {
+																									console.log("Specification Folder ID:", specFolder.id);
+																									const folderTreeURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + specFolder.id + '/folderTree';
+																									WAFData.authenticatedRequest(folderTreeURL, {
+																										method: 'POST',
+																										type: 'json',
+																										data: JSON.stringify({
+																											expandList: "",
+																											isRoot: "",
+																											nextStart: 0,
+																											nresults: 200,
+																											Read: true,
+																											refine: "",
+																											sortMode: "ds6w:label",
+																											sortOrder: "asc"
+																										}),
+																										headers: {
+																											'Content-Type': 'application/json',
+																											'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																											[csrfHeaderName]: csrfToken
+																										}, 
+																										onComplete: function (response) {
+																											console.log("response:", response);
+																										},
+																										onFailure: function (err) {
+																											console.error(" error:", err);
+																										}
+																									});
+																								} else {
+																									alert("No folder with title 'Specification' found.");
+																								}
+
+																							} catch (e) {
+																								console.error("Parsing error:", e);
+																								alert("Invalid response format or data.");
+																							}
+																						  
+																					  },
+																					  onFailure: function (err) {
+																						console.error("PATCH failed:", err);
+																					  }
+																					});
 																				},
 																				onFailure: function (err) {
 																					console.error("Failed to connect document:", err);
@@ -788,53 +860,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
 														console.log("PATCH success:", resp);
-														const getFolderURL = baseUrl + '/resources/v1/modeler/projects/' + selectedProjectId + '/folders';
-
-														WAFData.authenticatedRequest(getFolderURL, {
-														  method: 'GET',
-														  headers: {
-															'Accept': 'application/json',
-															'ENO_CSRF_TOKEN': csrfToken,
-															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
-														  },
-														  onComplete: function (response) {
-															   try {
-																	let json;
-
-																	if (response && response.success && Array.isArray(response.data)) {
-																		json = response;
-																	}
-																	else if (response && response.responseText) {
-																		json = JSON.parse(response.responseText);
-																	} else if (typeof response === "string") {
-																		json = JSON.parse(response);
-																	} else {
-																		throw new Error("Unknown response format");
-																	}
-
-																	const specFolder = json.data.find(item =>
-																		item.dataelements &&
-																		item.dataelements.title &&
-																		item.dataelements.title.toLowerCase() === "specification"
-																	);
-
-																	if (specFolder) {
-																		console.log("✅ Specification Folder ID:", specFolder.id);
-																		alert("Specification Folder ID: " + specFolder.id);
-																	} else {
-																		alert("No folder with title 'Specification' found.");
-																	}
-
-																} catch (e) {
-																	console.error("❌ Parsing error:", e);
-																	alert("Invalid response format or data.");
-																}
-															  alert("TPL Created Successfully: " + createdItem.name);
-														  },
-														  onFailure: function (err) {
-															console.error("PATCH failed:", err);
-														  }
-														});
+														alert("TPL Created Successfully: " + createdItem.name);
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
