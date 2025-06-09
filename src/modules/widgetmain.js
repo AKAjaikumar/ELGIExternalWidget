@@ -1021,14 +1021,52 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										onComplete: function (docData) {
 										console.log("Fetched docData for ID", docId, docData);
 											if (docData.data && docData.data.length > 0) {
-												resolve(docData.data[0]);  
-											} else {
-												reject("No document data returned");
-											}
-										},
-										onFailure: function (err) {
-											reject(err);
-										}
+												
+												  const specId = docData.id;
+												  console.log("specId", specId);
+												const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/'+specId+'?parentRelName=Reference Document&parentDirection=from&$fields=indexedImage,indexedTypeicon,isDocumentType,organizationTitle,isLatestRevision,!parentId';
+
+													WAFData.authenticatedRequest(createDocURL, {
+														method: 'GET',
+														type: 'json',
+														headers: {
+															'Content-Type': 'application/json',
+															[csrfHeaderName]: csrfToken
+														},
+														onComplete: function (response) {
+															 if (response && response.data && response.data.length > 0) {
+																const documentList = response.data || [];
+																let allFileIds = [];
+
+																documentList.forEach(doc => {
+																	const docId = doc.id || 'N/A';
+																	const docName = doc.dataelements?.name || 'N/A';
+
+																	allFileIds.push({
+																		id: docId,
+																		name: docName
+																	});
+																});
+
+																alert(`Document List: ${JSON.stringify(allFileIds, null, 2)}`);
+																resolve(documentList.data[0]);
+															} else {
+																console.warn('No document found');
+																alert("No document data found.");
+															}
+														},
+														onFailure: function (err) {
+															console.error("Failed to get attachments:", err);
+															alert("Failed to get attachments.");
+														}
+													});
+														} else {
+															reject("No document data returned");
+														}
+													},
+													onFailure: function (err) {
+														reject(err);
+													}
 									});
 								},
 								onFailure: function (err) {
