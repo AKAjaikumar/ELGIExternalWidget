@@ -798,15 +798,37 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 														  },
 														  onComplete: function (response) {
-															   const SpecFolder = response.data.find(data => data.dataelements.title === "Specification");
+															   try {
+																	let json;
 
-																if (SpecFolder) {
-																  const SpecFolderId = SpecFolder.id;
-																   console.log("SpecFolderId",SpecFolderId);
-																} else {
-																	
-																  console.warn("Specification folder not found.");
-																} 
+																	if (response && response.success && Array.isArray(response.data)) {
+																		json = response;
+																	}
+																	else if (response && response.responseText) {
+																		json = JSON.parse(response.responseText);
+																	} else if (typeof response === "string") {
+																		json = JSON.parse(response);
+																	} else {
+																		throw new Error("Unknown response format");
+																	}
+
+																	const specFolder = json.data.find(item =>
+																		item.dataelements &&
+																		item.dataelements.title &&
+																		item.dataelements.title.toLowerCase() === "specification"
+																	);
+
+																	if (specFolder) {
+																		console.log("✅ Specification Folder ID:", specFolder.id);
+																		alert("Specification Folder ID: " + specFolder.id);
+																	} else {
+																		alert("No folder with title 'Specification' found.");
+																	}
+
+																} catch (e) {
+																	console.error("❌ Parsing error:", e);
+																	alert("Invalid response format or data.");
+																}
 															  alert("TPL Created Successfully: " + createdItem.name);
 														  },
 														  onFailure: function (err) {
