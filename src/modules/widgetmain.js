@@ -750,7 +750,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													},
 													data: JSON.stringify(attachDocPayload),
 													onComplete: function (createResponse) {
-														console.log("createResponse :", createResponse);const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
+														console.log("createResponse :", createResponse);
+														
+														
+														const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
 												  method: 'GET',
@@ -785,7 +788,23 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
 														console.log("PATCH success:", resp);
-														alert("TPL Created Successfully: " + createdItem.name);
+														const getFolderURL = baseUrl + '/resources/v1/modeler/projects/' + selectedProjectId + '/folders';
+
+														WAFData.authenticatedRequest(getFolderURL, {
+														  method: 'GET',
+														  headers: {
+															'Accept': 'application/json',
+															'ENO_CSRF_TOKEN': csrfToken,
+															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+														  },
+														  onComplete: function (data) {
+															  console.log("data:", data);
+															  alert("TPL Created Successfully: " + createdItem.name);
+														  },
+														  onFailure: function (err) {
+															console.error("PATCH failed:", err);
+														  }
+														
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
@@ -1199,7 +1218,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																			"files": [
 																				{
 																					"dataelements": {
-																						"comments": "COMING VIA EXTERNAM WIDGET",
+																						"comments": "COMING VIA EXTERNAL WIDGET",
 																						"receipt": receipt,
 																						"title": "Merged_Document"
 																					},
