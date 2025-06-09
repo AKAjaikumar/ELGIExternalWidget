@@ -1491,12 +1491,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				e.preventDefault();
 				wrapper.setStyle('border-color', '#ccc');
 
-				// Get and sanitize dropped IDs
+				
 				const rawData = e.dataTransfer.getData('text') || '';
+				console.log("RAW DROP DATA:", e.dataTransfer.getData('text'));
 				const droppedIds = rawData
 					.split(',')
 					.map(id => id.trim())
-					.filter(id => id); // Removes empty strings
+					.filter(id => id); 
 
 				const existingCount = wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length;
 				console.log("Dropped:", droppedIds.length, "Existing:", existingCount, "Max:", maxFiles);
@@ -1506,7 +1507,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					return;
 				}
 
-				// Optional: Prevent duplicates
+				
 				const existingIds = Array.from(wrapper.querySelectorAll('.YATG_wux-chip-cell-label')).map(el => el.id);
 				const filteredNewIds = droppedIds.filter(id => !existingIds.includes(id));
 
