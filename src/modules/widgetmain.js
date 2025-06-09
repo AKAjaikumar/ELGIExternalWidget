@@ -946,8 +946,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				const mergedContent = myWidget.mergeDocumentsIntoTable(tplDocs);
 				const pdfData = await myWidget.generatePDF(mergedContent);
 
-				await myWidget.createDocumentWithPDF(pdfData, specId);
-				alert("PDF document created and checked in successfully!");
+				await myWidget.checkinPDF(pdfData, specId);
+				alert("PDF generated checked in successfully!");
 				document.querySelectorAll('.YATG_wux-chip-cell-container').forEach(el => el.remove());
 			} catch (error) {
 				console.error(error);
