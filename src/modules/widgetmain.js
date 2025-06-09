@@ -1435,7 +1435,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			container.appendChild(myWidget.dragDropArea("specsheetDrop", 1, "Drop Spec Sheet Document"));
 
 			// Drop area for TPL (3 documents max)
-			container.appendChild(myWidget.dragDropArea("tplDrop", 3, "Drop up to 3 TPL Documents"));
+			container.appendChild(myWidget.dragDropArea("tplDrop", 3, "Drop up to 3 TPL's"));
 
 			// Download button
 			new UWA.Element('button', {
@@ -1494,7 +1494,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				// Example: get dropped document IDs from dataTransfer (depends on source)
 				const data = e.dataTransfer.getData('text');
 				const droppedIds = data ? data.split(',') : [];
-
+				console.log(wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length + droppedIds.length);
+				console.log(maxFiles);
 				if (wrapper.querySelectorAll('.YATG_wux-chip-cell-container').length + droppedIds.length > maxFiles) {
 					alert(`You can only drop up to ${maxFiles} document(s) here.`);
 					return;
