@@ -1022,7 +1022,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										console.log("Fetched docData for ID", docId, docData);
 											if (docData.data && docData.data.length > 0) {
 												
-												  const specId = docData.id;
+												  const specId = docData.data[0].id;
 												  console.log("specId", specId);
 												const createDocURL = baseUrl + '/resources/v1/modeler/documents/parentId/'+specId+'?parentRelName=Reference Document&parentDirection=from&$fields=indexedImage,indexedTypeicon,isDocumentType,organizationTitle,isLatestRevision,!parentId';
 
