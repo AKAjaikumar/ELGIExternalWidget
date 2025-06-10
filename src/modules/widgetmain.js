@@ -295,21 +295,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			sideBar2.style.display = "block";
 			sideBar2.innerHTML = "";
-
 			
-			let specChips = document.querySelectorAll('#specsheetDrop .YATG_wux-chip-cell-label');
-			let tplChips = document.querySelectorAll('#tplDrop .YATG_wux-chip-cell-label');
-
-			specChips.forEach(chip => {
-				chip.style.display = "block";
-				chip.innerHTML = ""; 
-			});
-
-
-			tplChips.forEach(chip => {
-				chip.style.display = "block";
-				chip.innerHTML = ""; 
-			});
+			var contentArea = document.querySelector(".widget-content-area");
+            contentArea.innerHTML = "";
 
 			const header = document.createElement("h2");
 			header.textContent = "Create TPL";
