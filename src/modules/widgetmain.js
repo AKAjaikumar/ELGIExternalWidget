@@ -614,6 +614,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																alert('Failed to connect Specification document.');
 															}
 														});
+														
+														
 														const createSubSheetURL = baseUrl + '/resources/v1/modeler/documents';
 														const createSubSheetPayload = {
 															data: [{
@@ -845,7 +847,107 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														console.error("Failed to update SpecSheet DocumentType:", err);
 													}
 												});
+												const createCRDURL = baseUrl + '/resources/v1/modeler/documents';
+												const createCRDPayload = {
+													data: [{
+														attributes: {
+															name: "CRD_" + Date.now(),
+															type: "Document",
+															
+															policy: "Document Release",
+															"extensions": [
+																"XP_Document_Ext.DocumentType"
+															]
+														}
+													}]
+												};
+												WAFData.authenticatedRequest(createCRDURL, {
+													method: 'POST',
+													type: 'json',
+													data: JSON.stringify(createCRDPayload),
+													headers: {
+														'Content-Type': 'application/json',
+														[csrfHeaderName]: csrfToken,
+														'SecurityContext': 'VPLMProjectLeader.Company Name.Common Space'
+													},
+													onComplete: function (response) {
+														const createdSubDoc = response.data[0];
+														const createdSubDocId = createdSubDoc.id;
+														console.log("CRD Document created:", createdSubDocId);
 
+														const updateSubPayload = {
+															data: [{
+																id: createdSubDocId,
+																type: "Document",
+																updateAction: "MODIFY",
+																"dataelements": {
+																	"title": title,
+																	"DocumentType": "CRD"
+																}
+															}]
+														};
+
+														const updateCRDURL = baseUrl + '/resources/v1/modeler/documents';
+
+														WAFData.authenticatedRequest(updateCRDURL, {
+															method: 'PUT',
+															type: 'json',
+															data: JSON.stringify(updateSubPayload),
+															headers: {
+																'Content-Type': 'application/json',
+																[csrfHeaderName]: csrfToken,
+																'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+															},
+															onComplete: function (response) {
+																const addAttachedDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
+
+																			const payload = {
+																				csrf: {
+																					name: csrfHeaderName,
+																					value: csrfToken
+																				},
+																				data: [
+																					{
+																						id: createdSubDocId,
+																						relateddata: {
+																							parents: [
+																								{
+																									id: createdItem.id,
+																									updateAction: 'CONNECT'
+																								}
+																							]
+																						},
+																						updateAction: 'NONE'
+																					}
+																				]
+																			};
+
+																			WAFData.authenticatedRequest(addAttachedDocURL, {
+																				method: 'POST',
+																				type: 'json',
+																				headers: {
+																					'Content-Type': 'application/json',
+																					[csrfHeaderName]: csrfToken,
+																					'Accept': 'application/json'
+																				},
+																				data: JSON.stringify(payload),
+																				onComplete: function (res) {
+																					console.log('Connected Reference Document:', res);
+																				},
+																				onFailure: function (err) {
+																					console.error("Failed to Connecr CRD:", err);
+																				}
+																			});
+															},
+															onFailure: function (err) {
+																console.error("Failed to update CRD DocumentType:", err);
+															}
+														});
+													},
+													onFailure: function (err) {
+														console.error("Failed to create CRD Document:", err);
+													}
+												});
 												const attachURL = baseUrl + '/resources/v1/modeler/projects';
 												const attachDocPayload = {
 												  data: [{
