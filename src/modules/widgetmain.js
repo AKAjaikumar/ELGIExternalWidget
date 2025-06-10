@@ -810,7 +810,36 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																															} else {
 																																throw new Error("Unknown response format");
 																															}
+																															const CRDFolder = json.data.find(item =>
+																															item.dataelements &&
+																															item.dataelements.title &&
+																															item.dataelements.title.toLowerCase() === "CRD");
+																															
+																															if (CRDFolder) {
+																																console.log("CRD Folder ID:", CRDFolder.id);
+																																const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/' + CRDFolder.id + '/content';
+																																WAFData.authenticatedRequest(bookMarkURL, {
+																																	method: 'POST',
+																																	type: 'json',
+																																	headers: {
+																																		'Content-Type': 'application/json',
+																																		'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA',
+																																		[csrfHeaderName]: csrfToken
+																																	},
+																																	data: JSON.stringify({
+																																		"IDs": createdCRDDocId
+																																	}),
+																																	onComplete: function (createResponse) {
+																																		console.log("createResponse :" + createResponse);
 
+																																	},
+																																	onFailure: function (err) {
+																																		console.error(" error:", err);
+																																	}
+																																});
+																															}else {
+																																alert("No folder with title 'CRD' found.");
+																															}
 																															const specFolder = json.data.find(item =>
 																																item.dataelements &&
 																																item.dataelements.title &&
