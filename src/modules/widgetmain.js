@@ -304,11 +304,13 @@ require([
 						id: 'attr-${id}',
 						styles: {
 							margin: '6px 0',
-							padding: '8px',
+							padding: '6px 10px',
 							border: '1px solid #ccc',
 							borderRadius: '4px',
 							backgroundColor: '#f4f4f4',
-							fontSize: '12px'
+							display: 'inline-block',
+							fontSize: '12px',
+							maxWidth: '320px'
 						}
 					}).inject(attributeContainer);
 
