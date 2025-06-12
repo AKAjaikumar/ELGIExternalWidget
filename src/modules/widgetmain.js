@@ -813,7 +813,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																															const CRDFolder = json.data.find(item =>
 																															item.dataelements &&
 																															item.dataelements.title &&
-																															item.dataelements.title.toLowerCase() === "crd");
+																															item.dataelements.title.toLowerCase().includes("crd"));
 																															
 																															if (CRDFolder) {
 																																console.log("CRD Folder ID:", CRDFolder.id);
@@ -843,7 +843,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																															const specFolder = json.data.find(item =>
 																																item.dataelements &&
 																																item.dataelements.title &&
-																																item.dataelements.title.toLowerCase() === "specification"
+																																item.dataelements.title.toLowerCase().includes("specification")
 																															);
 
 																															if (specFolder) {
