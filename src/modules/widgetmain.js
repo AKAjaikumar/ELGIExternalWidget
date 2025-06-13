@@ -295,13 +295,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			sideBar2.style.display = "block";
 			sideBar2.innerHTML = "";
-			const scrollContainer = document.createElement("div");
-			scrollContainer.style.maxHeight = "500px"; 
-			scrollContainer.style.overflowY = "auto";
-			scrollContainer.style.padding = "15px";
-
-			
-			scrollContainer.className = "scrollable-form-container";
+			const scrollableForm = document.createElement("div");
+			scrollableForm.className = "scrollable-form";
 			
 			var contentArea = document.querySelector(".widget-content-area");
             contentArea.innerHTML = "";
@@ -1096,6 +1091,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			sideBar2.appendChild(attributeContainer);
 			sideBar2.appendChild(createBtn);
 			sideBar2.appendChild(resultBox);
+			
+			sideBar2.appendChild(scrollableForm);
 		},
 		
 		toggleSecondSidebar: function (visible) {
