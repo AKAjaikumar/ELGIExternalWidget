@@ -13,22 +13,15 @@ html {
 }
 
 .second-sidebar {
-	position: fixed;
-	right: 0;
-	top: 0;
-	width: 400px;
-	height: 100%;
-	background-color: #fff;
-	border-left: 1px solid #ccc;
-	box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-	overflow: hidden;
-	z-index: 1000;
+  margin-left: 10px;
+  width: 300px;
+  transform-style: preserve-3d;
+  transform: translate3d(0px, 0px, 0px);
 }
-
-.scrollable-form-container {
-	max-height: 100%;
-	overflow-y: auto;
-	padding: 15px;
+.scrollable-form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 }
 .sidebar-header {
     font-size: 20px;
