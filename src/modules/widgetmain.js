@@ -76,15 +76,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
             var tile2 = myWidget.createTileElement("TPL Creation", imageURL + "I_Switch.png", "TPL Creation", myWidget.createPrjMng);
 
             sideBar1.appendChild(dummyspace);
-
+			
+			var li2 = document.createElement("li");
+            li2.appendChild(tile2);
+            sideBar1Ul.appendChild(li2);
+			
             var li1 = document.createElement("li");
             li1.className = "firnnavli";
             li1.appendChild(tile1);
             sideBar1Ul.appendChild(li1);
-
-            var li2 = document.createElement("li");
-            li2.appendChild(tile2);
-            sideBar1Ul.appendChild(li2);
 
             sideBar1.appendChild(sideBar1Ul);
 
