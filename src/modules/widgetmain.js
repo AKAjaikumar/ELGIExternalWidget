@@ -295,6 +295,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			sideBar2.style.display = "block";
 			sideBar2.innerHTML = "";
+			const scrollContainer = document.createElement("div");
+			scrollContainer.style.maxHeight = "500px"; 
+			scrollContainer.style.overflowY = "auto";
+			scrollContainer.style.padding = "15px";
+
+			
+			scrollContainer.className = "scrollable-form-container";
 			
 			var contentArea = document.querySelector(".widget-content-area");
             contentArea.innerHTML = "";
