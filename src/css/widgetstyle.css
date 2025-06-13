@@ -35,6 +35,7 @@ html {
 }
 
 .form-label {
+	font-family: Arial;
     font-weight: 600;
     margin-top: 12px;
     display: block;
