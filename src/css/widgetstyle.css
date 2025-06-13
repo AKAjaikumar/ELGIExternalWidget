@@ -13,15 +13,14 @@ html {
 }
 
 .second-sidebar {
-  position: relative; 
-	max-height: 80vh;           
-	overflow-y: auto;           
-	padding: 20px;
-	margin: 0 auto;
+	position: relative;           
+	width: 100%;                    
+	max-height: 80vh;               
+	overflow-y: auto;                 
 	background-color: #fff;
-	border: 1px solid #ccc;
+	padding: 20px;
 	box-sizing: border-box;
-	width: 300px; 
+	border: 1px solid #ccc;
 }
 .scrollable-form {
 	width: 100%;
