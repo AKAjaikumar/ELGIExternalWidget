@@ -741,7 +741,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																											type: "Document",
 																											updateAction: "MODIFY",
 																											"dataelements": {
-																												"title": "CRD_" + Date.now(),
+																												"title": title,
 																												"DocumentType": "CRD"
 																											}
 																										}
