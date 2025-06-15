@@ -1058,19 +1058,43 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.log("result:", result);
 													console.log("Current cestamp:", cestamp);
 													console.log("Current attributes:", item.attributes);
-
-													const isClassified =
+													const classId = item.ClassificationAttributes.member[0].ClassID; 
+													console.log("classId:", classId);
+													const isClassified = 
 													  item.ClassificationAttributes &&
 													  Array.isArray(item.ClassificationAttributes.member) &&
 													  item.ClassificationAttributes.member.length > 0;
 													console.log("isClassified:", isClassified);
-													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id;
+													const tenant = widget.getValue("x3dPlatformId");
+													const updateURL = baseUrl + '/resources/IPClassificationReuse/classifiedItem/attributes/update?tenant=" + tenant;
+													
 													const updatePayload = {
-													  cestamp: cestamp,
-													  ELGIProduct: product,
-													  ProductLines: productLine
+													  requests: [
+														{
+														  body: [
+															{
+															  facet: classId,  
+															  op: "replace",
+															  path: "ProductLines",    
+															  value: productLine       
+															},
+															{
+															  facet: classId,
+															  op: "replace",
+															  path: "ELGIProduct",
+															  value: product
+															}
+														  ],
+														  classId: "YOUR_CLASS_ID",
+														  classUsage: "Standard",
+														  method: "POST",
+														  path: `model/bus/${createdItem.id}`, 
+														  queryParams: {
+															select: ["physicalid", "modified", "attribute[ProductLines]", "attribute[ELGIProduct]"]
+														  }
+														}
+													  ]
 													};
-
 													WAFData.authenticatedRequest(updateURL, {
 													  method: 'PATCH',
 													  headers: {
