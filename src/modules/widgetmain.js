@@ -377,16 +377,10 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			resultBox.className = "result-box";
 			
 			const attributeInputs = {};
-			const attributeInputs1 = {};
-			/*const tplAttributes = [
-				{ label: "Product Class", type: "select", options: ["E07", "C56" ,"E46", "S01", "S15", "G12", "E23", "B32", "S09", "S67","B36", "E47"] }
-			];*/
 			const tplAttributes = [
-				{ label: "Product", type: "select", options: ["NSD", "NPD" ,"NotApplicable"] }
+				{ label: "Product Class", type: "select", options: ["E07", "C56" ,"E46", "S01", "S15", "G12", "E23", "B32", "S09", "S67","B36", "E47"] }
 			];
-			const specAttributes = [
-				{ label: "Product Line", type: "select", options: ["Accessories", "ATS" ,"EPSAC","DPSAC","OFSAC","MOTOR","ENGC","RLY","CAC"] }
-			];
+			
 			
 			const attributeContainer = document.createElement("div");
 				attributeContainer.className = "attribute-container";
@@ -429,47 +423,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				wrapper.appendChild(label);
 				wrapper.appendChild(input);
 				attributeContainer.appendChild(wrapper);
-			});
-			const attributeContainer1 = document.createElement("div");
-				attributeContainer1.className = "attribute-container";
-			specAttributes.forEach(attr => {
-				const wrapper = document.createElement("div");
-				wrapper.style.marginBottom = "10px";
-
-				const label = document.createElement("label");
-				label.className = "form-label";
-				label.textContent = attr.label;
-				label.style.display = "block";
-				label.style.fontWeight = "bold";
-
-				let input;
-				if (attr.type === "select") {
-					input = document.createElement("select");
-					input.className = "form-select";
-					attr.options.forEach(optionValue => {
-						const option = document.createElement("option");
-						option.value = optionValue;
-						option.textContent = optionValue;
-						input.appendChild(option);
-					});
-				} else if (attr.type === "textarea") {
-					input = document.createElement("textarea");
-					input.placeholder = attr.placeholder;
-					input.className = "form-textarea";
-				} else {
-					input = document.createElement("input");
-					input.type = attr.type;
-					input.placeholder = attr.placeholder;
-					input.className = "form-input";
-				}
-
-				input.style.width = "100%";
-				input.style.padding = "6px";
-				input.style.boxSizing = "border-box";
-				attributeInputs1[attr.label] = input;
-				wrapper.appendChild(label);
-				wrapper.appendChild(input);
-				attributeContainer1.appendChild(wrapper);
 			});
 			createBtn.onclick = () => {
 					const title = titleInput.value.trim();
