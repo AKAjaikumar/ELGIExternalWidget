@@ -430,6 +430,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				wrapper.appendChild(input);
 				attributeContainer.appendChild(wrapper);
 			});
+			const attributeContainer1 = document.createElement("div");
+				attributeContainer1.className = "attribute-container";
 			specAttributes.forEach(attr => {
 				const wrapper = document.createElement("div");
 				wrapper.style.marginBottom = "10px";
@@ -467,7 +469,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				attributeInputs1[attr.label] = input;
 				wrapper.appendChild(label);
 				wrapper.appendChild(input);
-				attributeContainer.appendChild(wrapper);
+				attributeContainer1.appendChild(wrapper);
 			});
 			createBtn.onclick = () => {
 					const title = titleInput.value.trim();
