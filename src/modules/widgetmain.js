@@ -634,8 +634,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														  ObjectsToClassify: [
 															{
 															  source: baseUrl, 
-															  type: "documents", 
-															  identifier: createdItem.id, 
+															  type: "Document", 
+															  identifier: createdDoc.id, 
 															  relativePath: "/resources/v1/modeler/documents/"+createdDocId
 															}
 														  ]
