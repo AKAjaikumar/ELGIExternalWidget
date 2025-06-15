@@ -1202,7 +1202,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.log("Current cestamp:", cestamp);
 													console.log("Current attributes:", item.attributes);
 
-													
+													setTimeout(() => {
 													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id;
 													const updatePayload = {
 													  cestamp: cestamp,
@@ -1227,6 +1227,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														console.error("PATCH failed:", err);
 													  }
 													});
+													}, 60000);
 
 												  },
 												  onFailure: function (error) {
