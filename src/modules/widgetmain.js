@@ -494,8 +494,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					const product = tplAttributeValues["Product"];
 					console.log("Product :", product);
 					const specAttributeValues = {};
-					Object.keys(attributeInputs).forEach(label => {
-						specAttributeValues[label] = attributeInputs[label].value;
+					Object.keys(attributeInputs1).forEach(label => {
+						specAttributeValues[label] = attributeInputs1[label].value;
 					});
 					console.log("SPEC Attributes:", specAttributeValues);
 					const productLine = specAttributeValues["Product Line"];
