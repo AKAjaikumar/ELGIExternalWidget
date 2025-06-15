@@ -1041,7 +1041,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																				data: JSON.stringify({"IDs": createdSubDocId}),
 																																				onComplete: function (createResponse) {
 																																					console.log("createResponse :"+createResponse);
-												alert("TPL Created Successfully: " + createdItem.name);
+												
 												const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
@@ -1122,17 +1122,40 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.log("result:", result);
 													console.log("Current cestamp:", cestamp);
 													console.log("Current attributes:", item.attributes);
-
+													const specclassId = item.ClassificationAttributes.member[0].ClassID; 
+													console.log("specclassId:", specclassId);
 													
-													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdDocId;
+													const updateURL = baseUrl + '/resources/IPClassificationReuse/classifiedItem/attributes/update?tenant='+ tenant;
 													const updatePayload = {
-													  cestamp: cestamp,
-													  ELGIProduct: product,
-													  ProductLines: productLine
+													  requests: [
+														{
+														  body: [
+															{
+															  facet: specclassId,  
+															  op: "replace",
+															  path: "ProductLines",    
+															  value: productLine       
+															},
+															{
+															  facet: specclassId,
+															  op: "replace",
+															  path: "ELGIProduct",
+															  value: product
+															}
+														  ],
+														  classId: specclassId,
+														  classUsage: "Standard",
+														  method: "POST",
+														  path: `model/bus/${createdDocId}`, 
+														  queryParams: {
+															select: ["physicalid", "modified", "attribute[ProductLines]", "attribute[ELGIProduct]"]
+														  }
+														}
+													  ]
 													};
 
 													WAFData.authenticatedRequest(updateURL, {
-													  method: 'PATCH',
+													  method: 'POST',
 													  headers: {
 														'Content-Type': 'application/json',
 														'Accept': 'application/json',
@@ -1141,8 +1164,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  },
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
-														console.log("PATCH success:", resp);
-														
+														console.log("POST success:", resp);
+														alert("TPL Created Successfully: " + createdItem.name);
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
