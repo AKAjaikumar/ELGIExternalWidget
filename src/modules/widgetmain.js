@@ -491,8 +491,15 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						tplAttributeValues[label] = attributeInputs[label].value;
 					});
 					console.log("TPL Attributes:", tplAttributeValues);
-					const productClass = tplAttributeValues["Product Class"];
-					console.log("Product Class:", productClass);
+					const product = tplAttributeValues["Product"];
+					console.log("Product :", product);
+					const specAttributeValues = {};
+					Object.keys(attributeInputs).forEach(label => {
+						specAttributeValues[label] = attributeInputs[label].value;
+					});
+					console.log("SPEC Attributes:", specAttributeValues);
+					const productLine = specAttributeValues["Product Line"];
+					console.log("Product Line :", productLine);
 					
 					URLS.getURLs().then(baseUrl => {
 						console.log("baseUrl:" + baseUrl);
@@ -535,7 +542,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										const classifyURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem';
 
 										const payload = {
-										  ClassID: "4111F5971C5417006811852A00005AEF", 
+										  ClassID: "4111F5970F122000684E60D400002765", 
 										  ObjectsToClassify: [
 											{
 											  source: baseUrl, 
@@ -1074,7 +1081,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id;
 													const updatePayload = {
 													  cestamp: cestamp,
-													  ProductClass: productClass 
+													  ELGIProduct: product,
+													  ProductLines: productLine
 													};
 
 													WAFData.authenticatedRequest(updateURL, {
