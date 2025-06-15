@@ -1041,6 +1041,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																				data: JSON.stringify({"IDs": createdSubDocId}),
 																																				onComplete: function (createResponse) {
 																																					console.log("createResponse :"+createResponse);
+												alert("TPL Created Successfully: " + createdItem.name);
 												const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
@@ -1117,7 +1118,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
 														console.log("PATCH success:", resp);
-														alert("TPL Created Successfully: " + createdItem.name);
+														
 													  },
 													  onFailure: function (err) {
 														console.error("PATCH failed:", err);
