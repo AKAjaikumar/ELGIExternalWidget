@@ -1060,9 +1060,13 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.log("Current attributes:", item.attributes);
 													const classId = item.ClassificationAttributes.member[0].ClassID; 
 													console.log("classId:", classId);
-													
+													const isClassified = 
+													  item.ClassificationAttributes &&
+													  Array.isArray(item.ClassificationAttributes.member) &&
+													  item.ClassificationAttributes.member.length > 0;
+													console.log("isClassified:", isClassified);
 													const tenant = widget.getValue("x3dPlatformId");
-													const updateURL = baseUrl + '/resources/IPClassificationReuse/classifiedItem/attributes/update?tenant=" + tenant;
+													const updateURL = baseUrl + '/resources/IPClassificationReuse/classifiedItem/attributes/update?tenant='+ tenant;
 													
 													const updatePayload = {
 													  requests: [
@@ -1101,7 +1105,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  },
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
-														console.log("PATCH success:", resp);
+														console.log("POST success:", resp);
 														const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdDocId + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
