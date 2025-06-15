@@ -1041,28 +1041,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																				data: JSON.stringify({"IDs": createdSubDocId}),
 																																				onComplete: function (createResponse) {
 																																					console.log("createResponse :"+createResponse);
-																																					
-																																				},
-																																				onFailure: function (err) {
-																																					console.error(" error:", err);
-																																				}
-																																			}); 
-																																		} else {
-																																			
-																																		  console.warn("Controlled Copy folder not found.");
-																																		} 
-																																	},
-																																	onFailure: function (err) {
-																																		console.error(" error:", err);
-																																	}
-																																});
-																															} else {
-																																alert("No folder with title 'Specification' found.");
-																															}
-
-																														} catch (e) {
-																															console.error("Parsing error:", e);
-																															alert("Invalid response format or data.");
 												const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id + '?$mask=dslib:ClassificationAttributesMask';
 
 												WAFData.authenticatedRequest(getURL, {
@@ -1162,7 +1140,29 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 												  onFailure: function (error) {
 													console.error("GET classified item failed:", error);
 												  }
-												});
+												});	
+																																				},
+																																				onFailure: function (err) {
+																																					console.error(" error:", err);
+																																				}
+																																			}); 
+																																		} else {
+																																			
+																																		  console.warn("Controlled Copy folder not found.");
+																																		} 
+																																	},
+																																	onFailure: function (err) {
+																																		console.error(" error:", err);
+																																	}
+																																});
+																															} else {
+																																alert("No folder with title 'Specification' found.");
+																															}
+
+																														} catch (e) {
+																															console.error("Parsing error:", e);
+																															alert("Invalid response format or data.");
+												
 																														}
 																													  
 																												  },
