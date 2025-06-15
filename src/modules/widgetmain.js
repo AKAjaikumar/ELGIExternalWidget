@@ -377,10 +377,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			resultBox.className = "result-box";
 			
 			const attributeInputs = {};
-			const tplAttributes = [
+			/*const tplAttributes = [
 				{ label: "Product Class", type: "select", options: ["E07", "C56" ,"E46", "S01", "S15", "G12", "E23", "B32", "S09", "S67","B36", "E47"] }
+			];*/
+			const tplAttributes = [
+				{ label: "Product", type: "select", options: ["NSD", "NPD" ,"NotApplicable"] }
 			];
-			
 			
 			const attributeContainer = document.createElement("div");
 				attributeContainer.className = "attribute-container";
