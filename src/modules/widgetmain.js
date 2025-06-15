@@ -848,6 +848,47 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																										'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 																									},
 																									onComplete: function (response) {
+																									const addAttachedCRDSpecURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
+
+																									const payload = {
+																										csrf: {
+																											name: csrfHeaderName,
+																											value: csrfToken
+																										},
+																										data: [
+																											{
+																												id: createdDocId,
+																												relateddata: {
+																													parents: [
+																														{
+																															id: createdCRDDocId,
+																															updateAction: 'CONNECT'
+																														}
+																													]
+																												},
+																												updateAction: 'NONE'
+																											}
+																										]
+																									};
+
+																									WAFData.authenticatedRequest(addAttachedCRDSpecURL, {
+																										method: 'POST',
+																										type: 'json',
+																										headers: {
+																											'Content-Type': 'application/json',
+																											[csrfHeaderName]: csrfToken,
+																											'Accept': 'application/json'
+																										},
+																										data: JSON.stringify(payload),
+																										onComplete: function (createResponse) {
+																											console.log("createResponse :" + createResponse);
+
+																										},
+																										onFailure: function (err) {
+																											console.error(" error:", err);
+																										}
+																										
+																									});
 																										const addAttachedCRDURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=Reference Document&parentDirection=from';
 
 																										const CRDpayload = {
@@ -1000,6 +1041,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																				data: JSON.stringify({"IDs": createdSubDocId}),
 																																				onComplete: function (createResponse) {
 																																					console.log("createResponse :"+createResponse);
+																																					
 																																				},
 																																				onFailure: function (err) {
 																																					console.error(" error:", err);
