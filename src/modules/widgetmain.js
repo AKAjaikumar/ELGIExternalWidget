@@ -627,6 +627,42 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 													},
 													onComplete: function (updateResponse) {
+														const classifyDocURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem';
+
+														const payload1 = {
+														  ClassID: "9B402C1B0DB10B00684DC75D00000E6F", 
+														  ObjectsToClassify: [
+															{
+															  source: baseUrl, 
+															  type: "documents", 
+															  identifier: createdItem.id, 
+															  relativePath: "/resources/v1/modeler/documents/"+createdDocId
+															}
+														  ]
+														};
+
+														WAFData.authenticatedRequest(classifyDocURL, {
+														  method: 'POST',
+														  headers: {
+															'Content-Type': 'application/json',
+															'Accept': 'application/json',
+															'ENO_CSRF_TOKEN': csrfToken,
+															'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA' 
+														  },
+														  data: JSON.stringify(payload1),
+														  onComplete: function (response) {
+															try {
+															  const result = JSON.parse(response);
+															  console.log("Classification result:", result);
+															  
+															} catch (e) {
+															  console.error("Failed to parse response:", response);
+															}
+														  },
+														  onFailure: function (error) {
+															console.error("Classification failed:", error);
+														  }
+														});
 														console.log("DocumentType updated successfully", updateResponse);
 														const addSpecDocURL = baseUrl + '/resources/v1/modeler/documents/?disableOwnershipInheritance=1&parentRelName=SpecificationDocument&parentDirection=from';
 
