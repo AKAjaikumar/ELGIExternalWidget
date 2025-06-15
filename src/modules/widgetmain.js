@@ -1203,9 +1203,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													console.log("Current attributes:", item.attributes);
 
 													const isClassified =
-															  result.ClassificationAttributes &&
-															  Array.isArray(result.ClassificationAttributes.member) &&
-															  result.ClassificationAttributes.member.length > 0;
+													  item.ClassificationAttributes &&
+													  Array.isArray(item.ClassificationAttributes.member) &&
+													  item.ClassificationAttributes.member.length > 0;
 													console.log("isClassified:", isClassified);
 													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdItem.id;
 													const updatePayload = {
