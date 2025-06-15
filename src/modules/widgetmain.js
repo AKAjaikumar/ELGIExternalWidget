@@ -464,7 +464,6 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				input.style.width = "100%";
 				input.style.padding = "6px";
 				input.style.boxSizing = "border-box";
-				attributeInputs[attr.label] = input;
 				attributeInputs1[attr.label] = input;
 				wrapper.appendChild(label);
 				wrapper.appendChild(input);
