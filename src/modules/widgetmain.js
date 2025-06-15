@@ -1017,7 +1017,54 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																				data: JSON.stringify({"IDs": createdDocId}),
 																																				onComplete: function (createResponse) {
 																																					console.log("createResponse :"+createResponse);
-																					
+												const getURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdDocId + '?$mask=dslib:ClassificationAttributesMask';
+
+												WAFData.authenticatedRequest(getURL, {
+												  method: 'GET',
+												  headers: {
+													'Accept': 'application/json',
+													'ENO_CSRF_TOKEN': csrfToken,
+													'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+												  },
+												  onComplete: function (data) {
+													const result = JSON.parse(data);
+													const item = result.member[0]; 
+													const cestamp = item.cestamp;
+													console.log("result:", result);
+													console.log("Current cestamp:", cestamp);
+													console.log("Current attributes:", item.attributes);
+
+													
+													const updateURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem/' + createdDocId;
+													const updatePayload = {
+													  cestamp: cestamp,
+													  ELGIProduct: product,
+													  ProductLines: productLine
+													};
+
+													WAFData.authenticatedRequest(updateURL, {
+													  method: 'PATCH',
+													  headers: {
+														'Content-Type': 'application/json',
+														'Accept': 'application/json',
+														'ENO_CSRF_TOKEN': csrfToken,
+														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
+													  },
+													  data: JSON.stringify(updatePayload),
+													  onComplete: function (resp) {
+														console.log("PATCH success:", resp);
+														
+													  },
+													  onFailure: function (err) {
+														console.error("PATCH failed:", err);
+													  }
+													});
+
+												  },
+												  onFailure: function (error) {
+													console.error("GET classified item failed:", error);
+												  }
+												});
 																																				},
 																																				onFailure: function (err) {
 																																					console.error(" error:", err);
