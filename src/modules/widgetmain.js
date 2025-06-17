@@ -550,6 +550,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					
 					if (typeof stage === 'undefined') {
 						docNumValue = `${product}-${productLine}-${randomNum}`;
+						stage = "";
 					} else {
 						docNumValue = `${product}-${productLine}${stage ? "-" + stage : ""}-${randomNum}`;
 					}
