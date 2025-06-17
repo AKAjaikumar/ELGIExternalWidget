@@ -541,6 +541,21 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					const productLine = specAttributeValues["Product Line"];
 					console.log("Product Line :", productLine);
 					
+					const stage = specAttributeValues["Stage"]; 
+					console.log("Stage:", stage);
+					
+					const randomNum = Math.floor(1000 + Math.random() * 9000); 
+					
+					let docNumValue;
+					
+					if (typeof stage === 'undefined') {
+						docNumValue = `${product}-${productLine}-${randomNum}`;
+					} else {
+						docNumValue = `${product}-${productLine}${stage ? "-" + stage : ""}-${randomNum}`;
+					}
+					
+					console.log("Final Value:", finalValue);
+					
 					URLS.getURLs().then(baseUrl => {
 						console.log("baseUrl:" + baseUrl);
 						const csrfURL = baseUrl + '/resources/v1/application/CSRF';
@@ -650,7 +665,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														updateAction: "MODIFY",
 														"dataelements": {
 															"title": "SpecSheet_" + Date.now(),
-															"DocumentType": "SpecSheet"
+															"DocumentType": "SpecSheet",
+															"DocumentNumber": docNumValue
 														}
 													}]
 												};
