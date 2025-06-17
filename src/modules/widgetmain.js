@@ -1059,11 +1059,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																	onComplete: function (response) {
 																																		console.log("response:", response);
 																																		const specsheet = response.folders.find(folder => 
-																																		  folder.label.toLowerCase().includes("specsheet")
+																																		  /specsheet/i.test(folder.label)
 																																		);
 																																		console.log("specsheet:"+specsheet);
 																																		const subsheet = response.folders.find(folder => 
-																																		  folder.label.toLowerCase().includes("subsheet")
+																																		  /subsheet/i.test(folder.label)
 																																		);
 																																		console.log("subsheet:"+subsheet);
 																																		if (specsheet) {
