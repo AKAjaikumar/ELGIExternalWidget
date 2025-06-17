@@ -1058,8 +1058,12 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																	}, 
 																																	onComplete: function (response) {
 																																		console.log("response:", response);
-																																		const specsheet = response.folders.find(folder => folder.label.includes("SpecSheet"));
-																																		const subsheet = response.folders.find(folder => folder.label.includes("SubSheet"));
+																																		const specsheet = response.folders.find(folder => 
+																																		  folder.label.toLowerCase().includes("specsheet")
+																																		);
+																																		const subsheet = response.folders.find(folder => 
+																																		  folder.label.toLowerCase().includes("subsheet")
+																																		);
 																																		if (specsheet) {
 																																		  const specsheetId = specsheet.id;
 																																		  const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ specsheet.id +'/content';
