@@ -541,7 +541,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					const productLine = specAttributeValues["Product Line"];
 					console.log("Product Line :", productLine);
 					
-					const stage = specAttributeValues["Stage"]; 
+					let stage = specAttributeValues["Stage"]; 
 					console.log("Stage:", stage);
 					
 					const randomNum = Math.floor(1000 + Math.random() * 9000); 
