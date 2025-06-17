@@ -1061,9 +1061,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 																																		const specsheet = response.folders.find(folder => 
 																																		  folder.label.toLowerCase().includes("specsheet")
 																																		);
+																																		console.log("specsheet:"+specsheet);
 																																		const subsheet = response.folders.find(folder => 
 																																		  folder.label.toLowerCase().includes("subsheet")
 																																		);
+																																		console.log("subsheet:"+subsheet);
 																																		if (specsheet) {
 																																		  const specsheetId = specsheet.id;
 																																		  const bookMarkURL = baseUrl + '/resources/v1/FolderManagement/Folder/'+ specsheet.id +'/content';
