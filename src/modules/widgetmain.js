@@ -554,7 +554,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						docNumValue = `${product}-${productLine}${stage ? "-" + stage : ""}-${randomNum}`;
 					}
 					
-					console.log("Final Value:", finalValue);
+					console.log("Doc Value:", docNumValue);
 					
 					URLS.getURLs().then(baseUrl => {
 						console.log("baseUrl:" + baseUrl);
