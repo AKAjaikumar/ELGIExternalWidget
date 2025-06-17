@@ -431,6 +431,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			});
 			const attributeContainer1 = document.createElement("div");
 				attributeContainer1.className = "attribute-container";
+			let stageWrapper = null;
 			specAttributes.forEach(attr => {
 				const wrapper = document.createElement("div");
 				wrapper.style.marginBottom = "10px";
