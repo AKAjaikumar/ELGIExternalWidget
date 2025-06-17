@@ -451,6 +451,45 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 						option.textContent = optionValue;
 						input.appendChild(option);
 					});
+					 input.addEventListener("change", function () {
+						const selected = input.value;
+
+						
+						if (stageWrapper) {
+							stageWrapper.remove();
+							stageWrapper = null;
+						}
+
+						if (selected === "EPSAC") {
+							stageWrapper = document.createElement("div");
+							stageWrapper.style.marginBottom = "10px";
+
+							const stageLabel = document.createElement("label");
+							stageLabel.className = "form-label";
+							stageLabel.textContent = "Stage";
+							stageLabel.style.display = "block";
+							stageLabel.style.fontWeight = "bold";
+
+							const stageSelect = document.createElement("select");
+							stageSelect.className = "form-select";
+							stageSelect.style.width = "100%";
+							stageSelect.style.padding = "6px";
+							stageSelect.style.boxSizing = "border-box";
+
+							["SS", "TS"].forEach(stageValue => {
+								const option = document.createElement("option");
+								option.value = stageValue;
+								option.textContent = stageValue;
+								stageSelect.appendChild(option);
+							});
+
+							attributeInputs1["Stage"] = stageSelect;
+
+							stageWrapper.appendChild(stageLabel);
+							stageWrapper.appendChild(stageSelect);
+							attributeContainer1.appendChild(stageWrapper);
+						}
+					});
 				} else if (attr.type === "textarea") {
 					input = document.createElement("textarea");
 					input.placeholder = attr.placeholder;
