@@ -1139,7 +1139,14 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 															  op: "replace",
 															  path: "ELGIProduct",
 															  value: product
+															},
+															{
+															  facet: classId,
+															  op: "replace",
+															  path: "Stage",
+															  value: stage
 															}
+															
 														  ],
 														  classId: classId,
 														  classUsage: "Standard",
