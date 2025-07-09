@@ -13,8 +13,8 @@ html {
 }
 
 .second-sidebar {
-	position: relative;           
-	width: 100%;                    
+	position: fixed;           
+	width: 420px;;                    
 	max-height: 80vh;               
 	overflow-y: auto;                 
 	background-color: #fff;
@@ -24,6 +24,7 @@ html {
     flex-direction: column;
 	box-sizing: border-box;
 	border: 1px solid #ccc;
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 .scrollable-form {
   flex: 1;
