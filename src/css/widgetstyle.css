@@ -16,23 +16,22 @@ html {
 
 .second-sidebar {
   position: relative;
-  flex: 1;                       
+  width: 100%;
   max-width: 700px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
   background-color: #fff;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   border: 1px solid #ddd;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  height: 100%;                 
 }
 .scrollable-form {
-  flex: 1;                    
-  overflow-y: auto;             
-  overflow-x: hidden;            
+  width: 100%;
+  overflow-y: auto;  
+  overflow-x: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
