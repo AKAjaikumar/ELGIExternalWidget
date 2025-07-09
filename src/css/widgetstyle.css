@@ -13,17 +13,17 @@ html {
 }
 
 .second-sidebar {
-	position: relative;             
-	width: 100%;                    
-	max-height: none;              
-	background-color: #fff;
-	padding: 20px;
-	display: flex;
-	flex-direction: column;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
-	overflow: hidden;               
+  width: 100%;
+  max-width: 600px;
+  min-width: 320px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
 }
 .scrollable-form {
 	flex: 1;
@@ -54,12 +54,15 @@ html {
   color: #555;
 }
 
-.form-input, .form-textarea, .form-select {
+.form-input,
+.form-textarea,
+.form-select {
   width: 100%;
+  min-width: 250px;
   padding: 8px 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
+  box-sizing: border-box;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .attribute-container {
@@ -73,12 +76,16 @@ html {
 }
 
 .drop-zone {
-  border: 2px dashed #ccc;
-  padding: 20px;
+  min-height: 60px;
+  min-width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
   text-align: center;
   font-weight: bold;
-  background-color: #fff;
-  border-radius: 8px;
+  border: 2px dashed #ccc;
+  background: #fafafa;
+  border-radius: 5px;
+  word-break: break-word;
 }
 
 .form-button {
