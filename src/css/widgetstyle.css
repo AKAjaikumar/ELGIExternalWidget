@@ -3,106 +3,57 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .widget-container {
   display: flex;
-  width: 100%;
-  height: 100vh;
+  height: 100%;
   font-family: Arial, sans-serif;
-  overflow: hidden;
 }
 
 .second-sidebar {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+	position: relative;           
+	width: 100%;                    
+	max-height: 80vh;               
+	overflow-y: auto;                 
+	background-color: #fff;
+	padding: 20px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
 }
 .scrollable-form {
-  width: 100%;
-  overflow-y: auto;  
-  overflow-x: hidden;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 }
-
-
 .sidebar-header {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.form-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
 }
 
 .form-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-  color: #555;
+	font-family: Arial;
+    font-weight: 600;
+    margin-top: 12px;
+    display: block;
+    color: #444;
 }
 
-.form-input,
-.form-textarea,
-.form-select {
-  width: 100%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.attribute-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.attribute-container > div {
-  flex: 1 1 45%;
-}
-
-.drop-zone {
-  width: 100%;
-  min-height: 60px;
-  padding: 12px;
-  border: 2px dashed #ccc;
-  text-align: center;
-  font-weight: bold;
-  border-radius: 6px;
-  background-color: #fafafa;
-  word-break: break-word;
-}
-
-.form-button {
-  background-color: #3D9FE3;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.form-button:hover {
-  background-color: #327cbb;
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
 .widget-body-content {
