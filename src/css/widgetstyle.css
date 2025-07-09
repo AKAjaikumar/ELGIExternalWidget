@@ -13,8 +13,8 @@ html {
 }
 
 .second-sidebar {
-	position: fixed;           
-	width: 420px;;                    
+	position: relative;           
+	width: 100%;                    
 	max-height: 80vh;               
 	overflow-y: auto;                 
 	background-color: #fff;
