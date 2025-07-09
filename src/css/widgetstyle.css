@@ -3,13 +3,14 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .widget-container {
   display: flex;
   height: 100%;
   font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
 .second-sidebar {
@@ -28,7 +29,8 @@ html {
 }
 .scrollable-form {
   width: 100%;
-  overflow-y: auto;
+  overflow-y: auto;  
+  overflow-x: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
