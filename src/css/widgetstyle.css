@@ -23,37 +23,72 @@ html {
 	border: 1px solid #ccc;
 }
 .scrollable-form {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-height: 100%;
+  overflow-y: auto;
+  background: #f9f9f9;
 }
+
 .sidebar-header {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-section {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .form-label {
-	font-family: Arial;
-    font-weight: 600;
-    margin-top: 12px;
-    display: block;
-    color: #444;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  color: #555;
 }
 
-.form-input, .form-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.form-textarea {
-    resize: vertical;
-    min-height: 80px;
+.attribute-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.attribute-container > div {
+  flex: 1 1 45%;
+}
+
+.drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.form-button {
+  background-color: #3D9FE3;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  background-color: #327cbb;
 }
 
 .widget-body-content {
