@@ -1383,20 +1383,48 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					});
 				};
 
+			const formWrapper = document.createElement("div");
+			formWrapper.className = "scrollable-form";
 
-			sideBar2.appendChild(header);
-			sideBar2.appendChild(titleLabel);
-			sideBar2.appendChild(titleInput);
+			const section1 = document.createElement("div");
+			section1.className = "form-section";
+			section1.appendChild(titleLabel);
+			section1.appendChild(titleInput);
+			section1.appendChild(descLabel);
+			section1.appendChild(descInput);
+			section1.appendChild(dropZone);
 
-			sideBar2.appendChild(descLabel);
-			sideBar2.appendChild(descInput);
-			sideBar2.appendChild(dropZone);
-			sideBar2.appendChild(attributeContainer);
-			sideBar2.appendChild(attributeContainer1);
-			sideBar2.appendChild(createBtn);
-			sideBar2.appendChild(resultBox);
-			
-			sideBar2.appendChild(scrollableForm);
+			const section2 = document.createElement("div");
+			section2.className = "form-section";
+			section2.appendChild(attributeContainer);
+
+			const section3 = document.createElement("div");
+			section3.className = "form-section";
+			section3.appendChild(attributeContainer1);
+
+			const section4 = document.createElement("div");
+			section4.className = "form-section";
+			section4.appendChild(createBtn);
+			section4.appendChild(resultBox);
+
+			formWrapper.appendChild(header);
+			formWrapper.appendChild(section1);
+			formWrapper.appendChild(section2);
+			formWrapper.appendChild(section3);
+			formWrapper.appendChild(section4);
+			//sideBar2.appendChild(header);
+			//sideBar2.appendChild(titleLabel);
+			//sideBar2.appendChild(titleInput);
+
+			//sideBar2.appendChild(descLabel);
+			//sideBar2.appendChild(descInput);
+			//sideBar2.appendChild(dropZone);
+			//sideBar2.appendChild(attributeContainer);
+			//sideBar2.appendChild(attributeContainer1);
+			//sideBar2.appendChild(createBtn);
+			//sideBar2.appendChild(resultBox);
+			sideBar2.appendChild(formWrapper);
+			//sideBar2.appendChild(scrollableForm);
 		},
 		
 		toggleSecondSidebar: function (visible) {
