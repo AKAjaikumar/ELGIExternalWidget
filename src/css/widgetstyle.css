@@ -11,98 +11,51 @@ html {
   height: 100%;
   font-family: Arial, sans-serif;
 }
+
 .second-sidebar {
-  background: #fff;
-  border-radius: 10px;
-  padding: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  max-width: 600px;
-  margin: auto;
+	position: relative;           
+	width: 100%;                    
+	max-height: 80vh;               
+	overflow-y: auto;                 
+	background-color: #fff;
+	padding: 20px;
+	box-sizing: border-box;
+	border: 1px solid #ccc;
 }
 .scrollable-form {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
-/* Form Headings */
 .sidebar-header {
-  font-size: 24px;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
 }
 
-/* Label Styling */
 .form-label {
-  font-weight: 600;
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #34495e;
+	font-family: Arial;
+    font-weight: 600;
+    margin-top: 12px;
+    display: block;
+    color: #444;
 }
 
-/* Input, Textarea, Select */
-.form-input,
-.form-textarea,
-.form-select {
-  width: 100%;
-  padding: 12px;
-  font-size: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.form-input:focus,
-.form-textarea:focus,
-.form-select:focus {
-  border-color: #3498db;
-  outline: none;
-  box-shadow: 0 0 5px rgba(52,152,219,0.2);
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
 }
 
-/* Dropzone */
-.drop-zone {
-  border: 2px dashed #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  text-align: center;
-  background: #f7f7f7;
-  font-weight: 600;
-  color: #555;
-  transition: all 0.3s ease;
-}
-
-.drop-zone:hover {
-  border-color: #3498db;
-  background: #ecf6fd;
-}
-
-/* Group box for Product/Line */
-.attribute-container {
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 15px;
-  background: #fcfcfc;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-/* Button Style */
-.form-button {
-  background: #3498db;
-  color: #fff;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.form-button:hover {
-  background: #2980b9;
-  transform: translateY(-1px);
-}
 .widget-body-content {
   flex: 1;
   padding: 20px;
