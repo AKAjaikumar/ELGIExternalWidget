@@ -368,6 +368,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 					dropZone.textContent = "Drop error";
 				}
 			});
+			const buttonContainer = document.createElement("div");
+			buttonContainer.className = "btn-center-wrapper";
 			
 			const createBtn = document.createElement("button");
 			createBtn.textContent = "Create TPL";
@@ -376,6 +378,9 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			const cancelBtn = document.createElement("button");
 			cancelBtn.textContent = "Cancel";
 			cancelBtn.className = "cancel-button";
+			
+			buttonContainer.appendChild(createBtn);
+			buttonContainer.appendChild(cancelBtn);
 			
 			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
@@ -1408,8 +1413,8 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 
 			const section4 = document.createElement("div");
 			section4.className = "form-section";
-			section4.appendChild(createBtn);
-			section4.appendChild(cancelBtn);
+			section4.appendChild(buttonContainer);
+			//section4.appendChild(cancelBtn);
 			section4.appendChild(resultBox);
 
 			formWrapper.appendChild(header);
