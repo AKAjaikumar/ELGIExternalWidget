@@ -292,9 +292,8 @@ html {
   gap: 15px;
   margin-top: 20px;
 }
+
 .form-button {
-  display: block;
-  margin: 20px auto;
   padding: 10px 20px;
   background-color: #3498db;
   color: white;
@@ -303,6 +302,7 @@ html {
   cursor: pointer;
   font-size: 14px;
   text-align: center;
+  margin: 0; 
 }
 
 .form-button:hover {
