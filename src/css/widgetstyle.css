@@ -302,6 +302,20 @@ html {
 .form-button:hover {
   background-color: #2980b9;
 }
+.cancel-button {
+  padding: 10px 20px;
+  background-color: transparent;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+}
+
+.cancel-button:hover {
+  background-color: #f0f0f0;
+}
 .action-btn {
   padding: 8px 16px;
   background-color: #3498db;
