@@ -375,7 +375,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			
 			const cancelBtn = document.createElement("button");
 			cancelBtn.textContent = "Cancel";
-			cancelBtn.className = "form-button";
+			cancelBtn.className = "cancel-button";
 			
 			const resultBox = document.createElement("div");
 			resultBox.className = "result-box";
