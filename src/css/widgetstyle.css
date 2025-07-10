@@ -286,6 +286,12 @@ html {
   justify-content: center;
   margin-top: 20px;
 }
+.btn-center-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
 .form-button {
   display: block;
   margin: 20px auto;
