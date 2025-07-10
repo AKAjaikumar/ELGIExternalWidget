@@ -609,7 +609,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 										console.log("response:" + response);
 										const result = JSON.parse(response);
 										const createdItem = result.member[0];
-										const classifyURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem';
+										const classifyURL = baseUrl + '/resources/v1/modeler/dslib/dslib:CategorizationClassifiedItem';
 
 										const payload = {
 										  ClassID: "4111F5970F122000684E60D400002765", 
@@ -698,7 +698,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 														'SecurityContext': 'VPLMProjectLeader.Company Name.APTIV INDIA'
 													},
 													onComplete: function (updateResponse) {
-														const classifyDocURL = baseUrl + '/resources/v1/modeler/dslib/dslib:ClassifiedItem';
+														const classifyDocURL = baseUrl + '/resources/v1/modeler/dslib/dslib:CategorizationClassifiedItem';
 
 														const payload1 = {
 														  ClassID: "9B402C1B0DB10B00684DC75D00000E6F", 
