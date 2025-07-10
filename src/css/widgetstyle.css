@@ -20,8 +20,8 @@ html {
 	background-color: #fff;
 	padding: 20px;
 	box-sizing: border-box;
-	border: 1px solid #e2e4e3;
-	border-left: 1px solid #c4c6c5;
+	border: 1px solid #42a2da;
+	border-left: 10px solid #42a2da;
 }
 .scrollable-form {
 	width: 100%;
