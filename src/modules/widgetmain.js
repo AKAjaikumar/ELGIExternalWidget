@@ -1249,6 +1249,18 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 													  data: JSON.stringify(updatePayload),
 													  onComplete: function (resp) {
 														console.log("POST success:", resp);
+														
+														  document.querySelectorAll('.form-input').forEach(input => input.value = '');
+
+														  document.querySelectorAll('.form-textarea').forEach(textarea => textarea.value = '');
+
+													
+														  document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+														  const dropZone = document.getElementById('dropZone');
+														  if (dropZone) {
+															dropZone.innerHTML = 'Drop files here'; // or your default placeholder text
+														  }
 														alert("TPL Created Successfully: " + createdItem.name);
 													  },
 													  onFailure: function (err) {
