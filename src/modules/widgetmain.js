@@ -519,6 +519,11 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 				wrapper.appendChild(input);
 				attributeContainer1.appendChild(wrapper);
 			});
+			cancelBtn.onclick = () => {
+				if (sideBar2) {
+					sideBar2.style.display = "none";
+				}
+			};
 			createBtn.onclick = () => {
 					const title = titleInput.value.trim();
 					const description = descInput.value.trim();
