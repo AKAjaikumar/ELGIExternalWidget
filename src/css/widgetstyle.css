@@ -287,6 +287,8 @@ html {
   margin-top: 20px;
 }
 .form-button {
+  display: block;
+  margin: 20px auto;
   padding: 10px 20px;
   background-color: #3498db;
   color: white;
@@ -294,6 +296,7 @@ html {
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  text-align: center;
 }
 
 .form-button:hover {
