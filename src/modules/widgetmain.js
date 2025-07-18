@@ -325,7 +325,7 @@ define("hellow", ["DS/WAFData/WAFData", "DS/DataDragAndDrop/DataDragAndDrop", "S
 			
 			const dropZone = document.createElement("div");
 			dropZone.className = "drop-zone";
-			dropZone.textContent = "Drag & Drop Project Space here";
+			dropZone.textContent = "Drag & Drop Bookmark here";
 			dropZone.style.border = "2px dashed #ccc";
 			dropZone.style.padding = "10px";
 			dropZone.style.marginBottom = "10px";
